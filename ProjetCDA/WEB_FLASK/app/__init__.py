@@ -1,0 +1,14 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+app = Flask(__name__)
+
+
+# Configuration de la base de données MySQL
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:uimm@localhost/Philo'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialisation de l'instance SQLAlchemy
+db = SQLAlchemy(app)
+
+from app import routes
+

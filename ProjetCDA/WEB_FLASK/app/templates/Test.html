@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    
+    <title>Mister-J23</title>
+    <link rel ="stylesheet" href ="{{ url_for ('static', filename='style2.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body background="static/dophin.png" >
+
+    <!-- En-tête de la page -->
+    <header>
+       
+        <h1> Philorama </h1>
+        <img src = "static/dophin.png" width="60" >
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('Personnages') }}">Personnages</a></li>
+                <li><a href="{{ url_for('Vidéos') }}">Vidéos</a></li>
+                <li><a href="{{ url_for('Contact') }}">Contact</a></li>
+                <button><a href="{{ url_for('Connexion') }}" ><p class="déco">Déconnexion</p></button>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Section principale -->
+     
+    <main>
+        <section>
+            <h2>À propos de nous</h2>
+            
+        </section>
+    </main>
+
+    <!-- Pied de page -->
+    <footer>
+        <p>&copy; 2024 Jardel-ENI2. Tous droits réservés.</p>
+    </footer>
+
+</body>
+</html>

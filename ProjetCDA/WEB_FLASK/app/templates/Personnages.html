@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    
+    <meta charset ="utf 8">
+    <title>Images</title>
+    <link rel ="stylesheet" href ="{{ url_for ('static', filename='style2.css')}}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body background="static/spaceman.png" >
+
+    <!-- En-tête de la page -->
+    <header>
+        <h1>Personnages</h1>
+
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('Home') }}">Accueil</a></li>
+                <button><a href="{{ url_for('Connexion') }}" ><p class="déco">Déconnexion</p></button>
+            </ul>
+        </nav>
+        
+    </header>
+
+    <!-- Section principale -->
+     
+    <main class="container">
+        <figure>
+            <img src="{{ url_for('get_photo', id=2) }}">
+            <figcaption>Baruch Spinoza</figcaption>
+            <audio controls>
+                <source src="{{ url_for('get_audio', id=2) }}" type="audio/mpeg">
+                Votre navigateur ne supporte pas la lecture de ce fichier audio.
+            </audio>
+        </figure>
+        <figure>
+            <img src="{{ url_for('get_photo', id=3) }}">
+            <figcaption>Friedrich_Nietzsche</figcaption>
+            <audio controls>
+                <source src="{{ url_for('get_audio', id=3) }}" type="audio/mpeg">
+                Votre navigateur ne supporte pas la lecture de ce fichier audio.
+            </audio>
+        </figure>
+        <figure>
+            <img src="{{ url_for('get_photo', id=4) }}">
+            <figcaption>René Descartes</figcaption>
+            <audio controls>
+                <source src="{{ url_for('get_audio', id=4) }}" type="audio/mpeg">
+                Votre navigateur ne supporte pas la lecture de ce fichier audio.
+            </audio>
+        </figure>
+        
+    </main>
+
+    <!-- Pied de page -->
+    <footer>
+        <p>&copy; 2024 ENI2. Tous droits réservés.</p>
+    </footer>
+
+</body>
+</html>
