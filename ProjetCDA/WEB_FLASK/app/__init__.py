@@ -2,6 +2,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
+app.secret_key ='svebberbrb'
+
 
 # Configuration de la base de données MySQL
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:uimm@localhost/Philo'
