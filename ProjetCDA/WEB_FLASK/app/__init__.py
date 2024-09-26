@@ -8,6 +8,8 @@ app.secret_key ='svebberbrb'
 # Configuration de la base de données MySQL
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:uimm@localhost/Philo'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50 MB
+
 
 # Initialisation de l'instance SQLAlchemy
 db = SQLAlchemy(app)

@@ -18,7 +18,12 @@
         <nav>
             <ul>
                 <li><a href="{{ url_for('Home') }}">Accueil</a></li>
-                <button><a href="{{ url_for('déconnexion') }}" ><p class="déco">Déconnexion</p></button>
+                <li><a href="{{ url_for('oeuvres') }}">Oeuvres</a></li>
+                <!-- Condition pour afficher "Enregistrement" uniquement si l'utilisateur est Admin -->
+                {% if session['groupe'] == 'Admin' %}
+                <li><a href="{{ url_for('Page_chargement') }}">Enregistrement</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('déconnexion') }}"><p class="déco">Déconnexion</p></a></li>
             </ul>
         </nav>
         
@@ -27,30 +32,28 @@
     <!-- Section principale -->
      
     <main class="container">
-        <figure>
-            <img src="{{ url_for('get_photo', id=2) }}">
-            <figcaption>Baruch Spinoza</figcaption>
-            <audio controls>
-                <source src="{{ url_for('get_audio', id=2) }}" type="audio/mpeg">
-                Votre navigateur ne supporte pas la lecture de ce fichier audio.
-            </audio>
-        </figure>
-        <figure>
-            <img src="{{ url_for('get_photo', id=3) }}">
-            <figcaption>Friedrich_Nietzsche</figcaption>
-            <audio controls>
-                <source src="{{ url_for('get_audio', id=3) }}" type="audio/mpeg">
-                Votre navigateur ne supporte pas la lecture de ce fichier audio.
-            </audio>
-        </figure>
-        <figure>
-            <img src="{{ url_for('get_photo', id=4) }}">
-            <figcaption>René Descartes</figcaption>
-            <audio controls>
-                <source src="{{ url_for('get_audio', id=4) }}" type="audio/mpeg">
-                Votre navigateur ne supporte pas la lecture de ce fichier audio.
-            </audio>
-        </figure>
+        
+
+        {% for item in items %}
+            <figure>
+                {% if session['groupe'] == 'Admin' %}
+                <!-- Ajout de la croix pour supprimer l'élément -->
+                <form action="{{ url_for('delete_item', id=item.id) }}" method="POST" style="display: inline;">
+                    <button type="submit" style="border:none; background:none; cursor:pointer;">
+                        <img class="icon" src="{{ url_for('static', filename='croix.png') }}">
+                    </button>
+                </form>
+                {% endif %}
+
+                <img src="{{ url_for('get_photo', id=item.id) }}">
+                <figcaption>{{ item.nom }} {{ item.naissance }}-{{ item.mort }}</figcaption>
+                <audio controls>
+                    <source src="{{ url_for('get_audio', id=item.id) }}" type="audio/mpeg">
+                    Votre navigateur ne supporte pas la lecture de ce fichier audio.
+                </audio>
+            </figure>
+        {% endfor %}
+
         
     </main>
 

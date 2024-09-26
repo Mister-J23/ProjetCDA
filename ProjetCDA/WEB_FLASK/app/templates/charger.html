@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+ 
+    <title>Chargement</title>
+
+    <link rel ="stylesheet" href ="{{ url_for ('static', filename='style2.css')}}">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body background="static/spaceman.png" >
+
+    <!-- En-tête de la page -->
+    <header>
+
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('Home') }}">Accueil</a></li>
+                <li><a href="{{ url_for('personnages') }}">Personnages</a></li>
+                <li><a href="{{ url_for('oeuvres') }}">Oeuvres</a></li>
+                <li><a href="{{ url_for('déconnexion') }}"><p class="déco">Déconnexion</p></a></li>
+            </ul>
+        </nav>
+        
+    </header>
+    <main>
+        <div>
+            <h2>Chargement</h2>
+            <form action="{{ url_for('charge') }}" method="POST" enctype="multipart/form-data">
+                <label for="nom">Nom:</label>
+                <input class="black" type="text" name="nom" required><br>
+            
+                <label for="naissance">Année de naissance:</label>
+                <input class="black" type="number" name="naissance" required><br>
+            
+                <label for="mort">Année de décès:</label>
+                <input class="black" type="number" name="mort" required><br>
+            
+                <label for="photo">Photo:</label>
+                <input type="file" name="photo" accept="image/*" required><br>
+            
+                <label for="audio">Fichier audio:</label>
+                <input type="file" name="audio" accept="audio/*"><br>
+            
+                <button class="black" type="submit">Ajouter</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Section principale -->
+    
+    <!-- Pied de page -->
+    <footer>
+        <p>&copy; 2024 ENI2. Tous droits réservés.</p>
+    </footer>
+
+</body>
+</html>

@@ -32,7 +32,15 @@ figure {
 }
 
 figure img {
-    width: 360px;
-    height: 300px;
-    object-fit: cover; /* Facultatif : Ajuste le contenu de l'image pour remplir l'espace défini */
+    width: 30vw; /* 30% de la largeur de la fenêtre */
+    height: 30vw; /* 50% de la hauteur de la fenêtre */
+    object-fit: cover;
+}
+.icon{
+    width: 2vw; /* 30% de la largeur de la fenêtre */
+    height: 2vw; /* 50% de la hauteur de la fenêtre */
+
+}
+.black{
+    color: black;
 }

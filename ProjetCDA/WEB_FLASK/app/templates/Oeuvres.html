@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    
+    <title>Images</title>
+    <style>
+        body {
+            width: 2000x; /* Largeur fixe */
+            height: 1117px; /* Hauteur fixe */
+            margin: 0 auto; /* Centre horizontalement */
+            /* background-color: #f0f0f0; Couleur de fond pour visualiser la taille */
+        }
+    </style>
+</head>
+<body background="static/avengers2.jpg">
+
+    <!-- En-tête de la page -->
+    <header>
+        <h1>Page images</h1>
+
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('Home') }}">Accueil</a></li>
+                <li><a href="{{ url_for('personnages') }}">Personnages</a></li>
+                <button><a href="{{ url_for('Connexion') }}" ><p class="déco">Déconnexion</p></button>
+            </ul>
+        </nav>
+        
+    </header>
+
+    <!-- Section principale -->
+     
+    <main>
+        <video src="static/captainAmerica.mp4" width="300" height="360" controls>
+            Votre navigateur ne supporte pas la balise vidéo.
+        </video>
+        
+        
+    </main>
+
+    <!-- Pied de page -->
+    <footer>
+        <p>&copy; 2024 ENI2. Tous droits réservés.</p>
+    </footer>
+
+</body>
+</html>
