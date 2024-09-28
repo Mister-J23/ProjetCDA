@@ -2,7 +2,9 @@
 <html lang="fr">
 <head>
     
-    <title>Mister-J23</title>
+    <title>Philorama</title>
+    <link rel="icon" href="static/dophinicone.png" type="image/png">
+
     <link rel ="stylesheet" href ="{{ url_for ('static', filename='style2.css')}}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,17 +12,26 @@
 <body background="static/dophin.png" >
 
     <!-- En-tête de la page -->
+     <div class="entête">
+        <h1> Philorama </h1>
+        <div class="user-info">
+            <p>Nom: {{ username }}</p> 
+            <p>Groupe: {{ groupe }}</p>
+        </div>
+     </div>
     <header>
        
-        <h1> Philorama </h1>
         <nav>
             <ul>
                 <li><a href="{{ url_for('personnages') }}">Personnages</a></li>
                 <li><a href="{{ url_for('oeuvres') }}">Oeuvres</a></li>
                 <li><a href="{{ url_for('Contact') }}">Contact</a></li>
-                <button><a href="{{ url_for('déconnexion') }}" ><p class="déco">Déconnexion</p></button>
+                <li>
+                    <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
+                </li> 
             </ul>
         </nav>
+
     </header>
 
     <!-- Section principale -->

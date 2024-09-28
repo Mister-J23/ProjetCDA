@@ -3,6 +3,8 @@
 <head>
     
     <title>Connexion</title>
+    <link rel="icon" href="static/dophinicone.png" type="image/png">
+
 
     <meta name="viewport" content="width=device-width, initial-scale=0.5">
 
@@ -13,12 +15,15 @@
             border-radius:50%;
 
         }
+        .white{
+            color: white;
+        }
     </style>
 </head>
 <body background="static/dophin.png" content="width=device-width, initial-scale=1.0">
-    <h1> Philorama </h1>
+    <h1 class="white"> Philorama </h1>
     <div class="Connexion">
-        <h2>Connexion</h2>
+        <h2 class="white">Connexion</h2>
         <form action="{{ url_for('login') }}" method="POST">
             <input type="text" name="username" placeholder="Nom d'utilisateur" required>
             <input type="password" name="password" placeholder="Mot de passe" required>
@@ -26,11 +31,11 @@
         </form>
     </div>
     <!-- Section principale -->
-    <p>{{message}}</p>
+    <p class="white">{{message}}</p>
     
 
     <!-- Pied de page -->
-    <footer>
+    <footer class="white">
         <p>&copy; <img class="foot" src="static/dophin.png" > 2024 Philorama. Tous droits réservés.</p>
     </footer>
 

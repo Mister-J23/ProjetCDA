@@ -6,10 +6,8 @@ body {
     
 }
 
-h1{
-    text-align: center;
-    font-family: 'Times New Roman', Times, serif;
-}
+
+
 
 
 * {
@@ -45,13 +43,14 @@ figure img {
 .icon{
     width: 2vw; /* 30% de la largeur de la fenêtre */
     height: 2vw; /* 50% de la hauteur de la fenêtre */
+    border-radius:50%;
 
 }
 .black{
     color: black;
 }
 footer img{ 
-    width: 4vw; /* 30% de la largeur de la fenêtre */
+    width: 4vw; /*  */
     height: 4vw;
     border-radius:50%;
 }
@@ -61,4 +60,35 @@ footer img{
 li{
     padding: 5px;
     margin: 0;
+}
+.header {
+    display: flex;
+}
+
+.entête{
+    display: flex;
+    
+    flex-direction: row; /* Aligne les éléments horizontalement */
+    justify-content: center;
+    align-items: center;
+    
+  
+
+    border-bottom-right-radius:20%;
+    border-bottom-left-radius:20%;
+    background: linear-gradient(360deg, rgba(24, 48, 94, 0.8), rgba(255, 255, 255, 0.5)); /* Dégradé */
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre douce */
+}
+
+.user-info {
+    margin-left: auto; /* Pousse le paragraphe vers la droite */
+
+   margin-right: 10px;
+}
+.entête h1 {
+    flex-grow: 1; /* Permet au titre de prendre tout l'espace disponible */
+    text-align: center; /* Centre le texte horizontalement */
+    margin-left: 100px; /* Supprime les marges par défaut */
+    font-family: 'Times New Roman', Times, serif;
 }

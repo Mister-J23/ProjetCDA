@@ -22,7 +22,12 @@ def login_required_Admin(f):  # Nécessite une connexion
         return f(*args, **kwargs)
     return decorated_function_Admin
 
-
+@app.context_processor
+def inject_user():
+    return dict(
+        username=session.get('username'), 
+        groupe=session.get('groupe')
+    )
 
 
 @app.route('/')
@@ -195,3 +200,4 @@ def add_header(response):
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '0'
     return response
+

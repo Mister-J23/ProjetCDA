@@ -3,33 +3,50 @@
 <head>
     
     <title>Contact</title>
+    <link rel="icon" href="static/dophinicone.png" type="image/png">
+    <link rel ="stylesheet" href ="{{ url_for ('static', filename='style2.css')}}">
+    <style>
+        .all{
+            text-align: center;
+        }
+        .image{
+
+            border-radius: 25%;
+        }
+    </style>
 </head>
-<body>
+<body class="all" background="static/univers.jpeg">
 
     <!-- En-tête de la page -->
-    <header>
+    <div class="entête">
         <h1>Page contact</h1>
+        <div class="user-info">
+            <p>Nom: {{ username }}</p> 
+            <p>Groupe: {{ groupe }}</p>
+        </div>
+     </div>
+    <header class="all">
 
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('Home') }}">Accueil</a></li>
-            </ul>
-        </nav>
+        <p>
+            <a href="{{ url_for('Home') }}">Accueil</a>
+
+        </p>
+          
         
     </header>
 
     <!-- Section principale -->
      
     <main>
-        <img src = "static/photo de moi.jpg" weight = "200"height = "260" >
+        <img class="image" src = "static/photo de moi.jpg" weight = "200"height = "260" >
         <p>Tel: +33 xx xx xx xx xx</p>
         <p>email: mister-J23@gmail.com</p>
         
     </main>
 
     <!-- Pied de page -->
-    <footer>
-        <p>&copy; 2024 ENI2. Tous droits réservés.</p>
+    <footer class="fs" >
+        <p>&copy; <img src="static/dophin.png"> 2024 Philorama. Tous droits réservés.</p>
     </footer>
 
 </body>

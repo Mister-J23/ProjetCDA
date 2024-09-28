@@ -3,6 +3,8 @@
 <head>
  
     <title>Chargement</title>
+    <link rel="icon" href="static/dophinicone.png" type="image/png">
+
 
     <link rel ="stylesheet" href ="{{ url_for ('static', filename='style2.css')}}">
 
@@ -13,6 +15,13 @@
 <body background="static/spaceman.png" >
 
     <!-- En-tête de la page -->
+    <div class="entête">
+        <h1>Enregistrement</h1>
+        <div class="user-info">
+            <p>Nom: {{ username }}</p> 
+            <p>Groupe: {{ groupe }}</p>
+        </div>
+     </div>
     <header>
 
         <nav>
@@ -20,7 +29,9 @@
                 <li><a href="{{ url_for('Home') }}">Accueil</a></li>
                 <li><a href="{{ url_for('personnages') }}">Personnages</a></li>
                 <li><a href="{{ url_for('oeuvres') }}">Oeuvres</a></li>
-                <li><a href="{{ url_for('déconnexion') }}"><p class="déco">Déconnexion</p></a></li>
+                <li>
+                    <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
+                </li>
             </ul>
         </nav>
         
