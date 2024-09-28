@@ -30,11 +30,17 @@ figure {
     justify-content: space-around; /* Pour espacer les éléments */
     flex-wrap: wrap; /* Permet d'adapter l'affichage sur les petits écrans */
 }
+.connexion{
+    width: 50vw; /* 30% de la largeur de la fenêtre */
+    height: 50vw; /* 50% de la hauteur de la fenêtre */
+
+}
 
 figure img {
     width: 30vw; /* 30% de la largeur de la fenêtre */
     height: 30vw; /* 50% de la hauteur de la fenêtre */
     object-fit: cover;
+    border-radius:20%;
 }
 .icon{
     width: 2vw; /* 30% de la largeur de la fenêtre */
@@ -43,4 +49,16 @@ figure img {
 }
 .black{
     color: black;
+}
+footer img{ 
+    width: 4vw; /* 30% de la largeur de la fenêtre */
+    height: 4vw;
+    border-radius:50%;
+}
+.fs{
+    text-align: center;
+}
+li{
+    padding: 5px;
+    margin: 0;
 }

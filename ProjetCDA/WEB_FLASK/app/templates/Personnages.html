@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
-<body background="static/spaceman.png" >
+<body background="static/univers.jpeg" >
 
     <!-- En-tête de la page -->
     <header>
@@ -23,7 +23,7 @@
                 {% if session['groupe'] == 'Admin' %}
                 <li><a href="{{ url_for('Page_chargement') }}">Enregistrement</a></li>
                 {% endif %}
-                <li><a href="{{ url_for('déconnexion') }}"><p class="déco">Déconnexion</p></a></li>
+                <li><a href="{{ url_for('déconnexion') }}">Déconnexion</a></li>
             </ul>
         </nav>
         
@@ -58,8 +58,8 @@
     </main>
 
     <!-- Pied de page -->
-    <footer>
-        <p>&copy; 2024 ENI2. Tous droits réservés.</p>
+    <footer class="fs" >
+        <p>&copy; <img src="static/dophin.png"> 2024 Philorama. Tous droits réservés.</p>
     </footer>
 
 </body>
