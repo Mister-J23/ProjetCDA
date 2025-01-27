@@ -89,7 +89,7 @@ def login():
 @app.route('/Home') # decorators
 @login_required
 def Home():
-    return render_template('Test.html')
+    return render_template('Home.html')
 
 
 
