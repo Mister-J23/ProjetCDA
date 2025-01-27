@@ -3,10 +3,18 @@ body {
     /* height: 1024px; /* Hauteur fixe */
     margin: 0 auto; /* Centre horizontalement */
     /* background-color: #f0f0f0; Couleur de fond pour visualiser la taille */
-    
+    background-size: 100% 100%; /* 200% de la taille de la page */
+    background-position: center; /* Centrer l'image */
+    background-repeat: no-repeat; /* Pas de répétition de l'image */
+    background-attachment: fixed; /* L'image reste fixe pendant le défilement de la page */
+
 }
 
-
+@media (max-width: 768px) {
+    body {
+        background-attachment: local; /* L'image se déplace avec l'élément sur mobile */
+    }
+}
 
 
 
