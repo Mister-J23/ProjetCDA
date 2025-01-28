@@ -24,11 +24,11 @@
 
         <nav>
             <ul>
-                <li><a href="{{ url_for('Home') }}">Accueil</a></li>
-                <li><a href="{{ url_for('oeuvres') }}">Oeuvres</a></li>
+                <li><a class="text" href="{{ url_for('Home') }}">Accueil</a></li>
+                <li><a class="text" href="{{ url_for('Oeuvres') }}">Oeuvres</a></li>
                 <!-- Condition pour afficher "Enregistrement" uniquement si l'utilisateur est Admin -->
                 {% if session['groupe'] == 'Admin' %}
-                <li><a href="{{ url_for('Page_chargement') }}">Enregistrement</a></li>
+                <li><a class="text" href="{{ url_for('Page_chargement') }}">Enregistrement</a></li>
                 {% endif %}
                 <li>
                     <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
@@ -54,8 +54,8 @@
                 </form>
                 {% endif %}
 
-                <img src="{{ url_for('get_photo', id=item.id) }}">
-                <figcaption>{{ item.nom }} {{ item.naissance }}-{{ item.mort }}</figcaption>
+                <img class="effigie" src="{{ url_for('get_photo', id=item.id) }}">
+                <figcaption class="text" >{{ item.nom }} {{ item.naissance }}-{{ item.mort }}</figcaption>
                 <audio controls>
                     <source src="{{ url_for('get_audio', id=item.id) }}" type="audio/mpeg">
                     Votre navigateur ne supporte pas la lecture de ce fichier audio.

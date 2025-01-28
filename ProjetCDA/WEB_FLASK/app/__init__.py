@@ -15,4 +15,5 @@ app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50 MB
 db = SQLAlchemy(app)
 
 from app import routes
+from app import requete
 

@@ -23,9 +23,9 @@
        
         <nav>
             <ul>
-                <li><a href="{{ url_for('personnages') }}">Personnages</a></li>
-                <li><a href="{{ url_for('oeuvres') }}">Oeuvres</a></li>
-                <li><a href="{{ url_for('Contact') }}">Contact</a></li>
+                <li><a class="text" href="{{ url_for('personnages') }}">Personnages</a></li>
+                <li><a class="text" href="{{ url_for('Oeuvres') }}">Oeuvres</a></li>
+                <li><a class="text" href="{{ url_for('Contact') }}">Contact</a></li>
                 <li>
                     <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
                 </li> 
@@ -38,14 +38,14 @@
      
     <main>
         <section>
-            <h2>À propos de nous</h2>
+            <h2 class="text">À propos de nous</h2>
             
         </section>
     </main>
 
     <!-- Pied de page -->
     <footer>
-        <p>&copy; <img src="static/dophin.png"> 2024 Philorama. Tous droits réservés.</p>
+        <p class="text">&copy; <img src="static/dophin.png"> 2024 Philorama. Tous droits réservés.</p>
     </footer>
 
 </body>

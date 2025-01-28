@@ -10,13 +10,24 @@ body {
 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 780px) {
     body {
-        background-attachment: local; /* L'image se déplace avec l'élément sur mobile */
+        background-attachment: local; /* L'image se déplace avec le contenu */
+        background-size: cover; /* L'image couvre tout l'écran */
+        background-position: center; /* Centre l'image */
+        min-height: 100vh; /* Assure que le corps prend au moins toute la hauteur de l'écran */
+        margin: 0; /* Supprime les marges éventuelles */
     }
 }
 
-
+.text { /* Appliquer à tous les éléments texte */
+    color: white; /* Couleur du texte principale */
+    text-shadow: 
+        -1px -1px 0 black, /* Ombre en haut à gauche */
+         1px -1px 0 black, /* Ombre en haut à droite */
+        -1px  1px 0 black, /* Ombre en bas à gauche */
+         1px  1px 0 black; /* Ombre en bas à droite */
+}
 
 * {
     color: white;
@@ -29,6 +40,12 @@ body {
 
 figure {
     margin: 10px;
+    
+    justify-content: center;
+    align-items: center;
+    width: auto; /* Facultatif : Ajuste la largeur du conteneur */
+    height: auto; /* Facultatif : Ajuste la hauteur du conteneur */
+    
 }
 
 .container {
@@ -42,11 +59,22 @@ figure {
 
 }
 
-figure img {
-    width: 30vw; /* 30% de la largeur de la fenêtre */
-    height: 30vw; /* 50% de la hauteur de la fenêtre */
+.effigie {
+    width: 10vw; /* 30% de la largeur de la fenêtre */
+    height: 10vw; /* 50% de la hauteur de la fenêtre */
     object-fit: cover;
     border-radius:20%;
+    min-width: 100px;
+    min-height: 100px;
+    
+}
+
+figure audio {
+    min-width: auto;
+    min-height: auto;
+    max-width: 200px; /* 30% de la largeur de la fenêtre */
+    max-height: 200px; /* 50% de la hauteur de la fenêtre */
+
 }
 .icon{
     width: 2vw; /* 30% de la largeur de la fenêtre */
@@ -58,9 +86,11 @@ figure img {
     color: black;
 }
 footer img{ 
-    width: 4vw; /*  */
-    height: 4vw;
+    width: 2vw; /*  */
+    height: 2vw;
     border-radius:50%;
+    min-width: 30px;
+    min-height: 30px;
 }
 .fs{
     text-align: center;
