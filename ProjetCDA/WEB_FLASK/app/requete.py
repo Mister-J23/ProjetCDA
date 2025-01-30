@@ -1,8 +1,16 @@
-from flask import Flask, render_template,jsonify, send_file, abort, redirect, url_for, request, session, flash
+from flask import  send_file, abort, redirect, url_for, request, current_app
 from sqlalchemy import text
 from app import app, db
 import io
 from app.routes import login_required, login_required_Admin
+
+
+# Configuration de la base de données MySQL
+def configuration_base():
+    current_app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:uimm@localhost/Philo'
+    current_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    current_app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50 MB
+
 
 
 # Get Audio

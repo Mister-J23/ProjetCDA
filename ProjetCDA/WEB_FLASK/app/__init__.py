@@ -1,15 +1,13 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from requete import configuration_base
+
 app = Flask(__name__)
 
 app.secret_key ='svebberbrb'
 
-
-# Configuration de la base de données MySQL
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:uimm@localhost/Philo'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50 MB
-
+# Appel de la fonction de configuration de la base
+configuration_base()
 
 # Initialisation de l'instance SQLAlchemy
 db = SQLAlchemy(app)
