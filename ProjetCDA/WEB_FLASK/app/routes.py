@@ -76,7 +76,7 @@ def Home():
 @login_required
 def personnages():
     # Récupérer toutes les images et fichiers audio
-    all_items = db.session.execute(text("SELECT * FROM extrait_audio")).fetchall()
+    all_items = db.session.execute(text("SELECT * FROM authors")).fetchall()
     return render_template('Personnages.html', items=all_items)
 
 
@@ -97,7 +97,7 @@ def Page_chargement():
 @app.route('/delete/<int:id>', methods=['POST']) #Supprimer des éléments de la base
 def delete_item(id):
     # Supprimer l'élément de la base de données
-    db.session.execute(text("DELETE FROM extrait_audio WHERE id = :id"), {'id': id})
+    db.session.execute(text("DELETE FROM authors WHERE id_author = :id"), {'id': id})
     db.session.commit()
     flash('Élément supprimé avec succès.', 'success')
     return redirect(url_for('personnages'))
