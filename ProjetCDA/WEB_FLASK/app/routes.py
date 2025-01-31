@@ -63,27 +63,6 @@ def Erreur(nb):
 
 
 
-@app.route('/login', methods=['POST'])
-def login():
-    username = request.form['username']
-    password = request.form['password']
-    
-    # Vérifier les informations d'identification dans la base de données
-    user = db.session.execute(
-        text("SELECT username, groupe FROM users WHERE username = :username AND password = :password"),
-        {'username': username, 'password': password}
-    ).fetchone()
-
-    if user:
-         # Ajouter l'utilisateur à la session
-        session['username'] = user.username  # Assurez-vous que 'user.id' est bien récupéré de la base de données
-        session['groupe']=user.groupe
-        print(session) 
-        return redirect(url_for('Home'))  # Rediriger vers la page d'accueil après connexion
-    
-    else :
-        
-        return render_template('connexion.html',message=Erreur(2))
 
 
 @app.route('/Home') # decorators

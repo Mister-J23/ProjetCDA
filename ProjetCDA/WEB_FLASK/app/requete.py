@@ -1,8 +1,33 @@
 from flask import Flask, render_template,jsonify, send_file, abort, redirect, url_for, request, session, flash
 from sqlalchemy import text
 from app import app, db
+from werkzeug.security import check_password_hash
 import io
-from app.routes import login_required, login_required_Admin
+from app.routes import login_required, login_required_Admin, Erreur
+
+
+
+#Login
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    # Récupérer l'utilisateur dans la base de données
+    user = db.session.execute(
+        text("SELECT name, _group, password FROM users WHERE name = :username"),
+        {'username': username}
+    ).fetchone()
+
+    if user and check_password_hash(user.password, password):  # Vérifier le hash
+        # Ajouter l'utilisateur à la session
+        session['username'] = user.name
+        session['groupe'] = user._group
+        print(session)  
+        return redirect(url_for('Home'))  # Rediriger vers la page d'accueil
+    
+    return render_template('connexion.html', message="Identifiants incorrects")
+
 
 # Get Audio
 @app.route('/audio/<int:id>')
