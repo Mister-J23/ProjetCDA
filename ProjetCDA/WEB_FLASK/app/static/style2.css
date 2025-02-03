@@ -31,11 +31,12 @@ body {
     transform: translate(-50%, -50%);
     width: 400px;
     padding: 20px;
-    background-color: #f8f9fa;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    background-color: rgba(46, 132, 168, 0.8);
+    background: linear-gradient(360deg, rgba(24, 48, 94, 0.8), rgba(255, 255, 255, 0.5)); /* Dégradé */
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre douce */
     
 }
 .chargement input.black{
