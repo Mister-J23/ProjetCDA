@@ -2,6 +2,7 @@ from flask import Flask, render_template,jsonify, send_file, abort, redirect, ur
 from sqlalchemy import text
 from app import app, db
 from werkzeug.security import check_password_hash
+from datetime import datetime
 import io
 from app.routes import login_required, login_required_Admin, Erreur
 
@@ -104,7 +105,6 @@ def delete_item(id):
 @app.route('/charge', methods=['POST','GET'])
 @login_required_Admin
 def charge():
-
     print("La méthode charge() a été appelée")
     if request.method == 'POST':
         # Récupérer les données du formulaire
@@ -113,22 +113,47 @@ def charge():
         mort = request.form['mort']
 
         # Récupérer les fichiers uploadés
-        photo = request.files['photo']
-        audio = request.files['audio']
+        photo = '/static/photo/' + request.form['photo'] + '.jpg'
+        audio = '/static/audio/' + request.form['audio'] + '.mp3'
 
-        # Lire le contenu des fichiers sous forme binaire
+
+       
+
         
-        photo_data = photo.read()
-        audio_data = audio.read()
-
 
         # Insérer les données dans la base de données avec des paramètres sécurisés
         if db.session.execute(
-            text("INSERT INTO extrait_audio (nom, naissance, mort, photo, audio) VALUES (:nom, :naissance, :mort, :photo, :audio)"),
-            {'nom': nom, 'naissance': naissance, 'mort': mort, 'photo': photo_data, 'audio': audio_data}
+            text("INSERT INTO authors (name, birth, dead, picture_link) VALUES (:nom, :naissance, :mort, :photo)"),
+            {'nom': nom, 'naissance': naissance, 'mort': mort, 'photo': photo}
         ):
             
             db.session.commit()  # Valide les changements
+
+            # Récupérer l'ID de l'auteur à partir du nom
+            result = db.session.execute(
+                text("SELECT id_author FROM authors WHERE name = :nom LIMIT 1"),
+                {'nom': nom}
+            ).fetchone()
+
+            # Vérifier si un auteur a été trouvé
+            if result:
+                auteur_id = result[0]  # Extraire l'ID de l'auteur depuis la tuple
+            else:
+                auteur_id = None  # Si aucun auteur n'est trouvé, définir auteur_id sur None
+
+            # Récupérer l'heure actuelle
+            tempo = datetime.now()
+
+            # Vérifier que l'ID de l'auteur existe avant d'insérer dans la table audios
+            if auteur_id:
+                db.session.execute(
+                    text("INSERT INTO audios (speech_link, _date, id_author) VALUES (:audio, :tempo, :auteur_id)"),
+                    {'audio': audio, 'tempo': tempo, 'auteur_id': auteur_id}
+                )
+                db.session.commit()  # Commit de la transaction
+            else:
+                # Gérer le cas où aucun auteur n'a été trouvé
+                print("Auteur non trouvé pour le nom :", nom)
             return redirect(url_for('personnages'))
         
         return redirect(url_for('Erreur', nb=5))

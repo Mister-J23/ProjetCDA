@@ -37,7 +37,7 @@
         
     </header>
     <main>
-        <div>
+        <div class="Chargement">
             <h2>Chargement</h2>
             <form action="{{ url_for('charge') }}" method="POST" enctype="multipart/form-data">
                 <label for="nom">Nom:</label>
@@ -50,10 +50,10 @@
                 <input class="black" type="number" name="mort" required><br>
             
                 <label for="photo">Photo:</label>
-                <input type="file" name="photo" accept="image/*" required><br>
+                <input class="black"  type="text" name="photo" placeholder="écrire le nom de votre image sans l'extension" required><br>
             
                 <label for="audio">Fichier audio:</label>
-                <input type="file" name="audio" accept="audio/*"><br>
+                <input class="black"  type="text" name="audio" placeholder="écrire le nom de votre audio sans l'extension" ><br>
             
                 <button class="black" type="submit">Ajouter</button>
             </form>
