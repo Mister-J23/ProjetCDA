@@ -35,14 +35,14 @@ def login():
 def get_audio(id):
     try:
         # Récupérer l'image depuis la base de données
-        result = db.session.execute(text("SELECT speech_link FROM audios WHERE id_authors = :id"), {'id': id}).fetchone()
+        result = db.session.execute(text("SELECT speech_link FROM audios WHERE id_author = :id"), {'id': id}).fetchone()
         
         if result is None or result[0] is None:
             abort(404, description="Image non trouvée.")
 
         # Convertir le BLOB en un objet d'entrée de fichier
-        speech_data = result[0]
-        return send_file(speech_data, mimetype='audio/mp3')  # Remplacez 'image/jpeg' par le type MIME approprié si nécessaire
+        return redirect(result[0])
+
 
     except Exception as e:
         return f"Erreur lors de la récupération de l'image : {str(e)}"
@@ -54,7 +54,7 @@ def get_audio(id):
 def get_photo(id):
     try:
         result = db.session.execute(
-            text("SELECT picture_link FROM authors WHERE id_authors = :id"),
+            text("SELECT picture_link FROM authors WHERE id_author = :id"),
             {'id': id}
         ).fetchone()
 
@@ -86,6 +86,17 @@ def get_photoOeuvres(id):
     except Exception as e:
         return f"Erreur lors de la récupération de l'image : {str(e)}"
     
+
+@app.route('/delete/<int:id>', methods=['POST']) #Supprimer des éléments de la base
+def delete_item(id):
+    # Supprimer l'élément de la base de données
+    db.session.execute(text("DELETE FROM authors WHERE id_author = :id"), {'id': id})
+    db.session.commit()
+    flash('Élément supprimé avec succès.', 'success')
+    return redirect(url_for('personnages'))
+
+
+
 
 
 

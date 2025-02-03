@@ -47,17 +47,17 @@
             <figure>
                 {% if session['groupe'] == 'Admin' %}
                 <!-- Ajout de la croix pour supprimer l'élément -->
-                <form action="{{ url_for('delete_item', id=item.id) }}" method="POST" style="display: inline;">
+                <form action="{{ url_for('delete_item', id=item.id_author) }}" method="POST" style="display: inline;">
                     <button type="submit" style="border:none; background:none; cursor:pointer;">
                         <img class="icon" src="{{ url_for('static', filename='croix.png') }}">
                     </button>
                 </form>
                 {% endif %}
 
-                <img class="effigie" src="{{ url_for('get_photo', id=item.id) }}">
-                <figcaption class="text" >{{ item.nom }} {{ item.naissance }}-{{ item.mort }}</figcaption>
+                <img class="effigie" src="{{ url_for('get_photo', id=item.id_author) }}">
+                <figcaption class="text" >{{ item.name }} {{ item.birth }}-{{ item.dead }}</figcaption>
                 <audio controls>
-                    <source src="{{ url_for('get_audio', id=item.id) }}" type="audio/mpeg">
+                    <source src="{{ url_for('get_audio', id=item.id_author) }}" type="audio/mpeg">
                     Votre navigateur ne supporte pas la lecture de ce fichier audio.
                 </audio>
             </figure>
