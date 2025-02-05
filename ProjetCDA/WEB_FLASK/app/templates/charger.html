@@ -14,15 +14,15 @@
 </head>
 <body background="static/photo/back.jpeg" >
 
-    <!-- En-tête de la page -->
-    <div class="entête">
-        <h1>Enregistrement</h1>
-        <div class="user-info">
-            <p>Nom: {{ username }}</p> 
-            <p>Groupe: {{ groupe }}</p>
-        </div>
-     </div>
     <header>
+        <!-- En-tête de la page -->
+        <div class="entête">
+            <h1>Enregistrement</h1>
+            <div class="user-info">
+                <p>Nom: {{ username }}</p> 
+                <p>Groupe: {{ groupe }}</p>
+            </div>
+         </div>
 
         <nav>
             <ul>
@@ -39,32 +39,36 @@
     <main>
         <div class="Chargement">
             <h2>Chargement</h2>
-            <form action="{{ url_for('charge') }}" method="POST" enctype="multipart/form-data">
-                <label for="nom">Nom:</label>
-                <input class="black" type="text" name="nom" required><br>
             
-                <label for="naissance">Année de naissance:</label>
-                <input class="black" type="number" name="naissance" required><br>
-            
-                <label for="mort">Année de décès:</label>
-                <input class="black" type="number" name="mort" required><br>
-            
-                <label for="photo">Photo:</label>
-                <input class="black"  type="text" name="photo" placeholder="écrire le nom de votre image sans l'extension" required><br>
-            
-                <label for="audio">Fichier audio:</label>
-                <input class="black"  type="text" name="audio" placeholder="écrire le nom de votre audio sans l'extension" ><br>
+            <form action="{{ url_for('charge') }}" method="POST" enctype="multipart/form-data" class="conteneurform">
+                <div class="form-labels">
+                    <label for="nom">Nom:</label>
+                    <label for="naissance">Année de naissance:</label>
+                    <label for="mort">Année de décès:</label>
+                    <label for="photo">Photo:</label>
+                    <label for="audio">Fichier audio:</label>
+                </div>
+                <div class="form-inputs">
+                    <input class="black" type="text" name="nom" required>
+                    <input class="black" type="number" name="naissance" required>
+                    <input class="black" type="number" name="mort" required>
+                    <input class="black" type="text" name="photo" placeholder="écrire le nom de votre image sans l'extension" required>
+                    <input class="black" type="text" name="audio" placeholder="écrire le nom de votre audio sans l'extension">
+                </div>
             
                 <button class="black" type="submit">Ajouter</button>
             </form>
-        </div>
+            
+
+                
+            </div>
     </main>
 
     <!-- Section principale -->
     
     <!-- Pied de page -->
-    <footer>
-        <p>&copy; 2024 ENI2. Tous droits réservés.</p>
+    <footer >
+        <p>&copy; <img class="foot" src="static/photo/dauphin.png" > 2025 Philorama. Tous droits réservés.</p>
     </footer>
 
 </body>

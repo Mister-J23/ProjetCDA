@@ -74,18 +74,19 @@ def get_photo(id):
 @login_required
 def get_photoOeuvres(id):
     try:
-        # Récupérer l'image depuis la base de données
-        result = db.session.execute(text("SELECT photo FROM Oeuvres WHERE Id = :id"), {'id': id}).fetchone()
-        
+        result = db.session.execute(
+            text("SELECT link_photo FROM bios WHERE id_bio= :id"),
+            {'id': id}
+        ).fetchone()
+
         if result is None or result[0] is None:
             abort(404, description="Image non trouvée.")
 
-        # Convertir le BLOB en un objet d'entrée de fichier
-        image_data = result[0]
-        return send_file(io.BytesIO(image_data), mimetype='image/mpeg')  # Remplacez 'image/jpeg' par le type MIME approprié si nécessaire
+        # Rediriger vers l'URL de l'image
+        return redirect(result[0])
 
     except Exception as e:
-        return f"Erreur lors de la récupération de l'image : {str(e)}"
+        abort(500, description=str(e))
     
 
 @app.route('/delete/<int:id>', methods=['POST']) #Supprimer des éléments de la base

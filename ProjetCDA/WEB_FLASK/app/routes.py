@@ -85,7 +85,7 @@ def personnages():
 @login_required
 def Oeuvres():
     # Récupérer toutes les images et fichiers audio
-    all_fig = db.session.execute(text("SELECT * FROM Oeuvres")).fetchall()
+    all_fig = db.session.execute(text("SELECT * FROM bios")).fetchall()
     return render_template('Oeuvres.html', figs=all_fig)
 
 

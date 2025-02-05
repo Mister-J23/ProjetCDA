@@ -4,7 +4,7 @@
     
         <meta charset ="utf 8">
         <title>Oeuvres</title>
-        <link class="icon" rel="icon" href="static/dophinicone.png" type="image/png">
+        <link class="icon" rel="icon" href="static/photo/dauphin.png" type="image/png">
         <link rel ="stylesheet" href ="{{ url_for ('static', filename='style2.css')}}">
     
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,17 +12,17 @@
     </head>
 <body background="static/Bibliotheque.jpeg">
 
-    <!-- En-tête de la page -->
-    <div class="entête">
-        <h1>Oeuvres</h1>
-        <div class="user-info">
-            <p>Nom: {{ username }}</p> 
-            <p>Groupe: {{ groupe }}</p>
-        </div>
-     </div>
-
-    
     <header>
+        <!-- En-tête de la page -->
+        <div class="entête">
+            <h1>Oeuvres</h1>
+            <div class="user-info">
+                <p>Nom: {{ username }}</p> 
+                <p>Groupe: {{ groupe }}</p>
+            </div>
+         </div>
+    
+        
 
         <nav>
             <ul>
@@ -42,7 +42,7 @@
     <main>
         <figure>
             {% for fig in figs %}
-            <img class="effigie" src="{{ url_for('get_photoOeuvres', id=fig.id) }}">
+            <img class="effigie" src="{{ url_for('get_photoOeuvres', id=fig.id_bio) }}">
             <figcaption class="text" >{{ fig.Nom }}</figcaption>
             {% endfor %}
         </figure>
@@ -52,7 +52,7 @@
 
     <!-- Pied de page -->
     <footer class="fs" >
-        <p class="text">&copy; <img src="static/dophin.png"> 2024 Philorama. Tous droits réservés.</p>
+        <p class="text">&copy; <img src="static/photo/dauphin.png" > 2024 Philorama. Tous droits réservés.</p>
     </footer>
 
 </body>

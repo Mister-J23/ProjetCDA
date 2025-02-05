@@ -10,17 +10,17 @@
 
 </head>
 <body background="static/photo/home.jpeg">
-
-    <!-- En-tête de la page -->
-     <div class="entête">
-        <h1> Philorama </h1>
-        <div class="user-info">
-            <p>Nom: {{ username }}</p> 
-            <p>Groupe: {{ groupe }}</p>
+    <header> 
+        <!-- En-tête de la page -->
+        <div class="entête">
+            <h1> Philorama </h1>
+            <div class="user-info">
+                <p>Nom: {{ username }}</p> 
+                <p>Groupe: {{ groupe }}</p>
+            </div>
         </div>
-     </div>
-    <header>
-       
+        
+      
         <nav>
             <ul>
                 <li><a class="text" href="{{ url_for('personnages') }}">Personnages</a></li>
@@ -42,11 +42,14 @@
             
         </section>
     </main>
-
     <!-- Pied de page -->
-    <footer>
-        <p class="text">&copy; <img src="static/dophin.png"> 2024 Philorama. Tous droits réservés.</p>
+    <footer >
+        <p>&copy; <img src="static/photo/dauphin.png"> 2024 Philorama. Tous droits réservés.</p>
     </footer>
+    
+
+    
 
 </body>
+
 </html>
