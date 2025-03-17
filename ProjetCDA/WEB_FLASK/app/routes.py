@@ -1,26 +1,27 @@
-from flask import Flask, render_template,jsonify, send_file, abort, redirect, url_for, request, session, flash
+from flask import Flask, render_template, abort, redirect, url_for, request, session, flash
 from sqlalchemy import text
 from app import app, db
-from functools import wraps
-import io
+from app.requete import login_required, login_required_Admin, media, user, insert
+from datetime import datetime
 
 
-def login_required(f):#Nécessite une connexion
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'groupe' not in session:  # Vérifie si l'utilisateur est connecté
-            return redirect(url_for('Connexion'))  # Rediriger vers la page de connexion si non connecté
-        return f(*args, **kwargs)
-    return decorated_function
 
-def login_required_Admin(f):  # Nécessite une connexion
-    @wraps(f)
-    def decorated_function_Admin(*args, **kwargs):
-        # Vérifie si l'utilisateur est connecté et s'il fait partie du groupe Admin
-        if 'groupe' not in session or session['groupe'] != 'Admin':
-            return redirect(url_for('Erreur', nb=3))  # Redirection vers la page d'erreur
-        return f(*args, **kwargs)
-    return decorated_function_Admin
+
+
+#Login
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    lien = user.se_connecter(username, password)
+    if lien :
+        return redirect(url_for('Home'))  # Rediriger vers la page d'accueil
+    return render_template('connexion.html', message="Identifiants incorrects")
+
+
+
+
 
 @app.context_processor
 def inject_user():
@@ -95,10 +96,104 @@ def Oeuvres():
 def Page_chargement():
     return render_template('charger.html')
 
-#@app.route('/Oeuvres') # decorators
-#@login_required_Admin
-#def oeuvres():
-#    return render_template('Oeuvres.html')
+
+
+# Get Audio
+@app.route('/audio/<int:id>')
+@login_required
+def get_audio(id):
+    lien = media.obtenir_lien_audio(id)
+    if lien:
+        return redirect(lien)  # Redirection vers le lien du fichier audio
+    return "Audio introuvable", 404
+
+
+#Get photo extrait-audio
+@app.route('/photo/<int:id>')
+@login_required
+def get_photo(id):
+    lien = media.obtenir_lien_photo(id)
+    if lien:
+        return redirect(lien)  # Redirection vers le lien du fichier audio
+    return "Photo introuvable", 404
+        
+
+#Get photo Oeuvres
+@app.route('/photoOeuvres/<int:id>')
+@login_required
+def get_photoOeuvres(id):
+    try:
+        result = db.session.execute(
+            text("SELECT link_photo FROM bios WHERE id_bio= :id"),
+            {'id': id}
+        ).fetchone()
+
+        if result is None or result[0] is None:
+            abort(404, description="Image non trouvée.")
+
+        # Rediriger vers l'URL de l'image
+        return redirect(result[0])
+
+    except Exception as e:
+        abort(500, description=str(e))
+    
+
+@app.route('/delete/<int:id>', methods=['POST']) #Supprimer des éléments de la base
+def delete_item(id):
+    # Supprimer l'élément de la base de données
+    db.session.execute(text("DELETE FROM authors WHERE id_author = :id"), {'id': id})
+    db.session.commit()
+    flash('Élément supprimé avec succès.', 'success')
+    return redirect(url_for('personnages'))
+
+
+
+
+
+
+# Charger
+@app.route('/charge', methods=['POST','GET'])
+@login_required_Admin
+def charge():
+    print("La méthode charge() a été appelée")
+    if request.method == 'POST':
+        # Récupérer les données du formulaire
+        nom = request.form['nom']
+        naissance = request.form['naissance']
+        mort = request.form['mort']
+
+        # Récupérer les fichiers uploadés
+        photo = '/static/photo/' + request.form['photo'] + '.jpg'
+        audio = '/static/audio/' + request.form['audio'] + '.mp3'
+
+        # Récupérer l'heure actuelle
+        tempo = datetime.now()
+
+        # Insérer l'auteur et récupérer l'ID retourné
+        id_auteur = insert.inserer_auteur(nom, naissance, mort, photo)
+
+        # Vérifier si l'insertion de l'auteur a réussi
+        if isinstance(id_auteur, int):  # Vérifie que l'ID retourné est bien un entier
+            if insert.inserer_audio(audio, tempo, id_auteur): #insérer l'audio
+                db.session.commit()  # Valider l'insertion dans la base
+                return render_template('charger.html', message=f"Auteur {nom}, ID: {id_auteur} ajouté avec succès ")
+            else:
+                db.session.rollback()  # Annuler la transaction en cas d'erreur
+                return render_template('charger.html', message="Erreur lors de l'ajout de l'audio")
+            
+        else:
+            db.session.rollback()  # Annuler la transaction en cas d'erreur
+            return render_template('charger.html', message="Erreur lors de l'ajout de l'auteur")
+
+
+
+
+
+
+       
+    
+    
+
 
 @app.route('/Contact') # decorators
 def Contact():
