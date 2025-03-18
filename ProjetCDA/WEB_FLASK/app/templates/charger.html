@@ -37,23 +37,56 @@
         
     </header>
     <main>
+        <!-- Ajouter un courant-->
         <div class="Chargement">
-            <h2>Chargement</h2>
+            <h3 class="titre-chargement">Ajouter un courant</h3>
+            <form action="{{ url_for('charger_courant') }}" method="POST" enctype="multipart/form-data" class="conteneurform">
+                <div class="form-labels">
+                    <label for="nom_courant">Nom du courant:</label>
+                    <label for="lien_courant">Lien du courant:</label>
+                </div>
+
+                <div class="form-inputs">
+                    <input class="black" type="text" name="nom_courant" required>
+                    <input class="black" type="text" name="lien_courant" placeholder="écrire le nom de votre pdf sans l'extension">
+                </div>
+                <button class="black" type="submit">Ajouter</button>
+
+
+            </form>
+            
+        </div>
+        <!-- Chargement-->
+        <div class="Chargement">
+            <h2 class="titre-chargement">Chargement</h2>
             
             <form action="{{ url_for('charge') }}" method="POST" enctype="multipart/form-data" class="conteneurform">
                 <div class="form-labels">
-                    <label for="nom">Nom:</label>
+                    <label for="nom">Nom de l'auteur:</label>
                     <label for="naissance">Année de naissance:</label>
                     <label for="mort">Année de décès:</label>
                     <label for="photo">Photo:</label>
                     <label for="audio">Fichier audio:</label>
+                    <label for="fichier">Fichier pdf:</label>
                 </div>
+                
                 <div class="form-inputs">
                     <input class="black" type="text" name="nom" required>
                     <input class="black" type="number" name="naissance" required>
                     <input class="black" type="number" name="mort" required>
                     <input class="black" type="text" name="photo" placeholder="écrire le nom de votre image sans l'extension" required>
                     <input class="black" type="text" name="audio" placeholder="écrire le nom de votre audio sans l'extension">
+                    <input class="black" type="text" name="fichier" placeholder="écrire le nom de votre pdf sans l'extension">
+
+                    <!-- Menu déroulant des courants philosophiques -->
+                    <select class="black" name="courant" required>
+                        <option>Sélectionner un courant phylosophique</option>
+                        {% for courant in courants %}
+                            <option >{{ courant.lead_name }}</option>
+                        {% endfor %}
+                    </select>
+
+                                
                 </div>
             
                 <button class="black" type="submit">Ajouter</button>

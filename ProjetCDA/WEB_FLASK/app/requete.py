@@ -71,6 +71,23 @@ class Media:
             {'id': id}
         ).fetchone()
         return resultat[0] if resultat else None
+    
+    def obtenir_lien_bio(self, id):
+        # Récupère le lien du fichier pdf depuis la base de données
+        resultat = self.session_db.execute(
+            text("SELECT link_text FROM bios WHERE id_author = :id"),
+            {'id': id}
+        ).fetchone()
+        return resultat[0] if resultat else None
+    
+    def obtenir_lien_photoOeuvre(self, id):
+        # Récupère le lien du fichier pdf depuis la base de données
+        resultat = self.session_db.execute(
+            text("SELECT link_photo FROM bios WHERE id_author= :id"),
+            {'id': id}
+        ).fetchone()
+        return resultat[0] if resultat else None
+    
     def obtenir_personnages(self):
         try:
             # Récupérer toutes les données de la table "authors"
@@ -93,9 +110,9 @@ class Allimentation:
                 text("INSERT INTO authors (name, birth, dead, picture_link) VALUES (:nom, :naissance, :mort, :photo)"),
                 {'nom': name, 'naissance': birth, 'mort': dead, 'photo': picture_link}
             )
-            return resultat.lastrowid  # Retourne True
+            return resultat.lastrowid  # Retourne l'ID de la ligne ajoutée 
         except SQLAlchemyError as e:
-            return f"Erreur lors de l'insertion : {str(e)}"
+            return None
     
     def inserer_audio(self, speech_link, _date, id_author):
         try:
@@ -103,14 +120,47 @@ class Allimentation:
                     text("INSERT INTO audios (speech_link, _date, id_author) VALUES (:audio, :tempo, :auteur_id)"),
                     {'audio': speech_link, 'tempo': _date, 'auteur_id': id_author}
                 )
-            self.session_db.commit()  # Valider l'insertion dans la base
-            return True  # Retourne True
+            return resultat.rowcount  # Retourne True
         except SQLAlchemyError as e:
-            self.session_db.rollback()  # Annuler la transaction en cas d'erreur
-            return f"Erreur lors de l'insertion : {str(e)}"
+            return None
+        
+    def inserer_bio(self, link_text, _date, id_author):
+        try:
+            resultat = db.session.execute(
+                    text("INSERT INTO bios (link_text, link_photo, _date, id_author) VALUES (:audio, :tempo, :auteur_id)"),
+                    {'audio': link_text, 'tempo': _date, 'auteur_id': id_author}
+                )
+            return resultat.rowcount  # Retourne True
+        except SQLAlchemyError as e:
+            return None
+        
+    def inserer_courant(self, lead_name, link_text):
+        try:
+            resultat = db.session.execute(
+                    text("INSERT INTO _lead (lead_name, link_text) VALUES (:courant, :lien)"),
+                    {'courant': lead_name, 'lien': link_text}
+                )
+            print("Insertion réussie !")
+            return resultat.rowcount # Retourne True
+        except SQLAlchemyError as e:
+            print("!!!!!!!!!Echec!!!!!!!!!!! !")
+            return None
 
 
 insert = Allimentation(db.session)
+
+class Acquisition:
+    def __init__(self, session_db):
+        self.session_db = session_db  # Ici on stocke la session DB dans l'attribut self.session_db
+    
+    def select_courant(self):
+        try:
+            resultat = db.session.execute(text("SELECT lead_name FROM _lead")).fetchall()
+            return resultat #Renvoyer la liste des noms de courant philosophique
+        except SQLAlchemyError as e:
+            return f"Erreur lors de la récupération : {str(e)}"
+        
+acquis = Acquisition(db.session)
 
 class Modification:
     def __init__(self, session_db):

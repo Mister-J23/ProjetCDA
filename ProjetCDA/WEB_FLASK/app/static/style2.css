@@ -80,28 +80,20 @@ main {
 .Chargement {
     display: flex;
     flex-direction: column;
-    align-items: center;  /* Centre horizontalement */
-    /*justify-content: center;  /* Centre verticalement */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-   
+    align-items: center;  /* Centre les éléments horizontalement */
+    width: 100%; /* Prend toute la largeur disponible */
+    max-width: 600px; /* Limite la largeur pour un bon rendu */
+    margin: 20px auto; /* Centre les blocs et ajoute de l'espace entre eux */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     background: linear-gradient(360deg, rgba(24, 48, 94, 0.8), rgba(255, 255, 255, 0.5)); /* Dégradé */
-
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre douce */
-    min-width: 200px; /* Facultatif : Ajuste la largeur du conteneur */
-    height: auto; /* Facultatif : Ajuste la hauteur du conteneur */
-    max-width: 400px;
-    
 }
+
 .conteneurform{   
     display: flex;
-    align-items: center; /* Alignement vertical des labels et inputs */
+    
     justify-content: center;
     gap: 20px; /* Espacement entre les colonnes labels/inputs */
     width: auto; /* Facultatif : Ajuste la largeur du conteneur */
@@ -110,6 +102,7 @@ main {
 .form-labels {
     display: flex;
     flex-direction: column;
+    padding-top: auto;
     font-weight: bold;
     gap: 15px; /* Espacement entre les champs */
     width: auto; /* Facultatif : Ajuste la largeur du conteneur */
@@ -152,6 +145,11 @@ figure {
     width: auto; /* Facultatif : Ajuste la largeur du conteneur */
     height: auto; /* Facultatif : Ajuste la hauteur du conteneur */
     
+}
+
+.titre-chargement{
+    margin-top: 0;
+    padding-top: 0;
 }
 
 .container {

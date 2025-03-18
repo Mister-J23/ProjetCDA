@@ -1,7 +1,7 @@
 from flask import Flask, render_template, abort, redirect, url_for, request, session, flash
 from sqlalchemy import text
 from app import app, db
-from app.requete import login_required, login_required_Admin, media, user, insert
+from app.requete import login_required, login_required_Admin, media, user, insert, acquis
 from datetime import datetime
 
 
@@ -96,12 +96,23 @@ def Oeuvres():
     else:
         return "Erreur lors de la récupération des auteurs"
 
+@app.route('/bio/<int:id>')
+@login_required
+def get_bio(id):
+    lien = media.obtenir_lien_bio(id)
+    if lien:
+        return redirect(lien)  # Redirection vers le lien du fichier audio
+    return "Biographie introuvable", 404
+
+
 
 
 @app.route('/Chargement') # Charger des éléments dans la base
 @login_required_Admin
 def Page_chargement():
-    return render_template('charger.html')
+    courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+    return render_template('charger.html', courants=courant)
+
 
 
 
@@ -129,20 +140,10 @@ def get_photo(id):
 @app.route('/photoOeuvres/<int:id>')
 @login_required
 def get_photoOeuvres(id):
-    try:
-        result = db.session.execute(
-            text("SELECT link_photo FROM bios WHERE id_author= :id"),
-            {'id': id}
-        ).fetchone()
-
-        if result is None or result[0] is None:
-            abort(404, description="Image non trouvée.")
-
-        # Rediriger vers l'URL de l'image
-        return redirect(result[0])
-
-    except Exception as e:
-        abort(500, description=str(e))
+    lien = media.obtenir_lien_photoOeuvre(id)
+    if lien:
+        return redirect(lien)  # Redirection vers le lien du fichier audio
+    return "Photo introuvable", 404
     
 
 @app.route('/delete/<int:id>', methods=['POST']) #Supprimer des éléments de la base
@@ -158,7 +159,7 @@ def delete_item(id):
 
 
 
-# Charger
+# Chargement
 @app.route('/charge', methods=['POST','GET'])
 @login_required_Admin
 def charge():
@@ -172,6 +173,7 @@ def charge():
         # Récupérer les fichiers uploadés
         photo = '/static/photo/' + request.form['photo'] + '.jpg'
         audio = '/static/audio/' + request.form['audio'] + '.mp3'
+        fichier = '/static/fichier/' + request.form['fichier'] + '.pdf'
 
         # Récupérer l'heure actuelle
         tempo = datetime.now()
@@ -181,18 +183,50 @@ def charge():
 
         # Vérifier si l'insertion de l'auteur a réussi
         if isinstance(id_auteur, int):  # Vérifie que l'ID retourné est bien un entier
-            if insert.inserer_audio(audio, tempo, id_auteur): #insérer l'audio
-                db.session.commit()  # Valider l'insertion dans la base
-                return render_template('charger.html', message=f"Auteur {nom}, ID: {id_auteur} ajouté avec succès ")
+            insertaudio = insert.inserer_audio(audio, tempo, id_auteur) #insérer l'audio
+            if insertaudio and insertaudio > 0: 
+                insertbio = insert.inserer_bio(fichier, tempo, id_auteur) #insérer la biographie
+                if insertbio and insertbio > 0: 
+                    db.session.commit()  # Valider l'insertion dans la base
+                    courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+                    
+                    return render_template('charger.html',courants=courant, message=f"Auteur {nom}, ID: {id_auteur} ajouté avec succès :-) ")
+                else:
+                    db.session.rollback()  # Annuler la transaction en cas d'erreur
+                    courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+                    return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout du fichier pdf")
+
             else:
                 db.session.rollback()  # Annuler la transaction en cas d'erreur
-                return render_template('charger.html', message="Erreur lors de l'ajout de l'audio")
+                courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+                return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout de l'audio")
             
         else:
             db.session.rollback()  # Annuler la transaction en cas d'erreur
-            return render_template('charger.html', message="Erreur lors de l'ajout de l'auteur")
+            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+            return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout de l'auteur")
+    
 
+#Chargement du courant
+@app.route('/charger_courant', methods=['POST','GET'])
+@login_required_Admin
+def charger_courant():
+    if request.method == 'POST':
+        # Récupérer les données du formulaire
+        nom_courant = request.form['nom_courant']
+        lien_courant = '/static/courants/' +  request.form['lien_courant']+'.pdf'
+        test = insert.inserer_courant(nom_courant, lien_courant)
+        
 
+        if test and test > 0:
+
+            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+
+            return render_template('charger.html',courants=courant, message=f"{nom_courant} ajouté avec succès :-) ")
+        else:
+
+            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+            return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout du courant")
 
 
 
