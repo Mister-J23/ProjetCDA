@@ -102,3 +102,17 @@ class Allimentation:
 
 
 insert = Allimentation(db.session)
+
+class Modification:
+    def __init__(self, session_db):
+        self.session_db = session_db  # Ici on stocke la session DB dans l'attribut self.session_db
+
+    def update_image(self, name, birth, dead, picture_link):
+        try:
+            resultat = self.session_db.execute(
+                text("INSERT INTO authors (name, birth, dead, picture_link) VALUES (:nom, :naissance, :mort, :photo)"),
+                {'nom': name, 'naissance': birth, 'mort': dead, 'photo': picture_link}
+            )
+            return resultat.lastrowid  # Retourne True
+        except SQLAlchemyError as e:
+            return f"Erreur lors de l'insertion : {str(e)}"
