@@ -16,7 +16,7 @@ body {
 
 }
 
-@media (max-width: 780px) {
+@media (max-width: 780px) { /*Mediaquary*/
     body {
         background-attachment: local; /* L'image se déplace avec le contenu */
         background-size: cover; /* L'image couvre tout l'écran */

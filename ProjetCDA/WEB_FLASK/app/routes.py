@@ -45,7 +45,6 @@ def déconnexion():
     return redirect(url_for('Connexion'))  # Redirection vers la page de connexion
     
 
-
 @app.route('/Erreur/<int:nb>')
 def Erreur(nb):
     if nb==0:
@@ -76,18 +75,26 @@ def Home():
 @app.route('/Personnage')
 @login_required
 def personnages():
-    # Récupérer toutes les images et fichiers audio
-    all_items = db.session.execute(text("SELECT * FROM authors")).fetchall()
-    # Afficher le contenu pour débogage
-    return render_template('Personnages.html', items=all_items)
+    # Récupérer tout le contenu de la table des auteurs
+    all_items = media.obtenir_personnages()
+    if all_items:
+        return render_template('Personnages.html', items=all_items)
+    else:
+        return "Erreur lors de la récupération des auteurs"
+
+    
+    
 
 
 @app.route('/Oeuvres')
 @login_required
 def Oeuvres():
-    # Récupérer toutes les images et fichiers audio
-    all_fig = db.session.execute(text("SELECT * FROM bios")).fetchall()
-    return render_template('Oeuvres.html', figs=all_fig)
+    # Récupérer tout le contenu de la table des auteurs
+    all_items = media.obtenir_personnages()
+    if all_items:
+        return render_template('Oeuvres.html', items=all_items)
+    else:
+        return "Erreur lors de la récupération des auteurs"
 
 
 
@@ -124,7 +131,7 @@ def get_photo(id):
 def get_photoOeuvres(id):
     try:
         result = db.session.execute(
-            text("SELECT link_photo FROM bios WHERE id_bio= :id"),
+            text("SELECT link_photo FROM bios WHERE id_author= :id"),
             {'id': id}
         ).fetchone()
 

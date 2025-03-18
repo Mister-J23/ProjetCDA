@@ -1,4 +1,4 @@
-from flask import redirect, url_for, session
+from flask import redirect, url_for, session, render_template
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from app import app, db
@@ -71,6 +71,15 @@ class Media:
             {'id': id}
         ).fetchone()
         return resultat[0] if resultat else None
+    def obtenir_personnages(self):
+        try:
+            # Récupérer toutes les données de la table "authors"
+            resultat = db.session.execute(text("SELECT * FROM authors")).fetchall()
+            return resultat  # Retourne la liste des personnages
+        except SQLAlchemyError as e:
+            return f"Erreur lors de la récupération des items : {str(e)}"
+
+                
 
 media = Media(db.session)
 
