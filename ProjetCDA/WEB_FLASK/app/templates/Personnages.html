@@ -50,18 +50,17 @@
         {% for item in items %}
             <figure>
                 {% if session['groupe'] == 'Admin' %}
-                <!-- Ajout de la croix pour supprimer l'élément -->
-                <form action="{{ url_for('delete_item', id=item.id_author) }}" method="POST" style="display: inline;">
-                    <button type="submit" style="border:none; background:none; cursor:pointer;">
-                        <img class="icon" src="{{ url_for('static', filename='croix.png') }}">
-                    </button>
-                </form>
 
                 <div class="dropdown">
-                    <label for="menu-toggle">
+                    <!-- Input checkbox caché pour chaque menu -->
+                    <input type="checkbox" id="menu-toggle-{{ loop.index }}" class="menu-toggle" />
+                    
+                    <!-- Label lié au checkbox, clic sur l'image pour ouvrir/fermer -->
+                    <label for="menu-toggle-{{ loop.index }}">
                         <img class="icon" src="{{ url_for('static', filename='bandes.png') }}" alt="Menu">
                     </label>
-                    <input type="checkbox" id="menu-toggle">
+            
+                    <!-- Menu déroulant -->
                     <ul class="dropdown-menu">
                         <li><a href="#">Supprimer</a></li>
                         <li><a href="#">Commenter</a></li>

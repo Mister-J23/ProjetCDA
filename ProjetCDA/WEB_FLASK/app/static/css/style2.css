@@ -144,6 +144,9 @@ figure {
     align-items: center;
     width: auto; /* Facultatif : Ajuste la largeur du conteneur */
     height: auto; /* Facultatif : Ajuste la hauteur du conteneur */
+
+    border-radius:20%;
+    background: linear-gradient(360deg, rgba(24, 48, 94, 0.8), rgba(255, 255, 255, 0.5)); /* Dégradé */
     
 }
 
@@ -184,8 +187,8 @@ figure audio {
 .icon{
     width: 2vw; /* 30% de la largeur de la fenêtre */
     height: 2vw; /* 50% de la hauteur de la fenêtre */
-    position: relative;
 }
+
 .black{
     color: black;
 }
