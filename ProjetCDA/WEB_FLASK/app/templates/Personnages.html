@@ -7,6 +7,7 @@
     <link class="icon" rel="icon" href="static/dophinicone.png" type="image/png">
     <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/style2.css')}}">
     <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/bandes.css')}}">
+    <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/responsive.css')}}">
     
 
 
@@ -49,25 +50,27 @@
 
         {% for item in items %}
             <figure>
-                {% if session['groupe'] == 'Admin' %}
+                
 
                 <div class="dropdown">
                     <!-- Input checkbox caché pour chaque menu -->
                     <input type="checkbox" id="menu-toggle-{{ loop.index }}" class="menu-toggle" />
-                    
+                
                     <!-- Label lié au checkbox, clic sur l'image pour ouvrir/fermer -->
                     <label for="menu-toggle-{{ loop.index }}">
                         <img class="icon" src="{{ url_for('static', filename='bandes.png') }}" alt="Menu">
                     </label>
-            
+                
                     <!-- Menu déroulant -->
                     <ul class="dropdown-menu">
+                        {% if session['groupe'] == 'Admin' %}
                         <li><a href="#">Supprimer</a></li>
+                        {% endif %}
                         <li><a href="#">Commenter</a></li>
                         <li><a href="#">Modifier</a></li>
                     </ul>
                 </div>
-                {% endif %}
+                
 
                 <img class="effigie" src="{{ url_for('get_photo', id=item.id_author) }}">
                 <figcaption class="text" >{{ item.name }} {{ item.birth }}-{{ item.dead }}</figcaption>
@@ -85,6 +88,7 @@
         <p>&copy; <img src="static/photo/dauphin.png"> 2024 Philorama. Tous droits réservés.</p>
     </footer>
     
+<script src="{{ url_for('static', filename='js/bandes.js') }}"></script>
 
 </body>
 </html>

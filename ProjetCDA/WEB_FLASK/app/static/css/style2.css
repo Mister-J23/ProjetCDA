@@ -16,26 +16,16 @@ body {
 
 }
 
-@media (max-width: 780px) { /*Mediaquary*/
-    body {
-        background-attachment: local; /* L'image se déplace avec le contenu */
-        background-size: cover; /* L'image couvre tout l'écran */
-        background-position: center; /* Centre l'image */
-        min-height: 100vh; /* Assure que le corps prend au moins toute la hauteur de l'écran */
-        margin: 0; /* Supprime les marges éventuelles */
-    }
-   
-    
-}
-
 /* Fixe le header en haut */
 header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
+    position: fixed; /* Fixe le header par rapport à la fenêtre, il restera visible même en scrollant */
+    top: 0; /* Positionne le header en haut de la page */
+    left: 0; /* Positionne le header tout à gauche de la page */
+    width: 100%; /* Le header prend toute la largeur de la page */
+    z-index: 1000; /* Définit l'ordre de superposition du header par rapport aux autres éléments. Plus le nombre est élevé, plus l'élément sera au-dessus des autres */
+
 }
+
 .entête{
     display: flex;
     
@@ -95,7 +85,7 @@ main {
     display: flex;
     
     justify-content: center;
-    gap: 20px; /* Espacement entre les colonnes labels/inputs */
+    gap: px; /* Espacement entre les colonnes labels/inputs */
     width: auto; /* Facultatif : Ajuste la largeur du conteneur */
     height: auto; /* Facultatif : Ajuste la hauteur du conteneur */
 }
@@ -138,16 +128,19 @@ main {
 }
 
 figure {
-    margin: 10px;
-    
-    justify-content: center;
-    align-items: center;
-    width: auto; /* Facultatif : Ajuste la largeur du conteneur */
-    height: auto; /* Facultatif : Ajuste la hauteur du conteneur */
-
-    border-radius:20%;
-    background: linear-gradient(360deg, rgba(24, 48, 94, 0.8), rgba(255, 255, 255, 0.5)); /* Dégradé */
-    
+    position: relative;
+    display: flex;
+    flex-direction: column; /* Si besoin d'un empilement vertical */
+    margin: 10px; /* Espacement */
+    width: auto;
+    height: auto;
+    border-radius: 20%;
+    background: linear-gradient(360deg, rgba(166, 125, 42, 0.8), rgba(255, 255, 255, 0.5)); /* Dégradé */
+}
+figure .text{
+    display: flex;
+    justify-content: center; /* Centre les éléments horizontalement */
+    align-items: center; /* Centre les éléments verticalement */
 }
 
 .titre-chargement{
@@ -156,10 +149,15 @@ figure {
 }
 
 .container {
+    padding-top: 0;
+    margin-top: 200px;
     display: flex;
     align-items: center;
     justify-content: space-around; /* Pour espacer les éléments */
     flex-wrap: wrap; /* Permet d'adapter l'affichage sur les petits écrans */
+    row-gap:  5vw; /* Définit un espace minimum de 20px entre les éléments */
+    column-gap: 10vw;
+
 }
 .connexion{
     width: 50vw; /* 30% de la largeur de la fenêtre */
@@ -168,13 +166,14 @@ figure {
 }
 
 .effigie {
-    width: 10vw; /* 30% de la largeur de la fenêtre */
-    height: 10vw; /* 50% de la hauteur de la fenêtre */
+    display: block; /* Nécessaire pour appliquer margin auto */
+    margin: 0 auto; /* Centre horizontalement */
+    width: 10vw;
+    height: 10vw;
     object-fit: cover;
-    border-radius:20%;
+    border-radius: 20%;
     min-width: 100px;
     min-height: 100px;
-    
 }
 
 figure audio {
@@ -213,12 +212,25 @@ li{
     margin-left: auto; /* Pousse le paragraphe vers la droite */
 
    margin-right: 10px;
+   margin-bottom: 10px;
+   margin-top: 10px;
+  
+}
+.user-info p{
+    padding: 0;
+    margin: 0;
+    text-decoration: underline;
+
 }
 .entête h1 {
     flex-grow: 1; /* Permet au titre de prendre tout l'espace disponible */
     text-align: center; /* Centre le texte horizontalement */
     margin-left: 100px; /* Supprime les marges par défaut */
     font-family: 'Times New Roman', Times, serif;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 

@@ -1,16 +1,19 @@
 /* Style de base pour chaque menu déroulant */
 .dropdown {
-    position: relative;
-
-    display: inline-block;
+    position: absolute; /* Positionnement absolu par rapport au parent */
+    bottom: 35%; /* Décale le menu à 10px du bas */
+    left: 10px; /* Décale le menu à 10px de la gauche */
+    display: flex; /* Utilisation de flex pour centrer l'élément à l'intérieur du conteneur si nécessaire */
+    justify-content: center; /* Centre le contenu horizontalement */
+    align-items: center; /* Centre le contenu verticalement */
 }
 
 /* Masque le menu par défaut */
 .dropdown-menu {
     display: none;
     position: absolute;
-    top: 100%;
-    left: 0;
+    top: -200%;
+    left: 150%;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -39,3 +42,4 @@
 .menu-toggle {
     display: none;
 }
+
