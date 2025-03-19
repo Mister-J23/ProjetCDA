@@ -1,0 +1,41 @@
+/* Style de base pour le menu déroulant */
+.dropdown {
+    position: relative;  /* Positionne le conteneur de manière relative par rapport à son parent */
+    display: inline-block;  /* Permet au menu de s'afficher en ligne tout en étant un bloc interne */
+}
+
+/* Style pour le menu déroulant */
+.dropdown-menu {
+    display: none; /* Masque le menu par défaut */
+    position: absolute;  /* Positionne le menu par rapport à son parent .dropdown */
+    top: 100%; /* Affiche le menu juste en dessous de l'image (100% de la hauteur de l'élément parent) */
+    left: 0;  /* Positionne le menu sur le même axe horizontal que l'image */
+    list-style: none;  /* Supprime les puces par défaut des éléments de liste */
+    padding: 0;  /* Retire l'espace intérieur (padding) */
+    margin: 0;  /* Retire les marges autour du menu */
+    background-color: #fff;  /* Donne un fond blanc au menu */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);  /* Ajoute une ombre douce autour du menu */
+    min-width: 160px;  /* Définie une largeur minimale pour le menu */
+}
+
+/* Style pour chaque élément de la liste */
+.dropdown-menu li {
+    padding: 8px 16px;  /* Ajoute de l'espace intérieur autour de chaque élément de menu */
+}
+
+/* Style pour les liens à l'intérieur du menu */
+.dropdown-menu li a {
+    text-decoration: none;  /* Supprime le soulignement des liens */
+    color: black;  /* Définit la couleur du texte des liens */
+    display: block;  /* Permet au lien de s'étendre sur toute la largeur de l'élément */
+}
+
+/* Afficher le menu lorsque le checkbox est coché */
+#menu-toggle:checked + .dropdown-menu {
+    display: block;  /* Affiche le menu lorsque le checkbox est coché */
+}
+
+/* Cacher le checkbox */
+#menu-toggle {
+    display: none;  /* Cache le checkbox qui sert à contrôler l'affichage du menu */
+}

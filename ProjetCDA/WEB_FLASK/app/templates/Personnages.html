@@ -5,7 +5,10 @@
     <meta charset ="utf 8">
     <title>Personnages</title>
     <link class="icon" rel="icon" href="static/dophinicone.png" type="image/png">
-    <link rel ="stylesheet" href ="{{ url_for ('static', filename='style2.css')}}">
+    <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/style2.css')}}">
+    <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/bandes.css')}}">
+    
+
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -54,9 +57,17 @@
                     </button>
                 </form>
 
-                <img class="icon" src="{{ url_for('static', filename='croix.png') }}">
-
-                <option>Sélectionner un courant phylosophique</option>
+                <div class="dropdown">
+                    <label for="menu-toggle">
+                        <img class="icon" src="{{ url_for('static', filename='bandes.png') }}" alt="Menu">
+                    </label>
+                    <input type="checkbox" id="menu-toggle">
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Supprimer</a></li>
+                        <li><a href="#">Commenter</a></li>
+                        <li><a href="#">Modifier</a></li>
+                    </ul>
+                </div>
                 {% endif %}
 
                 <img class="effigie" src="{{ url_for('get_photo', id=item.id_author) }}">

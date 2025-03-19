@@ -184,8 +184,7 @@ figure audio {
 .icon{
     width: 2vw; /* 30% de la largeur de la fenêtre */
     height: 2vw; /* 50% de la hauteur de la fenêtre */
-    border-radius:50%;
-
+    position: relative;
 }
 .black{
     color: black;
