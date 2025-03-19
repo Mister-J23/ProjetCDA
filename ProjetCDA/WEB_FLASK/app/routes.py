@@ -169,6 +169,7 @@ def charge():
         nom = request.form['nom']
         naissance = request.form['naissance']
         mort = request.form['mort']
+        courant_philo = request.form['courant']
 
         # Récupérer les fichiers uploadés
         photo = '/static/photo/' + request.form['photo'] + '.jpg'
@@ -179,7 +180,7 @@ def charge():
         tempo = datetime.now()
 
         # Insérer l'auteur et récupérer l'ID retourné
-        id_auteur = insert.inserer_auteur(nom, naissance, mort, photo)
+        id_auteur = insert.inserer_auteur(nom, naissance, mort, photo, courant_philo)
 
         # Vérifier si l'insertion de l'auteur a réussi
         if isinstance(id_auteur, int):  # Vérifie que l'ID retourné est bien un entier
@@ -219,12 +220,12 @@ def charger_courant():
         
 
         if test and test > 0:
-
+            db.session.commit()  # Valider l'insertion dans la base
             courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
 
             return render_template('charger.html',courants=courant, message=f"{nom_courant} ajouté avec succès :-) ")
         else:
-
+            db.session.rollback()  # Valider l'insertion dans la base
             courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
             return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout du courant")
 

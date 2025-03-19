@@ -104,14 +104,15 @@ class Allimentation:
     def __init__(self, session_db):
         self.session_db = session_db  # Ici on stocke la session DB dans l'attribut self.session_db
     
-    def inserer_auteur(self, name, birth, dead, picture_link):
+    def inserer_auteur(self, name, birth, dead, picture_link, id_lead):
         try:
             resultat = self.session_db.execute(
-                text("INSERT INTO authors (name, birth, dead, picture_link) VALUES (:nom, :naissance, :mort, :photo)"),
-                {'nom': name, 'naissance': birth, 'mort': dead, 'photo': picture_link}
+                text("INSERT INTO authors (name, birth, dead, picture_link, id_lead) VALUES (:nom, :naissance, :mort, :photo, :lead)"),
+                {'nom': name, 'naissance': birth, 'mort': dead, 'photo': picture_link, 'lead':id_lead}
             )
             return resultat.lastrowid  # Retourne l'ID de la ligne ajoutée 
         except SQLAlchemyError as e:
+            print(f"❌ Erreur SQL : {str(e)}")
             return None
     
     def inserer_audio(self, speech_link, _date, id_author):
@@ -122,16 +123,18 @@ class Allimentation:
                 )
             return resultat.rowcount  # Retourne True
         except SQLAlchemyError as e:
+            print(f"❌ Erreur SQL : {str(e)}")
             return None
         
     def inserer_bio(self, link_text, _date, id_author):
         try:
             resultat = db.session.execute(
-                    text("INSERT INTO bios (link_text, link_photo, _date, id_author) VALUES (:audio, :tempo, :auteur_id)"),
+                    text("INSERT INTO bios (link_text, _date, id_author) VALUES (:audio, :tempo, :auteur_id)"),
                     {'audio': link_text, 'tempo': _date, 'auteur_id': id_author}
                 )
             return resultat.rowcount  # Retourne True
         except SQLAlchemyError as e:
+            print(f"❌ Erreur SQL : {str(e)}")
             return None
         
     def inserer_courant(self, lead_name, link_text):
@@ -144,6 +147,7 @@ class Allimentation:
             return resultat.rowcount # Retourne True
         except SQLAlchemyError as e:
             print("!!!!!!!!!Echec!!!!!!!!!!! !")
+            print(f"❌ Erreur SQL : {str(e)}")
             return None
 
 
@@ -155,7 +159,7 @@ class Acquisition:
     
     def select_courant(self):
         try:
-            resultat = db.session.execute(text("SELECT lead_name FROM _lead")).fetchall()
+            resultat = db.session.execute(text("SELECT id_lead,lead_name FROM _lead")).fetchall()
             return resultat #Renvoyer la liste des noms de courant philosophique
         except SQLAlchemyError as e:
             return f"Erreur lors de la récupération : {str(e)}"

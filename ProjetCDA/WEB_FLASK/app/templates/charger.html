@@ -7,6 +7,7 @@
 
 
     <link rel ="stylesheet" href ="{{ url_for ('static', filename='style2.css')}}">
+    <link rel ="stylesheet" href ="{{ url_for ('static', filename='select.css')}}">
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,7 +59,7 @@
         </div>
         <!-- Chargement-->
         <div class="Chargement">
-            <h2 class="titre-chargement">Chargement</h2>
+            <h2 class="titre-chargement">Ajouter un auteur</h2>
             
             <form action="{{ url_for('charge') }}" method="POST" enctype="multipart/form-data" class="conteneurform">
                 <div class="form-labels">
@@ -82,7 +83,7 @@
                     <select class="black" name="courant" required>
                         <option>Sélectionner un courant phylosophique</option>
                         {% for courant in courants %}
-                            <option >{{ courant.lead_name }}</option>
+                            <option value="{{courant.id_lead}}">{{courant.id_lead}} {{ courant.lead_name }}</option>
                         {% endfor %}
                     </select>
 
