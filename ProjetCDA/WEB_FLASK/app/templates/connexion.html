@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    
+    <meta charset ="utf 8">
     <title>Connexion</title>
     <link rel="icon" href="static/photo/arrière personnage.jpeg" type="image/png">
-    <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/style2.css')}}"> 
     <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/responsive.css')}}">
+    <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/style2.css')}}"> 
 
 
-    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
         .foot{
@@ -27,7 +27,7 @@
     </style>
 </head>
 <body background="static/photo/chateau.jpeg">
-    <h1 > Philorama </h1>
+    <h1> Philorama </h1>
     <div class="Connexion">
         <h2 class="white">Connexion</h2>
         <form action="{{ url_for('login') }}" method="POST">

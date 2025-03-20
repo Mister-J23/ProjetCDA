@@ -233,4 +233,8 @@ li{
     padding-bottom: 0;
 }
 
+/* Effet au survol */
+button:hover {
+    background-color: #0056b3;
+}
 

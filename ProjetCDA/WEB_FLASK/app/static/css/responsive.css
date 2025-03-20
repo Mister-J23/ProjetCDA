@@ -1,13 +1,10 @@
 
-@media (max-width: 780px) { /*Mediaquary*/
-    body {
-        background-attachment: local; /* L'image se déplace avec le contenu */
-        background-size: cover; /* L'image couvre tout l'écran */
-        background-position: center; /* Centre l'image */
-        min-height: 100vh; /* Assure que le corps prend au moins toute la hauteur de l'écran */
-        margin: 0; /* Supprime les marges éventuelles */
+@media screen and (max-width: 780px) { /*Mediaquary*/
+    
+    body h1 {
+        font-size: 32px;  /* Appliquer une taille plus petite pour mobile */
+        text-align: center; /* Centrer le texte si besoin */
     }
-
         /* Fixe le header en haut */
     header {
         position: fixed; /* Fixe le header par rapport à la fenêtre, il restera visible même en scrollant */
@@ -99,20 +96,19 @@
         height: 0.2vw;
         
     }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: -300%;
+        left: 150%;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background-color: #fff;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        min-width: 160px;
+    }
     
 }
 
-@media (max-width: 780px) { /*Mediaquary*/
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: -300%;
-    left: 150%;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    background-color: #fff;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    min-width: 160px;
-}
-}

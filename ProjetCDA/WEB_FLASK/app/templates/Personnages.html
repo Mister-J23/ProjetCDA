@@ -66,10 +66,23 @@
                         {% if session['groupe'] == 'Admin' %}
                         <li><a href="#">Supprimer</a></li>
                         {% endif %}
-                        <li><a href="#">Commenter</a></li>
+                        <li><a href="#" class="ouvrir-fenetre-commentaire">Commenter</a></li>
                         <li><a href="#">Modifier</a></li>
                     </ul>
                 </div>
+                <!-- Fenêtre modale pour le commentaire (cachée par défaut) -->
+                <div id="fenetre-commentaire" class="fenetre-modale">
+                    
+                    <form action="{{ url_for('charger_commentaire') }}" method="POST" enctype="multipart/form-data" class="contenu-modale">
+                        <span class="fermer">&times;</span> <!-- Bouton "X" pour fermer la fenêtre -->
+                        <h2 class="black" >Ajouter un commentaire</h2> <!-- Titre -->
+                        <textarea name="commentaire" class="black" id="texte-commentaire" placeholder="Écrivez votre commentaire ici..."></textarea>
+                        <button class="comment" type="submit" id="envoyer-commentaire">Envoyer</button> <!-- Bouton d'envoi -->
+                    </form>
+                    
+                </div>
+
+                
                 
 
                 <img class="effigie" src="{{ url_for('get_photo', id=item.id_author) }}">

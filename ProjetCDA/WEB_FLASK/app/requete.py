@@ -32,7 +32,7 @@ class Connexion:
     def obtenir_utilisateur(self, nom_utilisateur):
         # Utilisation de la session DB pour récupérer les données
         resultat = self.session_db.execute(
-            text("SELECT name, _group, password FROM users WHERE name = :username"),
+            text("SELECT * FROM users WHERE name = :username"),
             {'username': nom_utilisateur}
         ).fetchone()
         return resultat
@@ -45,6 +45,7 @@ class Connexion:
         # Utilisation de la méthode obtenir_utilisateur pour vérifier l'utilisateur
         utilisateur = self.obtenir_utilisateur(nom_utilisateur)
         if utilisateur and self.verifier_mot_de_passe(utilisateur.password, mot_de_passe):
+            session['id']=utilisateur.id_user
             session['username'] = utilisateur.name
             session['groupe'] = utilisateur._group
             return True
@@ -136,7 +137,19 @@ class Allimentation:
         except SQLAlchemyError as e:
             print(f"❌ Erreur SQL : {str(e)}")
             return None
-        
+    def inserer_commentaire(self, date_comment, comment, id_user):
+        try:
+            resultat = db.session.execute(
+                    text("INSERT INTO comments (date_comment, comment, id_user) VALUES (:V1, :V2, :V3)"),
+                    {'V1': date_comment, 'V2': comment, 'V3': id_user}
+                )
+            print("Insertion réussie !")
+            return resultat.rowcount # Retourne True
+        except SQLAlchemyError as e:
+            print("!!!!!!!!!Echec!!!!!!!!!!! !")
+            print(f"❌ Erreur SQL : {str(e)}")
+            return None
+
     def inserer_courant(self, lead_name, link_text):
         try:
             resultat = db.session.execute(

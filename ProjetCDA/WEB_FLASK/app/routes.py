@@ -26,6 +26,7 @@ def login():
 @app.context_processor
 def inject_user():
     return dict(
+        id=session.get('id'), 
         username=session.get('username'), 
         groupe=session.get('groupe')
     )
@@ -120,9 +121,10 @@ def Page_chargement():
 @app.route('/audio/<int:id>')
 @login_required
 def get_audio(id):
-    lien = media.obtenir_lien_audio(id)
-    if lien:
-        return redirect(lien)  # Redirection vers le lien du fichier audio
+    test = media.obtenir_lien_audio(id)
+    if test:
+        
+        return redirect(test)  # Redirection vers le lien du fichier audio
     return "Audio introuvable", 404
 
 
@@ -228,6 +230,35 @@ def charger_courant():
             db.session.rollback()  # Valider l'insertion dans la base
             courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
             return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout du courant")
+        
+
+#Chargement du commentaire
+@app.route('/charger_commentaire', methods=['POST','GET'])
+@login_required
+def charger_commentaire():
+    if request.method == 'POST':
+        # Récupérer les données du formulaire
+        comm = request.form['commentaire']
+        
+        # Récupérer l'heure actuelle
+        tempo = datetime.now()
+
+        #récupérer l'ID User
+        iduser= id=session.get('id')
+
+        #Insérer le commentaire
+        test = insert.inserer_commentaire(tempo, comm, iduser)
+
+
+        
+
+        if test and test > 0:
+            db.session.commit()  # Valider l'insertion dans la base
+            print("commentaire ajouté avec succes 👍")
+            return redirect(url_for('personnages'))
+        else:
+            db.session.rollback()  # Valider l'insertion dans la base
+            return render_template('Personnages.html')
 
 
 
