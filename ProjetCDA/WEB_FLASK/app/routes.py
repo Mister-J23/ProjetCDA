@@ -46,6 +46,55 @@ def déconnexion():
     return redirect(url_for('Connexion'))  # Redirection vers la page de connexion
     
 
+@app.route('/Home') # decorators
+@login_required
+def Home():
+    return render_template('Home.html')
+
+
+
+@app.route('/Personnage')
+@login_required
+def personnages():
+    # Récupérer tout le contenu de la table des auteurs
+    all_items = media.obtenir_personnages()
+    if all_items:
+        return render_template('Personnages.html', items=all_items)
+    else:
+        return "Erreur lors de la récupération des auteurs"
+
+    
+
+@app.route('/Oeuvres')
+@login_required
+def Oeuvres():
+    # Récupérer tout le contenu de la table des auteurs
+    all_items = media.obtenir_personnages()
+    if all_items:
+        return render_template('Oeuvres.html', items=all_items)
+    else:
+        return "Erreur lors de la récupération des auteurs"
+    
+
+
+
+@app.route('/Chargement') # Charger des éléments dans la base
+@login_required_Admin
+def Page_chargement():
+    courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+    return render_template('charger.html', courants=courant)
+
+
+@app.route('/Utilisateur')
+@login_required_Admin
+def Utilisateur():
+    # Supprimer la session
+    return render_template('Utilisateurs.html')
+
+
+    
+
+
 @app.route('/Erreur/<int:nb>')
 def Erreur(nb):
     if nb==0:
@@ -65,38 +114,6 @@ def Erreur(nb):
 
 
 
-
-@app.route('/Home') # decorators
-@login_required
-def Home():
-    return render_template('Home.html')
-
-
-
-@app.route('/Personnage')
-@login_required
-def personnages():
-    # Récupérer tout le contenu de la table des auteurs
-    all_items = media.obtenir_personnages()
-    if all_items:
-        return render_template('Personnages.html', items=all_items)
-    else:
-        return "Erreur lors de la récupération des auteurs"
-
-    
-    
-
-
-@app.route('/Oeuvres')
-@login_required
-def Oeuvres():
-    # Récupérer tout le contenu de la table des auteurs
-    all_items = media.obtenir_personnages()
-    if all_items:
-        return render_template('Oeuvres.html', items=all_items)
-    else:
-        return "Erreur lors de la récupération des auteurs"
-
 @app.route('/bio/<int:id>')
 @login_required
 def get_bio(id):
@@ -104,16 +121,6 @@ def get_bio(id):
     if lien:
         return redirect(lien)  # Redirection vers le lien du fichier audio
     return "Biographie introuvable", 404
-
-
-
-
-@app.route('/Chargement') # Charger des éléments dans la base
-@login_required_Admin
-def Page_chargement():
-    courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
-    return render_template('charger.html', courants=courant)
-
 
 
 

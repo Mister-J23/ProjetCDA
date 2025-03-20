@@ -31,10 +31,6 @@
             <ul>
                 <li><a class="text" href="{{ url_for('Home') }}">Accueil</a></li>
                 <li><a class="text" href="{{ url_for('Oeuvres') }}">Oeuvres</a></li>
-                <!-- Condition pour afficher "Enregistrement" uniquement si l'utilisateur est Admin -->
-                {% if session['groupe'] == 'Admin' %}
-                <li><a class="text" href="{{ url_for('Page_chargement') }}">Enregistrement</a></li>
-                {% endif %}
                 <li>
                     <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
                 </li>
