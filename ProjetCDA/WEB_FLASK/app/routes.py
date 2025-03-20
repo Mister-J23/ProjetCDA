@@ -3,6 +3,7 @@ from sqlalchemy import text
 from app import app, db
 from app.requete import login_required, login_required_Admin, media, user, insert, acquis
 from datetime import datetime
+from werkzeug.security import generate_password_hash
 
 
 
@@ -43,7 +44,7 @@ def déconnexion():
     # Supprimer la session
     session.clear()
     print(session)
-    return redirect(url_for('Connexion'))  # Redirection vers la page de connexion
+    return redirect(url_for('Connexion'))  # Redirection vers la page de connexion  
     
 
 @app.route('/Home') # decorators
@@ -88,8 +89,14 @@ def Page_chargement():
 @app.route('/Utilisateur')
 @login_required_Admin
 def Utilisateur():
-    # Supprimer la session
-    return render_template('Utilisateurs.html')
+    test= acquis.select_utilisateurs()
+    if test:
+        test1= acquis.select_groupe()
+        if test1:
+            return render_template('Utilisateurs.html',utilisateurs=test, groupes=test1)
+        return render_template('home.html')
+    else:
+        return render_template('home.html')
 
 
     
@@ -283,7 +290,28 @@ def charger_commentaire(id):
             return redirect(url_for('personnages'))
 
 
+#Chargement du courant
+@app.route('/charger_utilisateur', methods=['POST','GET'])
+@login_required_Admin
+def charger_utilisateur():
+    if request.method == 'POST':
+        # Récupérer les données du formulaire
+        nom = request.form['nom']
+        motpasse = request.form['motpasse']
+        groupe = request.form['groupe']
 
+        motpassehache = generate_password_hash(motpasse)
+
+        #écriture dans la table utilisateur
+        test = insert.inserer_utilisateur(nom, motpassehache, groupe)
+        
+
+        if test and test > 0:
+            db.session.commit()  # Valider l'insertion dans la base
+            return redirect(url_for('Utilisateur', message="Utilisateur ajouté avec succès 👍")) #Relancer la page Utilisateur
+        else:
+            db.session.rollback()  # Valider l'insertion dans la base
+            return redirect(url_for('Utilisateur', message="Erreur lors de l'ajout de l'utilisateur ❌")) #Relancer la page Utilisateur
 
        
     

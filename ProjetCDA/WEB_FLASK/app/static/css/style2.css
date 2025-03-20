@@ -55,14 +55,6 @@ footer {
 
 }
 
-/* Le main doit défiler indépendamment */
-main {
-    flex-grow: 1;
-    margin-top: 250px; /* Ajuste selon la hauteur du header */
-    margin-bottom: 50px; /* Ajuste selon la hauteur du footer */
-    overflow-y: auto; /* Active le défilement */
-    padding: 20px;
-}
 
 
 
@@ -81,14 +73,7 @@ main {
     background: linear-gradient(360deg, rgba(24, 48, 94, 0.8), rgba(255, 255, 255, 0.5)); /* Dégradé */
 }
 
-.conteneurform{   
-    display: flex;
-    
-    justify-content: center;
-    gap: px; /* Espacement entre les colonnes labels/inputs */
-    width: auto; /* Facultatif : Ajuste la largeur du conteneur */
-    height: auto; /* Facultatif : Ajuste la hauteur du conteneur */
-}
+
 .form-labels {
     display: flex;
     flex-direction: column;
@@ -157,7 +142,19 @@ figure .text{
     flex-wrap: wrap; /* Permet d'adapter l'affichage sur les petits écrans */
     row-gap:  5vw; /* Définit un espace minimum de 20px entre les éléments */
     column-gap: 10vw;
+    flex-grow: 1;
+    /* Le main doit défiler indépendamment */
+    margin-top: 250px; /* Ajuste selon la hauteur du header */
+    margin-bottom: 50px; /* Ajuste selon la hauteur du footer */
+    overflow-y: auto; /* Active le défilement */
+    padding: 20px;
 
+}
+
+.utilisateur{
+    margin-top: 250px; /* Ajuste selon la hauteur du header */
+    margin-bottom: 50px; /* Ajuste selon la hauteur du footer */
+    
 }
 .connexion{
     width: 50vw; /* 30% de la largeur de la fenêtre */
@@ -237,4 +234,89 @@ li{
 button:hover {
     background-color: #0056b3;
 }
+
+/*--------------------------------------------------------------------TABLEAU------------------------------------------------------------------------ */
+/* Conteneur principal du tableau */
+.tableau {
+    min-width: 500px; /* Largeur minimale */
+    min-height: 300px; /* Hauteur minimale */
+    width: 60vw; /* Largeur relative à l'écran */
+    max-height: 60vh; /* Hauteur max pour éviter le débordement */
+    background-color: darkgreen; /* Fond vert foncé */
+    border: 7px solid burlywood; /* Bordure marron clair */
+
+    /* Gestion des débordements uniquement en hauteur */
+    overflow-y: auto; /* Active le scroll vertical si nécessaire */
+    overflow-x: hidden; /* Désactive le scroll horizontal */
+
+    /* Alignement */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Aligner le tableau en haut */
+}
+
+/* Conteneur scrollable du tableau */
+.tableau-container {
+    width: 100%; /* Prend toute la largeur de .tableau */
+    max-height: 100%; /* Ne dépasse pas la hauteur de .tableau */
+    overflow-y: auto; /* Active le défilement vertical si nécessaire */
+}
+
+/* Styles pour le tableau */
+table {
+    width: 100%; /* Prend toute la largeur du conteneur */
+    border-collapse: collapse; /* Supprime l’espace entre les bordures */
+    table-layout: fixed; /* Assure une largeur uniforme des colonnes */
+}
+
+/* Définition des largeurs pour chaque colonne */
+th:nth-child(1), td:nth-child(1) { width: 30%; }  /* Colonne Nom */
+th:nth-child(2), td:nth-child(2) { width: 40%; }  /* Colonne Password */
+th:nth-child(3), td:nth-child(3) { width: 30%; }  /* Colonne Groupe */
+
+/* Styles pour les cellules */
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Style des titres */
+th {
+    background: rgb(1, 38, 1);
+    color: white;
+    text-align: center;
+}
+
+.fenetreUtilisateur {
+    display: none;
+    flex-direction: column;
+    align-items: center;  /* Centre les éléments horizontalement */
+    width: 100%; /* Prend toute la largeur disponible */
+    max-width: 600px; /* Limite la largeur pour un bon rendu */
+    margin: 20px auto; /* Centre les blocs et ajoute de l'espace entre eux */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background: linear-gradient(360deg, rgba(24, 48, 94, 0.8), rgba(255, 255, 255, 0.5)); /* Dégradé */
+}
+
+.fenetre-activeUtilisateur {
+    display: flex !important; /* Affiche la fenêtre */
+}
+
+
+.conteneurform{   
+    display: flex;
+    
+    justify-content: center;
+    gap: px; /* Espacement entre les colonnes labels/inputs */
+    width: auto; /* Facultatif : Ajuste la largeur du conteneur */
+    height: auto; /* Facultatif : Ajuste la hauteur du conteneur */
+}
+
 

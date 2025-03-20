@@ -168,6 +168,19 @@ class Allimentation:
             print("!!!!!!!!!Echec!!!!!!!!!!! !")
             print(f"❌ Erreur SQL : {str(e)}")
             return None
+        
+    def inserer_utilisateur(self, name, password, group):
+        try:
+            resultat = db.session.execute(
+                    text("INSERT INTO users (name, password, _group) VALUES (:V1, :V2, :V3)"),
+                    {'V1': name, 'V2': password, 'V3': group}
+                )
+            print("Insertion réussie !")
+            return resultat.rowcount # Retourne True
+        except SQLAlchemyError as e:
+            print("!!!!!!!!!Echec!!!!!!!!!!! !")
+            print(f"❌ Erreur SQL : {str(e)}")
+            return None
 
 
 insert = Allimentation(db.session)
@@ -181,7 +194,21 @@ class Acquisition:
             resultat = db.session.execute(text("SELECT id_lead,lead_name FROM _lead")).fetchall()
             return resultat #Renvoyer la liste des noms de courant philosophique
         except SQLAlchemyError as e:
-            return f"Erreur lors de la récupération : {str(e)}"
+            return f"Erreur lors de la récupération des courants: {str(e)}"
+        
+    def select_utilisateurs(self):
+        try:
+            resultat = db.session.execute(text("SELECT name, password, _group FROM users")).fetchall()
+            return resultat #Renvoyer la liste des noms de courant philosophique
+        except SQLAlchemyError as e:
+            return f"Erreur lors de la récupération des utilisateurs : {str(e)}"
+        
+    def select_groupe(self):
+        try:
+            resultat = db.session.execute(text("SELECT DISTINCT _group FROM users")).fetchall()
+            return resultat #Renvoyer la liste des noms de courant philosophique
+        except SQLAlchemyError as e:
+            return f"Erreur lors de la récupération des utilisateurs : {str(e)}"
         
 acquis = Acquisition(db.session)
 
