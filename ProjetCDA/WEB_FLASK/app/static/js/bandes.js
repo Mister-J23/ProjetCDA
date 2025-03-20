@@ -15,36 +15,45 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// Attend que la page soit entièrement chargée avant d'exécuter le script
 document.addEventListener("DOMContentLoaded", function () {
-    // Sélectionne l'élément de la fenêtre de commentaire
-    let fenetre = document.getElementById("fenetre-commentaire"); 
-
-    // Sélectionne le bouton de fermeture de la fenêtre
-    let boutonFermer = document.querySelector(".fermer"); 
-
-    // Sélectionne tous les boutons qui ouvrent la fenêtre de commentaire
+    // Sélectionne tous les boutons qui ouvrent une fenêtre de commentaire
     let boutonsOuvrir = document.querySelectorAll(".ouvrir-fenetre-commentaire"); 
 
     // Ajoute un écouteur d'événements sur chaque bouton "Commenter"
     boutonsOuvrir.forEach(bouton => {
         bouton.addEventListener("click", function (event) {
             event.preventDefault(); // Empêche le comportement par défaut du lien
-            fenetre.classList.add("fenetre-active"); // Ajoute la classe pour afficher la fenêtre
+            
+            // Récupère l'ID de l'auteur (passé dans l'attribut data-id)
+            let authorId = bouton.getAttribute('data-id'); 
+
+            // Sélectionne la fenêtre modale spécifique à cet auteur
+            let fenetre = document.getElementById("fenetre-commentaire-" + authorId); 
+
+            // Affiche la fenêtre modale en ajoutant la classe "fenetre-active"
+            fenetre.classList.add("fenetre-active"); 
         });
     });
 
-    // Ajoute un écouteur sur le bouton de fermeture
-    boutonFermer.addEventListener("click", function () {
-        fenetre.classList.remove("fenetre-active"); // Supprime la classe pour cacher la fenêtre
+    // Ajoute un écouteur sur les boutons de fermeture (en utilisant une classe)
+    document.querySelectorAll(".fermer").forEach(boutonFermer => {
+        boutonFermer.addEventListener("click", function () {
+            // Trouve la fenêtre modale parente et enlève la classe "fenetre-active"
+            let fenetre = boutonFermer.closest(".fenetre-modale");
+            fenetre.classList.remove("fenetre-active");
+        });
     });
 
     // Ajoute un écouteur sur la fenêtre entière pour détecter les clics en dehors de la boîte de dialogue
     window.addEventListener("click", function (event) {
         // Si l'utilisateur clique sur l'arrière-plan sombre de la fenêtre modale
-        if (event.target === fenetre) {
-            fenetre.classList.remove("fenetre-active"); // Ferme la fenêtre modale
-        }
+        document.querySelectorAll(".fenetre-modale").forEach(fenetre => {
+            if (event.target === fenetre) {
+                // Ferme la fenêtre modale en retirant la classe "fenetre-active"
+                fenetre.classList.remove("fenetre-active");
+            }
+        });
     });
 });
+
 

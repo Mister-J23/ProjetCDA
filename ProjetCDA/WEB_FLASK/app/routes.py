@@ -123,8 +123,12 @@ def Page_chargement():
 def get_audio(id):
     test = media.obtenir_lien_audio(id)
     if test:
+        lien = test['speech_link']  # Le lien du fichier audio
+ 
+
+        # Rediriger vers l'URL du fichier audio (par exemple, le lien de téléchargement)
+        return redirect(lien)
         
-        return redirect(test)  # Redirection vers le lien du fichier audio
     return "Audio introuvable", 404
 
 
@@ -233,9 +237,9 @@ def charger_courant():
         
 
 #Chargement du commentaire
-@app.route('/charger_commentaire', methods=['POST','GET'])
+@app.route('/charger_commentaire/<int:id>', methods=['POST','GET'])
 @login_required
-def charger_commentaire():
+def charger_commentaire(id):
     if request.method == 'POST':
         # Récupérer les données du formulaire
         comm = request.form['commentaire']
@@ -244,21 +248,32 @@ def charger_commentaire():
         tempo = datetime.now()
 
         #récupérer l'ID User
-        iduser= id=session.get('id')
+        iduser= session.get('id')
 
-        #Insérer le commentaire
-        test = insert.inserer_commentaire(tempo, comm, iduser)
-
-
+        #Récupérer l'ID audio pour l'id_auteur correspondant
+        test1 = media.obtenir_lien_audio(id) 
+        print(f"ID AUTEUR:{id}")
         
+        if test1:
 
-        if test and test > 0:
-            db.session.commit()  # Valider l'insertion dans la base
-            print("commentaire ajouté avec succes 👍")
-            return redirect(url_for('personnages'))
+            idaudio= test1['id_audio']
+
+            #Insérer le commentaire
+            test = insert.inserer_commentaire(tempo, comm, iduser, idaudio)
+
+
+            
+
+            if test and test > 0:
+                db.session.commit()  # Valider l'insertion dans la base
+                print("commentaire ajouté avec succes 👍")
+                return redirect(url_for('personnages'))
+            else:
+                db.session.rollback()  # Valider l'insertion dans la base
+                return redirect(url_for('personnages'))
         else:
-            db.session.rollback()  # Valider l'insertion dans la base
-            return render_template('Personnages.html')
+            print("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ERREUR§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§")
+            return redirect(url_for('personnages'))
 
 
 

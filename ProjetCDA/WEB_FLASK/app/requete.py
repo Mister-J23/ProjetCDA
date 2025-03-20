@@ -58,12 +58,18 @@ class Media:
         self.session_db = session_db  # Ici on stocke la session DB dans l'attribut self.session_db
 
     def obtenir_lien_audio(self, id):
-        # Récupère le lien de l'audio depuis la base de données
-        resultat = self.session_db.execute(
-            text("SELECT speech_link FROM audios WHERE id_author = :id"),
-            {'id': id}
-        ).fetchone()
-        return resultat[0] if resultat else None
+        
+        try:
+            # Récupère le lien de l'audio depuis la base de données
+            resultat = self.session_db.execute(
+                text("SELECT id_audio, speech_link FROM audios WHERE id_author = :id"),
+                {'id': id}
+            ).fetchone()
+            # Retourne l'ID et le lien audio sous forme de dictionnaire ou tuple
+            return {'id_audio': resultat[0], 'speech_link': resultat[1]}  # Retourne un dictionnaire avec l'ID et le lien
+        except SQLAlchemyError as e:
+            print(f"❌ Erreur SQL : {str(e)}")
+            return None
 
     def obtenir_lien_photo(self, id):
         # Récupère le lien de la photo depuis la base de données
@@ -137,11 +143,11 @@ class Allimentation:
         except SQLAlchemyError as e:
             print(f"❌ Erreur SQL : {str(e)}")
             return None
-    def inserer_commentaire(self, date_comment, comment, id_user):
+    def inserer_commentaire(self, date_comment, comment, id_user, id_audio):
         try:
             resultat = db.session.execute(
-                    text("INSERT INTO comments (date_comment, comment, id_user) VALUES (:V1, :V2, :V3)"),
-                    {'V1': date_comment, 'V2': comment, 'V3': id_user}
+                    text("INSERT INTO comments (date_comment, comment, id_user, id_audio) VALUES (:V1, :V2, :V3, :V4)"),
+                    {'V1': date_comment, 'V2': comment, 'V3': id_user, 'V4':id_audio}
                 )
             print("Insertion réussie !")
             return resultat.rowcount # Retourne True
