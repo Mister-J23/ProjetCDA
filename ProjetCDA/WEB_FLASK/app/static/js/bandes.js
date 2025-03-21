@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let authorId = bouton.getAttribute("data-id"); // Récupère l'ID de l'auteur
             let fenetre = document.getElementById("fenetre-commentaire-" + authorId); // Sélectionne la fenêtre modale
 
-            // Vérifie si la fenêtre existe
             if (!fenetre) {
                 console.error("Fenêtre modale introuvable pour l'auteur ID:", authorId);
                 return;
@@ -37,10 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
             // Affiche la fenêtre modale
             fenetre.classList.add("fenetre-active");
 
-            // Sélectionne le conteneur où les commentaires seront affichés
             let commentContainer = fenetre.querySelector(".commentaires-liste");
 
-            // Vérifie si le conteneur existe
             if (!commentContainer) {
                 console.error("Conteneur des commentaires introuvable !");
                 return;
@@ -55,15 +52,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         return;
                     }
 
-                    console.log("Commentaires reçus :", data.commentaires); // Affiche les commentaires reçus
+                    console.log("Commentaires reçus :", data.commentaires);
 
                     // Efface les anciens commentaires
                     commentContainer.innerHTML = "";
-                    
+
                     // Ajoute les nouveaux commentaires reçus
                     data.commentaires.forEach(commentaire => {
                         let commentHTML = `
-                            <div class="commentaire-item" data-id="${commentaire.id_comment}" >
+                            <div class="commentaire-item" data-id="${commentaire.id_comment}">
                                 <span class="commentaire-text">${commentaire.comment}</span>
                                 <span class="commentaire-date">${commentaire.date_comment}</span>
                                 <span class="commentaire-user">${commentaire.id_user}</span>
@@ -71,47 +68,45 @@ document.addEventListener("DOMContentLoaded", function () {
                             </div>`;
                         commentContainer.innerHTML += commentHTML;
                     });
+
+                    // AJOUT DE L'ÉCOUTEUR APRÈS LE CHARGEMENT
+                    ajouterEcouteurSuppression(commentContainer);
                 })
                 .catch(error => console.error("Erreur lors du chargement des commentaires :", error));
         });
     });
 
-    // Délégation d'événements pour les boutons de suppression
-    document.querySelector(".commentaires-liste").addEventListener('click', function (event) {
-        // Vérifie si l'élément cliqué est un bouton de suppression
-        if (event.target && event.target.classList.contains('delete-comment')) {
-            let commentElement = event.target.parentElement;
-            let commentId = commentElement.getAttribute('data-id');
-            let userId = currentUserId;  // Utiliser l'ID de l'utilisateur connecté
+    // Fonction pour ajouter l'écouteur d'événement uniquement après le chargement des commentaires
+    function ajouterEcouteurSuppression(commentContainer) {
+        commentContainer.addEventListener('click', function (event) {
+            if (event.target && event.target.classList.contains('delete-comment')) {
+                let commentElement = event.target.closest('.commentaire-item');
+                let commentId = commentElement.getAttribute('data-id');
+                let userId = currentUserId;  
 
-            // Construire le corps de la requête avec id_user
-            let requestBody = JSON.stringify({ id_user: currentUserId });
+                let requestBody = JSON.stringify({ id_user: currentUserId });
 
-            console.log(`Requête DELETE envoyée avec l'ID du commentaire: ${commentId} et l'ID utilisateur: ${userId}`);
+                console.log(`Requête DELETE envoyée avec l'ID du commentaire: ${commentId} et l'ID utilisateur: ${userId}`);
 
-            // Envoyer la requête DELETE
-            fetch(`/supprimer_commentaire/${commentId}/${userId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: requestBody
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message.includes("✅")) {
-                    commentElement.remove();  // Supprime le commentaire du DOM si la suppression réussit
-                } else {
-                    alert("Erreur : " + data.message);
-                }
-            })
-            .catch(error => console.error("Erreur lors de la suppression :", error));
-        }
-    });
-
-
-
-
+                fetch(`/supprimer_commentaire/${commentId}/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: requestBody
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message.includes("✅")) {
+                        commentElement.remove();  
+                    } else {
+                        alert("Erreur : " + data.message);
+                    }
+                })
+                .catch(error => console.error("Erreur lors de la suppression :", error));
+            }
+        });
+    }
 
     // Fermer la fenêtre modale
     document.querySelectorAll(".fermer").forEach(boutonFermer => {
@@ -130,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
 
 
 //-------------------------------------AJOUT UTILISATEUR------------------------

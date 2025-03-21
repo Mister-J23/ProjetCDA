@@ -92,7 +92,12 @@
     <footer class="fs" >
         <p class="text">&copy; <img src="static/photo/dauphin.png" > 2024 Philorama. Tous droits réservés.</p>
     </footer>
+<script type="text/javascript">
+    // Vérifie si currentUserId est correctement défini
+    console.log("Current User ID:", {{ id|tojson }});
 
+    const currentUserId = {{ id|tojson }};
+</script>
 <script src="{{ url_for('static', filename='js/optionoeuvre.js') }}"></script>
 </body>
 </html>
