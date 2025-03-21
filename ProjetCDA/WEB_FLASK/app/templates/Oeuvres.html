@@ -6,6 +6,7 @@
         <title>Oeuvres</title>
         <link class="icon" rel="icon" href="static/photo/dauphin.png" type="image/png">
         <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/style2.css')}}">
+        <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/optionoeuvre.css')}}">
         <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/responsive.css')}}">
     
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,15 +42,47 @@
     <!-- Section principale -->
      
     <main class="container">
-         <!-- J'affiche les image de livre de chaque auteurs contenus dans la table Authors. La correspondance se fait via la clé étrangère -->
-        <figure>
-            {% for item in items %}
-            <a href="{{ url_for('get_bio', id=item.id_author) }}" target="_blank">
-                <img class="effigie" src="{{ url_for('get_photoOeuvres', id=item.id_author) }}">
-            </a>
-            <figcaption class="text" >{{ item.name }}</figcaption>
-            {% endfor %}
-        </figure>
+        {% for item in items %}
+                    
+            <!-- J'affiche les image de livre de chaque auteurs contenus dans la table Authors. La correspondance se fait via la clé étrangère -->
+            <figure>
+
+                <div class="dropdown">
+                    <!-- Input checkbox caché pour chaque menu -->
+                    <input type="checkbox" id="menu-toggleoeuvre-{{ loop.index }}" class="menu-toggleoeuvre" />
+                
+                    <!-- Label lié au checkbox, clic sur l'image pour ouvrir/fermer -->
+                    <label for="menu-toggleoeuvre-{{ loop.index }}">
+                        <img class="icon" src="{{ url_for('static', filename='bandes.png') }}" alt="Menu">
+                    </label>
+                
+                    <!-- Menu déroulant -->
+                    <ul class="dropdown-menu">
+                        {% if session['groupe'] == 'Admin' %}
+                        <li><a href="#">Supprimer</a></li>
+                        {% endif %}
+                        <li><a href="#" class="ouvrir-fenetre-commentaire" data-id="{{ item.id_author }}">Commenter</a></li>
+                        <li><a href="#">Modifier</a></li>
+                    </ul>
+                </div>
+                <!-- Fenêtre modale pour le commentaire (cachée par défaut) -->
+                <div id="fenetre-commentaire-{{ item.id_author }}" class="fenetre-modale">
+                    <form action="{{ url_for('charger_commentaire_bio', id=item.id_author) }}" method="POST" enctype="multipart/form-data" class="contenu-modale">
+                        <h3 class="black" >Ajouter un commentaire pour l'auteur {{ item.id_author }} </h3> <!-- Titre -->
+                        <!-- Conteneur où les commentaires seront affichés -->
+                        <div class="commentaires-liste"></div>
+                        <textarea name="commentaire" class="black" id="texte-commentaire" placeholder="Écrivez votre commentaire ici..."></textarea>
+                        <button class="comment" type="submit" id="envoyer-commentaire">Envoyer</button> <!-- Bouton d'envoi -->
+                    </form>
+                    
+                </div>
+
+                <a href="{{ url_for('get_bio', id=item.id_author) }}" target="_blank">
+                    <img class="effigie" src="{{ url_for('get_photoOeuvres', id=item.id_author) }}">
+                </a>
+                <figcaption class="text" >{{ item.name }}</figcaption>
+            </figure>
+        {% endfor %}
         
        
     </main>
@@ -59,5 +92,6 @@
         <p class="text">&copy; <img src="static/photo/dauphin.png" > 2024 Philorama. Tous droits réservés.</p>
     </footer>
 
+<script src="{{ url_for('static', filename='js/optionoeuvre.js') }}"></script>
 </body>
 </html>

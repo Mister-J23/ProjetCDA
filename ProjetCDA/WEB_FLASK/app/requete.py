@@ -80,12 +80,24 @@ class Media:
         return resultat[0] if resultat else None
     
     def obtenir_lien_bio(self, id):
-        # Récupère le lien du fichier pdf depuis la base de données
-        resultat = self.session_db.execute(
-            text("SELECT link_text FROM bios WHERE id_author = :id"),
-            {'id': id}
-        ).fetchone()
-        return resultat[0] if resultat else None
+        try:
+            # Récupère le lien de l'audio depuis la base de données
+            resultat = self.session_db.execute(
+                text("SELECT id_bio, link_text FROM bios WHERE id_author = :id"),
+                {'id': id}
+            ).fetchone()
+
+            # Si aucun résultat, renvoie un dictionnaire avec une erreur
+            if not resultat:
+                return {"error": "Biographie non trouvée"}  # Retourner un message d'erreur sous forme de dictionnaire
+
+            # Retourne l'ID et le lien bio sous forme de dictionnaire
+            return {'id_bio': resultat[0], 'link_text': resultat[1]}
+        
+        except SQLAlchemyError as e:
+            print(f"❌ Erreur SQL : {str(e)}")
+            return {"error": f"Erreur lors de la récupération de la biographie : {str(e)}"}  # Retourne une erreur
+
     
     def obtenir_lien_photoOeuvre(self, id):
         # Récupère le lien du fichier pdf depuis la base de données
@@ -101,7 +113,7 @@ class Media:
             resultat = db.session.execute(text("SELECT * FROM authors")).fetchall()
             return resultat  # Retourne la liste des personnages
         except SQLAlchemyError as e:
-            return f"Erreur lors de la récupération des items : {str(e)}"
+            return f"❌ Erreurlors de la récupération des items : {str(e)}"
 
                 
 
@@ -143,11 +155,24 @@ class Allimentation:
         except SQLAlchemyError as e:
             print(f"❌ Erreur SQL : {str(e)}")
             return None
-    def inserer_commentaire(self, date_comment, comment, id_user, id_audio):
+    def inserer_commentaire_audio(self, date_comment, comment, id_user, id_audio):
         try:
             resultat = db.session.execute(
                     text("INSERT INTO comments (date_comment, comment, id_user, id_audio) VALUES (:V1, :V2, :V3, :V4)"),
                     {'V1': date_comment, 'V2': comment, 'V3': id_user, 'V4':id_audio}
+                )
+            print("Insertion réussie !")
+            return resultat.rowcount # Retourne True
+        except SQLAlchemyError as e:
+            print("!!!!!!!!!Echec!!!!!!!!!!! !")
+            print(f"❌ Erreur SQL : {str(e)}")
+            return None
+        
+    def inserer_commentaire_bio(self, date_comment, comment, id_user, id_bio):
+        try:
+            resultat = db.session.execute(
+                    text("INSERT INTO comments (date_comment, comment, id_user, id_bio) VALUES (:V1, :V2, :V3, :V4)"),
+                    {'V1': date_comment, 'V2': comment, 'V3': id_user, 'V4':id_bio}
                 )
             print("Insertion réussie !")
             return resultat.rowcount # Retourne True
@@ -194,21 +219,62 @@ class Acquisition:
             resultat = db.session.execute(text("SELECT id_lead,lead_name FROM _lead")).fetchall()
             return resultat #Renvoyer la liste des noms de courant philosophique
         except SQLAlchemyError as e:
-            return f"Erreur lors de la récupération des courants: {str(e)}"
+            return f"❌ Erreurlors de la récupération des courants: {str(e)}"
         
     def select_utilisateurs(self):
         try:
             resultat = db.session.execute(text("SELECT name, password, _group FROM users")).fetchall()
             return resultat #Renvoyer la liste des noms de courant philosophique
         except SQLAlchemyError as e:
-            return f"Erreur lors de la récupération des utilisateurs : {str(e)}"
+            return f"❌ Erreurlors de la récupération des utilisateurs : {str(e)}"
+    def select_nomutilisateurs(self, id):
+        try:
+            resultat = db.session.execute(
+                text("SELECT name FROM users WHERE id_user = :id"),
+                {'id': id}
+            ).fetchone()
+            
+            # Si aucun utilisateur n'est trouvé, on retourne None
+            if not resultat:
+                return []
+            
+            # On retourne le nom sous forme de chaîne (en supposant que le résultat est une ligne de type Row)
+            return resultat[0]  # Nous extrayons juste le nom de l'utilisateur (la première colonne)
+        
+        except SQLAlchemyError as e:
+            return f"❌ Erreur lors de la récupération de l'utilisateur : {str(e)}"
+
         
     def select_groupe(self):
         try:
             resultat = db.session.execute(text("SELECT DISTINCT _group FROM users")).fetchall()
             return resultat #Renvoyer la liste des noms de courant philosophique
         except SQLAlchemyError as e:
-            return f"Erreur lors de la récupération des utilisateurs : {str(e)}"
+            return f"❌ Erreurlors de la récupération des groupes : {str(e)}"
+        
+    def select_commentaire(self, id):
+        try:
+            resultat = db.session.execute(
+                text("SELECT comment, date_comment, id_user FROM comments WHERE id_bio = :id"),
+                {'id': id}
+            ).fetchall()
+            
+            # Vérifie si aucun commentaire n'a été trouvé
+            if not resultat:
+                return []  # Retourne une liste vide si aucun commentaire n'est trouvé
+            
+            # Convertit le résultat en une liste de dictionnaires
+            commentaires = [
+                {"comment": row[0], "date_comment": row[1], "id_user": row[2]}
+                for row in resultat
+            ]
+            print("👍 Liste des commentaires récupéré")
+
+            return commentaires
+        except SQLAlchemyError as e:
+            return f"❌ Erreur lors de la récupération des commentaires : {str(e)}"
+
+
         
 acquis = Acquisition(db.session)
 
@@ -224,4 +290,4 @@ class Modification:
             )
             return resultat.lastrowid  # Retourne True
         except SQLAlchemyError as e:
-            return f"Erreur lors de l'insertion : {str(e)}"
+            return f"❌ Erreurlors de l'insertion : {str(e)}"

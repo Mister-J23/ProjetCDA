@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort, redirect, url_for, request, session, flash
+from flask import Flask, render_template, abort, redirect, url_for, request, session, flash, jsonify
 from sqlalchemy import text
 from app import app, db
 from app.requete import login_required, login_required_Admin, media, user, insert, acquis
@@ -124,8 +124,10 @@ def Erreur(nb):
 @app.route('/bio/<int:id>')
 @login_required
 def get_bio(id):
-    lien = media.obtenir_lien_bio(id)
-    if lien:
+    test = media.obtenir_lien_bio(id)
+    if test:
+        lien = test['link_text']  # Le lien du fichier audio
+
         return redirect(lien)  # Redirection vers le lien du fichier audio
     return "Biographie introuvable", 404
 
@@ -250,10 +252,49 @@ def charger_courant():
             return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout du courant")
         
 
-#Chargement du commentaire
-@app.route('/charger_commentaire/<int:id>', methods=['POST','GET'])
+#Envoyer commentaires à la page
+@app.route('/envoyer_commentaires/<int:id>')
+def envoyer_commentaires(id):
+    # Récupération de l'id_bio depuis la table des biographies
+    test = media.obtenir_lien_bio(id)
+    
+    # Vérifie si l'erreur est présente dans la réponse
+    if "error" in test:
+        return jsonify(test), 404  # Envoie l'erreur au client avec le code HTTP 404
+    
+    
+    idbio = test['id_bio']  # 
+
+    # Récupération des commentaires associés
+    commentaires = acquis.select_commentaire(idbio)
+
+    if isinstance(commentaires, str):  # Vérifie si une erreur SQL est retournée
+        return jsonify({"error": commentaires}), 500  
+
+    if not commentaires:
+        return jsonify({"commentaires": []})  # Retourne une liste vide si aucun commentaire trouvé
+
+    # Récupérer les noms d'utilisateur pour chaque id_user
+    utilisateurs = {c["id_user"]: acquis.select_nomutilisateurs(c["id_user"]) for c in commentaires}
+
+    # Ajoute les noms d'utilisateur dans la réponse JSON
+    commentaires_json = [
+        {
+            "comment": c["comment"],
+            "date_comment": c["date_comment"],
+            "id_user": utilisateurs.get(c["id_user"], "Inconnu")  # Ajoute "Inconnu" si le nom d'utilisateur n'est pas trouvé
+        }
+        for c in commentaires
+    ]
+
+    print("👍 Affichage réussi")
+
+    return jsonify({"commentaires": commentaires_json})
+
+#Chargement du commentaire audio
+@app.route('/charger_commentaire_audio/<int:id>', methods=['POST','GET'])
 @login_required
-def charger_commentaire(id):
+def charger_commentaire_audio(id):
     if request.method == 'POST':
         # Récupérer les données du formulaire
         comm = request.form['commentaire']
@@ -273,7 +314,7 @@ def charger_commentaire(id):
             idaudio= test1['id_audio']
 
             #Insérer le commentaire
-            test = insert.inserer_commentaire(tempo, comm, iduser, idaudio)
+            test = insert.inserer_commentaire_audio(tempo, comm, iduser, idaudio)
 
 
             
@@ -288,6 +329,46 @@ def charger_commentaire(id):
         else:
             print("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ERREUR§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§")
             return redirect(url_for('personnages'))
+        
+
+#Chargement du commentaire bio
+@app.route('/charger_commentaire_bio/<int:id>', methods=['POST','GET'])
+@login_required
+def charger_commentaire_bio(id):
+    if request.method == 'POST':
+        # Récupérer les données du formulaire
+        comm = request.form['commentaire']
+        
+        # Récupérer l'heure actuelle
+        tempo = datetime.now()
+
+        #récupérer l'ID User
+        iduser= session.get('id')
+
+        #Récupérer l'ID audio pour l'id_auteur correspondant
+        test1 = media.obtenir_lien_bio(id) 
+        print(f"ID AUTEUR:{id}")
+        
+        if test1:
+
+            idbio= test1['id_bio']
+
+            #Insérer le commentaire
+            test = insert.inserer_commentaire_bio(tempo, comm, iduser, idbio)
+
+
+            
+
+            if test and test > 0:
+                db.session.commit()  # Valider l'insertion dans la base
+                print("commentaire ajouté avec succes 👍")
+                return redirect(url_for('Oeuvres'))
+            else:
+                db.session.rollback()  # Valider l'insertion dans la base
+                return redirect(url_for('Oeuvres'))
+        else:
+            print("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ERREUR§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§")
+            return redirect(url_for('Oeuvres'))
 
 
 #Chargement du courant

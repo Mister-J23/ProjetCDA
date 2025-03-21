@@ -45,7 +45,7 @@
         
 
         {% for item in items %}
-            <figure>
+            <figure class="figure-personnage">
                 
 
                 <div class="dropdown">
@@ -68,7 +68,7 @@
                 </div>
                 <!-- Fenêtre modale pour le commentaire (cachée par défaut) -->
                 <div id="fenetre-commentaire-{{ item.id_author }}" class="fenetre-modale">
-                    <form action="{{ url_for('charger_commentaire', id=item.id_author) }}" method="POST" enctype="multipart/form-data" class="contenu-modale">
+                    <form action="{{ url_for('charger_commentaire_audio', id=item.id_author) }}" method="POST" enctype="multipart/form-data" class="contenu-modale">
                         <span class="fermer">&times;</span> <!-- Bouton "X" pour fermer la fenêtre -->
                         <h2 class="black" >Ajouter un commentaire pour l'auteur {{ item.id_author }} </h2> <!-- Titre -->
                         <textarea name="commentaire" class="black" id="texte-commentaire" placeholder="Écrivez votre commentaire ici..."></textarea>

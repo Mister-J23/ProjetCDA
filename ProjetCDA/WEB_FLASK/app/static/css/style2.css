@@ -120,8 +120,13 @@ figure {
     width: auto;
     height: auto;
     border-radius: 20%;
-    background: linear-gradient(360deg, rgba(166, 125, 42, 0.8), rgba(255, 255, 255, 0.5)); /* Dégradé */
 }
+
+.figure-personnage{
+    background: linear-gradient(360deg, rgba(166, 125, 42, 0.8), rgba(255, 255, 255, 0.5)); /* Dégradé */
+
+}
+
 figure .text{
     display: flex;
     justify-content: center; /* Centre les éléments horizontalement */
@@ -135,7 +140,7 @@ figure .text{
 
 .container {
     padding-top: 0;
-    margin-top: 200px;
+    margin-top: 150px;
     display: flex;
     align-items: center;
     justify-content: space-around; /* Pour espacer les éléments */

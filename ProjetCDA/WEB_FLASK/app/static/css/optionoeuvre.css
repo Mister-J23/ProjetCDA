@@ -1,0 +1,136 @@
+/* Style de base pour chaque menu déroulant */
+.dropdown {
+    position: absolute; /* Positionnement absolu par rapport au parent */
+    bottom: 80%; /* Décale le menu à 10px du bas */
+    left: 5px; /* Décale le menu à 10px de la gauche */
+    display: flex; /* Utilisation de flex pour centrer l'élément à l'intérieur du conteneur si nécessaire */
+    justify-content: center; /* Centre le contenu horizontalement */
+    align-items: center; /* Centre le contenu verticalement */
+}
+
+/* Masque le menu par défaut */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: -200%;
+    left: 150%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    min-width: 160px;
+}
+
+/* Style pour chaque élément du menu */
+.dropdown-menu li {
+    padding: 8px 16px;
+}
+
+.dropdown-menu li a {
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+
+/* Affiche le menu déroulant lorsqu'on coche le checkbox */
+.menu-toggleoeuvre:checked ~ .dropdown-menu {
+    display: block;
+}
+
+/* Cacher les checkboxes */
+.menu-toggleoeuvre {
+    display: none;
+}
+
+
+
+/* ------------------------------------------------------------ Fenêtre modale pour écrire un commentaire ----------------------------------------------------- */
+/* La fenêtre modale est cachée par défaut */
+.fenetre-modale {
+    display: none; /* Cachée au chargement de la page */
+    position: fixed; /* Reste en place même en scrollant */
+    z-index: 1000; /* Au-dessus des autres éléments */
+    left: 0;
+    top: 0;
+    width: 100%; /* Prend toute la largeur de l'écran */
+    height: 100%; /* Prend toute la hauteur */
+    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent pour l'effet pop-up */
+    justify-content: center; /* Centre le contenu horizontalement */
+    align-items: center; /* Centre verticalement */
+}
+
+/* Contenu de la fenêtre modale */
+.contenu-modale {
+    background-color: white; /* Fond blanc */
+    padding: 20px;
+    width: 50%; /* Taille relative à l'écran */
+    max-width: 400px; /* Ne dépasse pas 400px */
+    height: 60%;
+    border-radius: 8px; /* Coins arrondis */
+    text-align: center;
+    align-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre pour un effet pop-up */
+}
+
+/* Bouton de fermeture "X" */
+.fermer {
+    float: right;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* Zone de texte */
+textarea {
+    width: 100%; /* Prend toute la largeur du conteneur */
+    height: 10%; /* Hauteur fixe */
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc; /* Bordure grise */
+    border-radius: 5px;
+    resize: none; /* Empêche l'utilisateur de redimensionner */
+    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur totale */
+}
+
+
+/* Bouton d'envoi */
+.comment {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #007bff; /* Bleu */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Effet au survol */
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Classe qui sera ajoutée par JavaScript pour afficher la fenêtre */
+.fenetre-active {
+    display: flex !important; /* Affiche la fenêtre uniquement si cette classe est ajoutée */
+}
+
+/* Afficher les commentau=ires*/
+.commentaires-liste {
+    margin-top: 10px;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    height: 50%;
+    overflow-y: auto;
+    color: black;
+}
+
+.commentaire-item {
+    background: #f5f5f5;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    color: black;
+    overflow-y: auto;
+
+    
+}

@@ -1,3 +1,4 @@
+//------------------------------------------------------------------------------------------PAGE PERSONNAGES-----------------------------------------------------------------
 // Ajoute un écouteur d'événements pour détecter les clics sur toute la page
 document.addEventListener('click', function(event) {
     // Vérifie si l'élément cliqué est à l'intérieur d'un menu déroulant ou d'un bouton checkbox du menu
