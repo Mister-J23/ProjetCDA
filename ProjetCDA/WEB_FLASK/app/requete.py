@@ -57,19 +57,25 @@ class Media:
     def __init__(self, session_db):
         self.session_db = session_db  # Ici on stocke la session DB dans l'attribut self.session_db
 
-    def obtenir_lien_audio(self, id):
-        
+    def obtenir_lien_audio(self, id):   
         try:
             # Récupère le lien de l'audio depuis la base de données
             resultat = self.session_db.execute(
                 text("SELECT id_audio, speech_link FROM audios WHERE id_author = :id"),
                 {'id': id}
             ).fetchone()
-            # Retourne l'ID et le lien audio sous forme de dictionnaire ou tuple
-            return {'id_audio': resultat[0], 'speech_link': resultat[1]}  # Retourne un dictionnaire avec l'ID et le lien
+
+            # Si aucun résultat, renvoie un dictionnaire avec une erreur
+            if not resultat:
+                return {"error": "Biographie non trouvée"}  # Retourner un message d'erreur sous forme de dictionnaire
+
+            # Retourne l'ID et le lien bio sous forme de dictionnaire
+            return {'id_audio': resultat[0], 'speech_link': resultat[1]}
+        
         except SQLAlchemyError as e:
             print(f"❌ Erreur SQL : {str(e)}")
-            return None
+            return {"error": f"Erreur lors de la récupération de l'audio : {str(e)}"}  # Retourne une erreur
+
 
     def obtenir_lien_photo(self, id):
         # Récupère le lien de la photo depuis la base de données
@@ -252,10 +258,10 @@ class Acquisition:
         except SQLAlchemyError as e:
             return f"❌ Erreurlors de la récupération des groupes : {str(e)}"
         
-    def select_commentaire(self, id):
+    def select_commentaire_bio(self, id):
         try:
             resultat = db.session.execute(
-                text("SELECT comment, date_comment, id_user FROM comments WHERE id_bio = :id"),
+                text("SELECT id_comment, comment, date_comment, id_user FROM comments WHERE id_bio = :id"),
                 {'id': id}
             ).fetchall()
             
@@ -265,7 +271,29 @@ class Acquisition:
             
             # Convertit le résultat en une liste de dictionnaires
             commentaires = [
-                {"comment": row[0], "date_comment": row[1], "id_user": row[2]}
+                {"id_comment": row[0], "comment": row[1], "date_comment": row[2], "id_user": row[3]}
+                for row in resultat
+            ]
+            print("👍 Liste des commentaires récupéré")
+
+            return commentaires
+        except SQLAlchemyError as e:
+            return f"❌ Erreur lors de la récupération des commentaires : {str(e)}"
+        
+    def select_commentaire_audio(self, id):
+        try:
+            resultat = db.session.execute(
+                text("SELECT id_comment, comment, date_comment, id_user FROM comments WHERE id_audio = :id"),
+                {'id': id}
+            ).fetchall()
+            
+            # Vérifie si aucun commentaire n'a été trouvé
+            if not resultat:
+                return []  # Retourne une liste vide si aucun commentaire n'est trouvé
+            
+            # Convertit le résultat en une liste de dictionnaires
+            commentaires = [
+                {"id_comment": row[0], "comment": row[1], "date_comment": row[2], "id_user": row[3]}
                 for row in resultat
             ]
             print("👍 Liste des commentaires récupéré")
@@ -291,3 +319,35 @@ class Modification:
             return resultat.lastrowid  # Retourne True
         except SQLAlchemyError as e:
             return f"❌ Erreurlors de l'insertion : {str(e)}"
+        
+class Suppression:
+    def __init__(self, session_db):
+        self.session_db = session_db  # Ici on stocke la session DB dans l'attribut self.session_db
+    
+    def supprimer_commentaire(self, id_comment, id_user): #la méthode qui permet de supprimer un commentaire
+        try:
+            result=db.session.execute(
+                    text("""
+                        DELETE FROM comments 
+                        WHERE id_comment = :id_comment 
+                        AND (
+                            (SELECT _group FROM users WHERE id_user = :id_user) = 'Admin'
+                            OR id_user = :id_user
+                        )
+                    """),
+                    {"id_comment": id_comment, "id_user": id_user}
+                )
+            db.session.commit()
+            if result.rowcount > 0:  # Vérifie si au moins une ligne a été supprimée
+                
+                print("👍 Suppresion effectuée")
+                return "✅ Commentaire supprimé avec succès"
+            else:
+                return "❌ Aucun commentaire supprimé (ID incorrect ou droits insuffisants)"
+        
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            return f"❌ Erreur lors de la suppression du commentaire : {str(e)}"
+        
+supp = Suppression(db.session)
+

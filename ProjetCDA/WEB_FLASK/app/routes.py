@@ -1,7 +1,7 @@
 from flask import Flask, render_template, abort, redirect, url_for, request, session, flash, jsonify
 from sqlalchemy import text
 from app import app, db
-from app.requete import login_required, login_required_Admin, media, user, insert, acquis
+from app.requete import login_required, login_required_Admin, media, user, insert, acquis, supp
 from datetime import datetime
 from werkzeug.security import generate_password_hash
 
@@ -253,8 +253,8 @@ def charger_courant():
         
 
 #Envoyer commentaires à la page
-@app.route('/envoyer_commentaires/<int:id>')
-def envoyer_commentaires(id):
+@app.route('/envoyer_commentaires_bio/<int:id>')
+def envoyer_commentaires_bio(id):
     # Récupération de l'id_bio depuis la table des biographies
     test = media.obtenir_lien_bio(id)
     
@@ -266,7 +266,7 @@ def envoyer_commentaires(id):
     idbio = test['id_bio']  # 
 
     # Récupération des commentaires associés
-    commentaires = acquis.select_commentaire(idbio)
+    commentaires = acquis.select_commentaire_bio(idbio)
 
     if isinstance(commentaires, str):  # Vérifie si une erreur SQL est retournée
         return jsonify({"error": commentaires}), 500  
@@ -280,6 +280,7 @@ def envoyer_commentaires(id):
     # Ajoute les noms d'utilisateur dans la réponse JSON
     commentaires_json = [
         {
+            "id_comment": c["id_comment"],
             "comment": c["comment"],
             "date_comment": c["date_comment"],
             "id_user": utilisateurs.get(c["id_user"], "Inconnu")  # Ajoute "Inconnu" si le nom d'utilisateur n'est pas trouvé
@@ -290,6 +291,47 @@ def envoyer_commentaires(id):
     print("👍 Affichage réussi")
 
     return jsonify({"commentaires": commentaires_json})
+
+@app.route('/envoyer_commentaires_audio/<int:id>')
+def envoyer_commentaires_audio(id):
+    # Récupération de l'id_bio depuis la table des biographies
+    test = media.obtenir_lien_audio(id)
+    
+    # Vérifie si l'erreur est présente dans la réponse
+    if "error" in test:
+        return jsonify(test), 404  # Envoie l'erreur au client avec le code HTTP 404
+    
+    
+    idaudio = test['id_audio']  # 
+
+    # Récupération des commentaires associés
+    commentaires = acquis.select_commentaire_audio(idaudio)
+
+    if isinstance(commentaires, str):  # Vérifie si une erreur SQL est retournée
+        return jsonify({"error": commentaires}), 500  
+
+    if not commentaires:
+        return jsonify({"commentaires": []})  # Retourne une liste vide si aucun commentaire trouvé
+
+    # Récupérer les noms d'utilisateur pour chaque id_user
+    utilisateurs = {c["id_user"]: acquis.select_nomutilisateurs(c["id_user"]) for c in commentaires}
+
+    # Ajoute les noms d'utilisateur dans la réponse JSON
+    commentaires_json = [
+        {
+            "id_comment": c["id_comment"],
+            "comment": c["comment"],
+            "date_comment": c["date_comment"],
+            "id_user": utilisateurs.get(c["id_user"], "Inconnu")  # Ajoute "Inconnu" si le nom d'utilisateur n'est pas trouvé
+        }
+        for c in commentaires
+    ]
+
+    print("👍 Affichage réussi")
+
+    return jsonify({"commentaires": commentaires_json})
+
+#--------------------------------------------------------------------ECRITURE DANS LA TABLE ------------------------------------------------------------
 
 #Chargement du commentaire audio
 @app.route('/charger_commentaire_audio/<int:id>', methods=['POST','GET'])
@@ -396,7 +438,15 @@ def charger_utilisateur():
 
        
     
-    
+#--------------------------------------------------------------------------------------SUPPRESSIONS------------------------------------------------
+@app.route('/supprimer_commentaire/<int:id_comment>/<int:id_user>', methods=['DELETE'])
+@login_required
+def supprimer_commentaire(id_comment, id_user):
+
+    message = supp.supprimer_commentaire(id_comment, id_user)
+    return jsonify({"message": message})
+
+
 
 
 @app.route('/Contact') # decorators

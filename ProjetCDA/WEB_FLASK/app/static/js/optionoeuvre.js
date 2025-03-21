@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             // Envoie une requête AJAX pour charger les commentaires
-            fetch(`/envoyer_commentaires/${authorId}`)
+            fetch(`/envoyer_commentaires_bio/${authorId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
@@ -60,7 +60,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Ajoute les nouveaux commentaires reçus
                     data.commentaires.forEach(commentaire => {
-                        let commentHTML = `<div class="commentaire-item">${commentaire.comment} | ${commentaire.date_comment} | ${commentaire.id_user}</div>`;
+                        let commentHTML = `
+                            <div class="commentaire-item">
+                                <span class="commentaire-text">${commentaire.comment}</span>
+                                <span class="commentaire-date">${commentaire.date_comment}</span>
+                                <span class="commentaire-user">${commentaire.id_user}</span>
+                            </div>`;
                         commentContainer.innerHTML += commentHTML;
                     });
                 })

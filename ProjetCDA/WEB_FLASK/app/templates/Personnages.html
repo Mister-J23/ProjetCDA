@@ -21,6 +21,8 @@
         <div class="entête">
             <h1>Personnages</h1>
             <div class="user-info">
+
+                <p>ID: {{ id }}</p>
                 <p>Nom: {{ username }}</p> 
                 <p>Groupe: {{ groupe }}</p>
             </div>
@@ -69,8 +71,8 @@
                 <!-- Fenêtre modale pour le commentaire (cachée par défaut) -->
                 <div id="fenetre-commentaire-{{ item.id_author }}" class="fenetre-modale">
                     <form action="{{ url_for('charger_commentaire_audio', id=item.id_author) }}" method="POST" enctype="multipart/form-data" class="contenu-modale">
-                        <span class="fermer">&times;</span> <!-- Bouton "X" pour fermer la fenêtre -->
-                        <h2 class="black" >Ajouter un commentaire pour l'auteur {{ item.id_author }} </h2> <!-- Titre -->
+                        <h3 class="black" >Ajouter un commentaire pour l'auteur {{ item.id_author }} </h3> <!-- Titre -->
+                        <div class="commentaires-liste"></div>
                         <textarea name="commentaire" class="black" id="texte-commentaire" placeholder="Écrivez votre commentaire ici..."></textarea>
                         <button class="comment" type="submit" id="envoyer-commentaire">Envoyer</button> <!-- Bouton d'envoi -->
                     </form>
@@ -95,7 +97,13 @@
     <footer >
         <p>&copy; <img src="static/photo/dauphin.png"> 2024 Philorama. Tous droits réservés.</p>
     </footer>
-    
+
+<script type="text/javascript">
+    // Vérifie si currentUserId est correctement défini
+    console.log("Current User ID:", {{ id|tojson }});
+
+    const currentUserId = {{ id|tojson }};
+</script>
 <script src="{{ url_for('static', filename='js/bandes.js') }}"></script>
 
 </body>

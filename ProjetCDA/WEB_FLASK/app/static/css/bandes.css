@@ -64,8 +64,10 @@
     padding: 20px;
     width: 50%; /* Taille relative à l'écran */
     max-width: 400px; /* Ne dépasse pas 400px */
+    height: 60%;
     border-radius: 8px; /* Coins arrondis */
     text-align: center;
+    align-content: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre pour un effet pop-up */
 }
 
@@ -79,13 +81,15 @@
 /* Zone de texte */
 textarea {
     width: 100%; /* Prend toute la largeur du conteneur */
-    height: 100px; /* Hauteur fixe */
+    height: 10%; /* Hauteur fixe */
     margin-top: 10px;
     padding: 10px;
     border: 1px solid #ccc; /* Bordure grise */
     border-radius: 5px;
     resize: none; /* Empêche l'utilisateur de redimensionner */
+    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur totale */
 }
+
 
 /* Bouton d'envoi */
 .comment {
@@ -106,4 +110,52 @@ button:hover {
 /* Classe qui sera ajoutée par JavaScript pour afficher la fenêtre */
 .fenetre-active {
     display: flex !important; /* Affiche la fenêtre uniquement si cette classe est ajoutée */
+}
+
+/* Afficher les commentau=ires*/
+.commentaires-liste {
+    margin-top: 10px;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    height: 50%;
+    overflow-y: auto;
+    color: black;
+}
+
+.commentaire-item {
+    display: flex;
+    justify-content: space-between; /* Espacement entre les colonnes */
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* Style des colonnes */
+.commentaire-text {
+    flex: 2; /* Plus d'espace pour le commentaire */
+    overflow-wrap: break-word; /* Permet de couper le texte s'il est trop long */
+    color: gray;
+}
+
+.commentaire-date {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+    color: gray;
+}
+
+.commentaire-user {
+    flex: 1;
+    text-align: right;
+    font-weight: bold;
+    color: gray;
+}
+
+.delete-comment{
+    width: 2vw; /* 30% de la largeur de la fenêtre */
+    height: 2vw; /* 50% de la hauteur de la fenêtre */
+    cursor: pointer;  /* Assure-toi que le curseur change pour montrer que c'est cliquable */
+    pointer-events: auto;  /* Assure-toi que les événements de souris sont activés */
+
 }

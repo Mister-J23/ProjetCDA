@@ -1,4 +1,5 @@
 //------------------------------------------------------------------------------------------PAGE PERSONNAGES-----------------------------------------------------------------
+
 // Ajoute un écouteur d'événements pour détecter les clics sur toute la page
 document.addEventListener('click', function(event) {
     // Vérifie si l'élément cliqué est à l'intérieur d'un menu déroulant ou d'un bouton checkbox du menu
@@ -16,46 +17,120 @@ document.addEventListener('click', function(event) {
     }
 });
 
+//------------------------------------------------------------BOUTON OUVERTURE FENETRE COMMENTAIRE-------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
-    // Sélectionne tous les boutons qui ouvrent une fenêtre de commentaire
-    let boutonsOuvrir = document.querySelectorAll(".ouvrir-fenetre-commentaire"); 
+    let boutonsOuvrir = document.querySelectorAll(".ouvrir-fenetre-commentaire");
 
-    // Ajoute un écouteur d'événements sur chaque bouton "Commenter"
     boutonsOuvrir.forEach(bouton => {
         bouton.addEventListener("click", function (event) {
-            event.preventDefault(); // Empêche le comportement par défaut du lien
+            event.preventDefault(); // Empêche le rechargement de la page
             
-            // Récupère l'ID de l'auteur (passé dans l'attribut data-id)
-            let authorId = bouton.getAttribute('data-id'); 
+            let authorId = bouton.getAttribute("data-id"); // Récupère l'ID de l'auteur
+            let fenetre = document.getElementById("fenetre-commentaire-" + authorId); // Sélectionne la fenêtre modale
 
-            // Sélectionne la fenêtre modale spécifique à cet auteur
-            let fenetre = document.getElementById("fenetre-commentaire-" + authorId); 
+            // Vérifie si la fenêtre existe
+            if (!fenetre) {
+                console.error("Fenêtre modale introuvable pour l'auteur ID:", authorId);
+                return;
+            }
 
-            // Affiche la fenêtre modale en ajoutant la classe "fenetre-active"
-            fenetre.classList.add("fenetre-active"); 
+            // Affiche la fenêtre modale
+            fenetre.classList.add("fenetre-active");
+
+            // Sélectionne le conteneur où les commentaires seront affichés
+            let commentContainer = fenetre.querySelector(".commentaires-liste");
+
+            // Vérifie si le conteneur existe
+            if (!commentContainer) {
+                console.error("Conteneur des commentaires introuvable !");
+                return;
+            }
+
+            // Envoie une requête AJAX pour charger les commentaires
+            fetch(`/envoyer_commentaires_audio/${authorId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error("Erreur :", data.error);
+                        return;
+                    }
+
+                    console.log("Commentaires reçus :", data.commentaires); // Affiche les commentaires reçus
+
+                    // Efface les anciens commentaires
+                    commentContainer.innerHTML = "";
+                    
+                    // Ajoute les nouveaux commentaires reçus
+                    data.commentaires.forEach(commentaire => {
+                        let commentHTML = `
+                            <div class="commentaire-item" data-id="${commentaire.id_comment}" >
+                                <span class="commentaire-text">${commentaire.comment}</span>
+                                <span class="commentaire-date">${commentaire.date_comment}</span>
+                                <span class="commentaire-user">${commentaire.id_user}</span>
+                                <img class="delete-comment" src="/static/croix.png" alt="Supprimer" title="Supprimer">
+                            </div>`;
+                        commentContainer.innerHTML += commentHTML;
+                    });
+                })
+                .catch(error => console.error("Erreur lors du chargement des commentaires :", error));
         });
     });
 
-    // Ajoute un écouteur sur les boutons de fermeture (en utilisant une classe)
+    // Délégation d'événements pour les boutons de suppression
+    document.querySelector(".commentaires-liste").addEventListener('click', function (event) {
+        // Vérifie si l'élément cliqué est un bouton de suppression
+        if (event.target && event.target.classList.contains('delete-comment')) {
+            let commentElement = event.target.parentElement;
+            let commentId = commentElement.getAttribute('data-id');
+            let userId = currentUserId;  // Utiliser l'ID de l'utilisateur connecté
+
+            // Construire le corps de la requête avec id_user
+            let requestBody = JSON.stringify({ id_user: currentUserId });
+
+            console.log(`Requête DELETE envoyée avec l'ID du commentaire: ${commentId} et l'ID utilisateur: ${userId}`);
+
+            // Envoyer la requête DELETE
+            fetch(`/supprimer_commentaire/${commentId}/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: requestBody
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message.includes("✅")) {
+                    commentElement.remove();  // Supprime le commentaire du DOM si la suppression réussit
+                } else {
+                    alert("Erreur : " + data.message);
+                }
+            })
+            .catch(error => console.error("Erreur lors de la suppression :", error));
+        }
+    });
+
+
+
+
+
+    // Fermer la fenêtre modale
     document.querySelectorAll(".fermer").forEach(boutonFermer => {
         boutonFermer.addEventListener("click", function () {
-            // Trouve la fenêtre modale parente et enlève la classe "fenetre-active"
             let fenetre = boutonFermer.closest(".fenetre-modale");
             fenetre.classList.remove("fenetre-active");
         });
     });
 
-    // Ajoute un écouteur sur la fenêtre entière pour détecter les clics en dehors de la boîte de dialogue
+    // Fermer en cliquant à l'extérieur
     window.addEventListener("click", function (event) {
-        // Si l'utilisateur clique sur l'arrière-plan sombre de la fenêtre modale
         document.querySelectorAll(".fenetre-modale").forEach(fenetre => {
             if (event.target === fenetre) {
-                // Ferme la fenêtre modale en retirant la classe "fenetre-active"
                 fenetre.classList.remove("fenetre-active");
             }
         });
     });
 });
+
 
 //-------------------------------------AJOUT UTILISATEUR------------------------
 document.addEventListener("DOMContentLoaded", function () {
