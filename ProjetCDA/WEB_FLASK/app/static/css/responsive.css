@@ -1,0 +1,114 @@
+
+@media screen and (max-width: 780px) { /*Mediaquary*/
+    
+    body h1 {
+        font-size: 32px;  /* Appliquer une taille plus petite pour mobile */
+        text-align: center; /* Centrer le texte si besoin */
+    }
+        /* Fixe le header en haut */
+    header {
+        position: fixed; /* Fixe le header par rapport à la fenêtre, il restera visible même en scrollant */
+        top: 0; /* Positionne le header en haut de la page */
+        left: 0; /* Positionne le header tout à gauche de la page */
+        width: 100%; /* Le header prend toute la largeur de la page */
+        z-index: 1000; /* Définit l'ordre de superposition du header par rapport aux autres éléments. Plus le nombre est élevé, plus l'élément sera au-dessus des autres */
+
+    }
+
+    .entête{
+        display: flex;
+        
+        flex-direction: row; /* Aligne les éléments horizontalement */
+        justify-content: center;
+        align-items: center;
+        
+      
+    
+        border-bottom-right-radius:20%;
+        border-bottom-left-radius:20%;
+        background: linear-gradient(360deg, rgba(24, 48, 94, 0.8), rgba(255, 255, 255, 0.5)); /* Dégradé */
+    
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre douce */
+    }
+
+    nav li {
+        margin: 2px;  /* Supprime les marges autour des éléments de la liste */
+        padding: 0;  /* Supprime l'espace intérieur des éléments de la liste */
+    }
+
+    .container {
+        margin-top: 155px;
+        margin-bottom: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around; /* Pour espacer les éléments */
+        flex-wrap: wrap; /* Permet d'adapter l'affichage sur les petits écrans */
+    }
+   
+    .user-info {
+        margin-left: auto; /* Pousse le paragraphe vers la droite */
+    
+       margin-right: 10px;
+       margin-bottom: 10px;
+       margin-top: 10px;
+      
+    }
+    .user-info p {
+        padding: 0;
+        margin: 0;
+        text-decoration: underline;
+        font-size: 12px; /* Taille de la police réduite */
+    }
+
+    .text { /* Appliquer à tous les éléments texte */
+        color: white; /* Couleur du texte principale */
+        text-shadow: 
+            -1px -1px 0 black, /* Ombre en haut à gauche */
+             1px -1px 0 black, /* Ombre en haut à droite */
+            -1px  1px 0 black, /* Ombre en bas à gauche */
+             1px  1px 0 black; /* Ombre en bas à droite */
+        font-size: 14px; /* Taille de la police réduite */
+    }
+
+    .icon{
+        width: 16px; /*  */
+        height: 16px; /*  */
+    }
+
+    footer p {
+        position: fixed;
+        bottom: 0;  /* Le place en bas de la page */
+        left: 50%;  /* Le place au centre horizontal de la page */
+        transform: translateX(-50%);  /* Décale le footer de 50% de sa propre largeur pour le centrer */
+        
+        z-index: 1000;  /* Assure que le footer soit au-dessus des autres éléments */
+        text-decoration: underline;
+        font-size: 14px;  /* Taille de la police réduite */
+        width: auto;  /* Largeur automatique */
+        white-space: nowrap;  /* Empêche le retour à la ligne */
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    
+    footer p img{ 
+        width: 0.5vw; /*  */
+        height: 0.2vw;
+        
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: -300%;
+        left: 150%;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background-color: #fff;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        min-width: 160px;
+    }
+    
+}
+
