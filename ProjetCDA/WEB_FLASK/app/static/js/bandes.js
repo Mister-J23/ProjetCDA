@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <span class="commentaire-text">${commentaire.comment}</span>
                                 <span class="commentaire-date">${commentaire.date_comment}</span>
                                 <span class="commentaire-user">${commentaire.id_user}</span>
-                                <img class="delete-comment" src="/static/croix.png" alt="Supprimer" title="Supprimer">
+                                <img class="delete-comment" src="/static/photo/croix.png" alt="Supprimer" title="Supprimer">
                             </div>`;
                         commentContainer.innerHTML += commentHTML;
                     });
