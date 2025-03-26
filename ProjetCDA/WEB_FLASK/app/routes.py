@@ -125,11 +125,13 @@ def Erreur(nb):
 @login_required
 def get_bio(id):
     test = media.obtenir_lien_bio(id)
-    if test:
-        lien = test['link_text']  # Le lien du fichier audio
+    
+    if "error" in test:
+        return jsonify({"error": "Biographie introuvable"}), 404  # Retourne un JSON en cas d'erreur
+    
+    lien = test['link_text']  # Le lien du fichier PDF
+    return jsonify({"link": lien})  # Envoie le lien en JSON
 
-        return redirect(lien)  # Redirection vers le lien du fichier audio
-    return "Biographie introuvable", 404
 
 
 

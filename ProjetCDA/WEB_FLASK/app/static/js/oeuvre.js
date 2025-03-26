@@ -123,3 +123,51 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+//------------------------------------------ECOUTEUR POUR LE CLICK SUR L'IMAGE-------------------------------
+document.addEventListener("DOMContentLoaded", function () { 
+    // Sélectionne toutes les images des auteurs
+    const imagesAuteurs = document.querySelectorAll(".effigie");
+
+    imagesAuteurs.forEach(image => {
+        image.addEventListener("click", function (event) {
+            event.preventDefault();  // Empêche toute action par défaut
+
+            let authorId = this.getAttribute("data-id"); // Récupère l'ID de l'auteur
+            console.log("Clic détecté sur l'image de l'auteur ID :", authorId); // Debugging
+
+            fetch(`/bio/${authorId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        afficherMessageErreur(data.error);
+                    } else {
+                        window.open(data.link, "_blank"); // Ouvre le PDF dans un nouvel onglet
+                    }
+                })
+                .catch(error => console.error("Erreur lors de la récupération du lien :", error));
+        });
+    });
+});
+
+function afficherMessageErreur(message) {
+    let modal = document.createElement("div");
+    modal.classList.add("modal-overlay"); // Ajout d'une classe pour le style
+
+    modal.innerHTML = `
+        <div class="modal-erreur">
+            <p class="black">${message}</p>
+        </div>
+    `;
+
+    // Fermer la modal si on clique en dehors du message
+    modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            modal.remove();
+        }
+    });
+
+    document.body.appendChild(modal);
+}
+
+

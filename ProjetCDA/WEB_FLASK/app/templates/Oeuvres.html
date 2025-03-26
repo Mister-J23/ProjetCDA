@@ -78,9 +78,10 @@
                     
                 </div>
 
-                <a href="{{ url_for('get_bio', id=item.id_author) }}" target="_blank">
-                    <img class="effigie" src="{{ url_for('get_photoOeuvres', id=item.id_author) }}">
-                </a>
+                <img id="image-auteur" class="effigie" 
+                    src="{{ url_for('get_photoOeuvres', id=item.id_author) }}" 
+                    data-id="{{ item.id_author }}" >
+
                 <figcaption class="text" >{{ item.name }}</figcaption>
             </figure>
         {% endfor %}
