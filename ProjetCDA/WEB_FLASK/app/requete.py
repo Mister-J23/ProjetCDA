@@ -229,10 +229,10 @@ class Acquisition:
         
     def select_utilisateurs(self):
         try:
-            resultat = db.session.execute(text("SELECT name, password, _group FROM users")).fetchall()
+            resultat = db.session.execute(text("SELECT id_user, name, password, _group FROM users")).fetchall()
             return resultat #Renvoyer la liste des noms de courant philosophique
         except SQLAlchemyError as e:
-            return f"❌ Erreurlors de la récupération des utilisateurs : {str(e)}"
+            return f"❌ Erreur lors de la récupération des utilisateurs : {str(e)}"
     def select_nomutilisateurs(self, id):
         try:
             resultat = db.session.execute(
@@ -242,7 +242,7 @@ class Acquisition:
             
             # Si aucun utilisateur n'est trouvé, on retourne None
             if not resultat:
-                return []
+                return "Utilisateur suprimé"
             
             # On retourne le nom sous forme de chaîne (en supposant que le résultat est une ligne de type Row)
             return resultat[0]  # Nous extrayons juste le nom de l'utilisateur (la première colonne)
@@ -348,6 +348,27 @@ class Suppression:
         except SQLAlchemyError as e:
             db.session.rollback()
             return f"❌ Erreur lors de la suppression du commentaire : {str(e)}"
+        
+    def supprimer_utilisateur(self, id_user): #la méthode qui permet de supprimer un user
+        try:
+            result=db.session.execute(
+                    text("""
+                        DELETE FROM users 
+                        WHERE id_user = :id_user 
+                    """),
+                    {"id_user": id_user}
+                )
+            db.session.commit()
+            if result.rowcount > 0:  # Vérifie si au moins une ligne a été supprimée
+                
+                print("👍 Suppresion effectuée")
+                return "✅ Utilisateur supprimé avec succès"
+            else:
+                return "❌ Aucun Utilisateur supprimé (ID incorrect ou droits insuffisants)"
+        
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            return f"❌ Erreur lors de la suppression de l'Utilisateur : {str(e)}"
         
 supp = Suppression(db.session)
 

@@ -182,78 +182,6 @@ def delete_item(id):
 
 
 
-
-# Chargement
-@app.route('/charge', methods=['POST','GET'])
-@login_required_Admin
-def charge():
-    print("La méthode charge() a été appelée")
-    if request.method == 'POST':
-        # Récupérer les données du formulaire
-        nom = request.form['nom']
-        naissance = request.form['naissance']
-        mort = request.form['mort']
-        courant_philo = request.form['courant']
-
-        # Récupérer les fichiers uploadés
-        photo = '/static/photo/' + request.form['photo'] + '.jpg'
-        audio = '/static/audio/' + request.form['audio'] + '.mp3'
-        fichier = '/static/fichier/' + request.form['fichier'] + '.pdf'
-
-        # Récupérer l'heure actuelle
-        tempo = datetime.now()
-
-        # Insérer l'auteur et récupérer l'ID retourné
-        id_auteur = insert.inserer_auteur(nom, naissance, mort, photo, courant_philo)
-
-        # Vérifier si l'insertion de l'auteur a réussi
-        if isinstance(id_auteur, int):  # Vérifie que l'ID retourné est bien un entier
-            insertaudio = insert.inserer_audio(audio, tempo, id_auteur) #insérer l'audio
-            if insertaudio and insertaudio > 0: 
-                insertbio = insert.inserer_bio(fichier, tempo, id_auteur) #insérer la biographie
-                if insertbio and insertbio > 0: 
-                    db.session.commit()  # Valider l'insertion dans la base
-                    courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
-                    
-                    return render_template('charger.html',courants=courant, message=f"Auteur {nom}, ID: {id_auteur} ajouté avec succès :-) ")
-                else:
-                    db.session.rollback()  # Annuler la transaction en cas d'erreur
-                    courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
-                    return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout du fichier pdf")
-
-            else:
-                db.session.rollback()  # Annuler la transaction en cas d'erreur
-                courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
-                return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout de l'audio")
-            
-        else:
-            db.session.rollback()  # Annuler la transaction en cas d'erreur
-            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
-            return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout de l'auteur")
-    
-
-#Chargement du courant
-@app.route('/charger_courant', methods=['POST','GET'])
-@login_required_Admin
-def charger_courant():
-    if request.method == 'POST':
-        # Récupérer les données du formulaire
-        nom_courant = request.form['nom_courant']
-        lien_courant = '/static/courants/' +  request.form['lien_courant']+'.pdf'
-        test = insert.inserer_courant(nom_courant, lien_courant)
-        
-
-        if test and test > 0:
-            db.session.commit()  # Valider l'insertion dans la base
-            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
-
-            return render_template('charger.html',courants=courant, message=f"{nom_courant} ajouté avec succès :-) ")
-        else:
-            db.session.rollback()  # Valider l'insertion dans la base
-            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
-            return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout du courant")
-        
-
 #Envoyer commentaires à la page
 @app.route('/envoyer_commentaires_bio/<int:id>')
 def envoyer_commentaires_bio(id):
@@ -334,6 +262,80 @@ def envoyer_commentaires_audio(id):
     return jsonify({"commentaires": commentaires_json})
 
 #--------------------------------------------------------------------ECRITURE DANS LA TABLE ------------------------------------------------------------
+
+
+# Chargement
+@app.route('/charge', methods=['POST','GET'])
+@login_required_Admin
+def charge():
+    print("La méthode charge() a été appelée")
+    if request.method == 'POST':
+        # Récupérer les données du formulaire
+        nom = request.form['nom']
+        naissance = request.form['naissance']
+        mort = request.form['mort']
+        courant_philo = request.form['courant']
+
+        # Récupérer les fichiers uploadés
+        photo = '/static/photo/' + request.form['photo'] + '.jpg'
+        audio = '/static/audio/' + request.form['audio'] + '.mp3'
+        fichier = '/static/fichier/' + request.form['fichier'] + '.pdf'
+
+        # Récupérer l'heure actuelle
+        tempo = datetime.now()
+
+        # Insérer l'auteur et récupérer l'ID retourné
+        id_auteur = insert.inserer_auteur(nom, naissance, mort, photo, courant_philo)
+
+        # Vérifier si l'insertion de l'auteur a réussi
+        if isinstance(id_auteur, int):  # Vérifie que l'ID retourné est bien un entier
+            insertaudio = insert.inserer_audio(audio, tempo, id_auteur) #insérer l'audio
+            if insertaudio and insertaudio > 0: 
+                insertbio = insert.inserer_bio(fichier, tempo, id_auteur) #insérer la biographie
+                if insertbio and insertbio > 0: 
+                    db.session.commit()  # Valider l'insertion dans la base
+                    courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+                    
+                    return render_template('charger.html',courants=courant, message=f"Auteur {nom}, ID: {id_auteur} ajouté avec succès :-) ")
+                else:
+                    db.session.rollback()  # Annuler la transaction en cas d'erreur
+                    courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+                    return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout du fichier pdf")
+
+            else:
+                db.session.rollback()  # Annuler la transaction en cas d'erreur
+                courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+                return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout de l'audio")
+            
+        else:
+            db.session.rollback()  # Annuler la transaction en cas d'erreur
+            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+            return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout de l'auteur")
+    
+
+#Chargement du courant
+@app.route('/charger_courant', methods=['POST','GET'])
+@login_required_Admin
+def charger_courant():
+    if request.method == 'POST':
+        # Récupérer les données du formulaire
+        nom_courant = request.form['nom_courant']
+        lien_courant = '/static/courants/' +  request.form['lien_courant']+'.pdf'
+        test = insert.inserer_courant(nom_courant, lien_courant)
+        
+
+        if test and test > 0:
+            db.session.commit()  # Valider l'insertion dans la base
+            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+
+            return render_template('charger.html',courants=courant, message=f"{nom_courant} ajouté avec succès :-) ")
+        else:
+            db.session.rollback()  # Valider l'insertion dans la base
+            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+            return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout du courant")
+        
+
+
 
 #Chargement du commentaire audio
 @app.route('/charger_commentaire_audio/<int:id>', methods=['POST','GET'])
@@ -441,11 +443,20 @@ def charger_utilisateur():
        
     
 #--------------------------------------------------------------------------------------SUPPRESSIONS------------------------------------------------
+#SUPPRIMER COMMENTAIRE
 @app.route('/supprimer_commentaire/<int:id_comment>/<int:id_user>', methods=['DELETE'])
 @login_required
 def supprimer_commentaire(id_comment, id_user):
 
     message = supp.supprimer_commentaire(id_comment, id_user)
+    return jsonify({"message": message})
+
+#SUPPRIMER UTILISATEUR
+@app.route('/supprimer_utilisateur/<int:id_user>', methods=['DELETE'])
+@login_required
+def supprimer_utilisateur(id_user):
+
+    message = supp.supprimer_utilisateur(id_user)
     return jsonify({"message": message})
 
 
