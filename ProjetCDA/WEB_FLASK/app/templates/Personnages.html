@@ -6,7 +6,7 @@
     <title>Personnages</title>
     <link class="icon" rel="icon" href="static/dophinicone.png" type="image/png">
     <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/style2.css')}}">
-    <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/bandes.css')}}">
+    <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/personnages.css')}}">
     <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/responsive.css')}}">
     
 
@@ -63,9 +63,9 @@
                     <ul class="dropdown-menu">
                         {% if session['groupe'] == 'Admin' %}
                         <li><a href="#">Supprimer</a></li>
+                        <li><a href="#">Modifier</a></li>
                         {% endif %}
                         <li><a href="#" class="ouvrir-fenetre-commentaire" data-id="{{ item.id_author }}">Commenter</a></li>
-                        <li><a href="#">Modifier</a></li>
                     </ul>
                 </div>
                 <!-- Fenêtre modale pour le commentaire (cachée par défaut) -->
@@ -104,7 +104,7 @@
 
     const currentUserId = {{ id|tojson }};
 </script>
-<script src="{{ url_for('static', filename='js/bandes.js') }}"></script>
+<script src="{{ url_for('static', filename='js/personnages.js') }}"></script>
 
 </body>
 </html>
