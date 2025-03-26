@@ -161,6 +161,8 @@ class Allimentation:
         except SQLAlchemyError as e:
             print(f"❌ Erreur SQL : {str(e)}")
             return None
+        
+
     def inserer_commentaire_audio(self, date_comment, comment, id_user, id_audio):
         try:
             resultat = db.session.execute(
@@ -168,9 +170,8 @@ class Allimentation:
                     {'V1': date_comment, 'V2': comment, 'V3': id_user, 'V4':id_audio}
                 )
             print("Insertion réussie !")
-            return resultat.rowcount # Retourne True
+            return resultat.rowcount  # Retourne True
         except SQLAlchemyError as e:
-            print("!!!!!!!!!Echec!!!!!!!!!!! !")
             print(f"❌ Erreur SQL : {str(e)}")
             return None
         
@@ -181,11 +182,12 @@ class Allimentation:
                     {'V1': date_comment, 'V2': comment, 'V3': id_user, 'V4':id_bio}
                 )
             print("Insertion réussie !")
-            return resultat.rowcount # Retourne True
+            if resultat.rowcount > 0: 
+                return "✅ Commentaire inséré avec succès"
         except SQLAlchemyError as e:
             print("!!!!!!!!!Echec!!!!!!!!!!! !")
             print(f"❌ Erreur SQL : {str(e)}")
-            return None
+            return f"❌ Erreurlors de l'insertion du commentaire' : {str(e)}"
 
     def inserer_courant(self, lead_name, link_text):
         try:
@@ -301,7 +303,6 @@ class Acquisition:
             return commentaires
         except SQLAlchemyError as e:
             return f"❌ Erreur lors de la récupération des commentaires : {str(e)}"
-
 
         
 acquis = Acquisition(db.session)

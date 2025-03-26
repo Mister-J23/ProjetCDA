@@ -1,9 +1,43 @@
 
 @media screen and (max-width: 780px) { /*Mediaquary*/
+    body {
+        margin: 0;
+        background-size: cover; /* L'image couvre toute la zone sans distorsion */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* L'image reste fixe lors du scroll */
+        height: 100vh; /* Prend toute la hauteur de l'écran */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .connexion{
+
+        width: 100vw; /* 30% de la largeur de la fenêtre */
+        height: 50vw; /* 50% de la hauteur de la fenêtre */
     
-    body h1 {
-        font-size: 32px;  /* Appliquer une taille plus petite pour mobile */
-        text-align: center; /* Centrer le texte si besoin */
+    }
+    .white{
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5); /* Ombre */
+
+    }
+    .formconnexion{
+        width: 100%;
+    }
+
+    
+    
+    
+    
+    .nomdusite{
+            
+        text-align: center; /* Centre le texte horizontalement */
+        margin-top: 0;
+        margin-bottom:40px ; /* Supprime les marges par défaut */
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 80px;
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5); /* Ombre */
     }
         /* Fixe le header en haut */
     header {
@@ -75,19 +109,18 @@
         height: 16px; /*  */
     }
 
+    footer {
+        background-color: #333; /* Couleur de fond */
+        color: white; /* Couleur du texte */
+        text-align: center; /* Centrer le contenu */
+        padding: 5px 0; /* Espacement intérieur */
+        width: 100%; /* Largeur complète */
+        z-index: 1000; /* Au-dessus des autres éléments */
+    }
+    
     footer p {
-        position: fixed;
-        bottom: 0;  /* Le place en bas de la page */
-        left: 50%;  /* Le place au centre horizontal de la page */
-        transform: translateX(-50%);  /* Décale le footer de 50% de sa propre largeur pour le centrer */
-        
-        z-index: 1000;  /* Assure que le footer soit au-dessus des autres éléments */
-        text-decoration: underline;
-        font-size: 14px;  /* Taille de la police réduite */
-        width: auto;  /* Largeur automatique */
-        white-space: nowrap;  /* Empêche le retour à la ligne */
-        margin-bottom: 0;
-        padding-bottom: 0;
+        display: inline-block; /* Garde le texte en place sans l'étirer */
+        margin: 0; /* Évite les marges par défaut */
     }
     
     

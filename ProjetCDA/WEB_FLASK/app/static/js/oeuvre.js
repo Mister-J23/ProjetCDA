@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Ajoute les nouveaux commentaires reçus
                     data.commentaires.forEach(commentaire => {
-                        let commentHTML = `
+                        let commentHTML = ` 
                             <div class="commentaire-item" data-id="${commentaire.id_comment}">
                                 <span class="commentaire-text">${commentaire.comment}</span>
                                 <span class="commentaire-date">${commentaire.date_comment}</span>
@@ -67,12 +67,69 @@ document.addEventListener("DOMContentLoaded", function () {
                         commentContainer.innerHTML += commentHTML;
                     });
 
-                    // AJOUT DE L'ÉCOUTEUR APRÈS LE CHARGEMENT
+                    // AJOUT DE L'ÉCOUTEUR APRÈS LE CHARGEMENT DES COMMENTAIRES
                     ajouterEcouteurSuppression(commentContainer);
+
+                    // Ajouter l'écouteur au bouton "Envoyer" une fois les commentaires chargés
+                    const boutonEnvoyer = fenetre.querySelector("#envoyer-commentaire");
+                    if (boutonEnvoyer) {
+                        boutonEnvoyer.addEventListener("click", function(event) {
+                            console.log('Bouton cliqué');  // Log pour vérifier si l'événement est capturé
+
+                            event.preventDefault(); // Empêche la soumission du formulaire par défaut
+
+                            const formulaire = fenetre.querySelector("#formulaire-commentaire");
+                            const formData = new FormData(formulaire);
+                            
+                            // Récupère l'ID de l'auteur à partir de l'URL d'action
+                            const authorId = formulaire.getAttribute("action").split("/").pop();
+
+                            // Envoi de la requête POST pour charger le commentaire
+                            fetch(`/charger_commentaire_bio/${authorId}`, {
+                                method: "POST",
+                                body: formData
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.error) {
+                                    console.error("Erreur lors de l'ajout du commentaire :", data.error);
+                                    return;
+                                }
+
+                                // Si le commentaire a bien été ajouté, on charge les commentaires
+                                console.log("✅ Commentaire ajouté avec succès :", data.success);
+
+                                // Efface les anciens commentaires et les remplace par les nouveaux
+                                commentContainer.innerHTML = "";
+
+                                // Ajoute chaque commentaire dans le conteneur
+                                data.commentaires.forEach(commentaire => {
+                                    let commentHTML = `
+                                        <div class="commentaire-item" data-id="${commentaire.id_comment}">
+                                            <span class="commentaire-text">${commentaire.comment}</span>
+                                            <span class="commentaire-date">${commentaire.date_comment}</span>
+                                            <span class="commentaire-user">${commentaire.id_user}</span>
+                                            <img class="delete-comment" src="/static/photo/croix.png" alt="Supprimer" title="Supprimer">
+                                        </div>`;
+                                    commentContainer.innerHTML += commentHTML;
+                                });
+
+                                // Réinitialise le champ de texte après l'ajout du commentaire
+                                formulaire.reset();
+                            })
+                            .catch(error => {
+                                console.error("Erreur lors de l'ajout du commentaire ou du chargement :", error);
+                            });
+                        });
+                    } else {
+                        console.error("Le bouton 'Envoyer' n'a pas été trouvé.");
+                    }
                 })
                 .catch(error => console.error("Erreur lors du chargement des commentaires :", error));
         });
     });
+
+
 
     // Fonction pour ajouter l'écouteur d'événement uniquement après le chargement des commentaires
     function ajouterEcouteurSuppression(commentContainer) {
@@ -139,12 +196,22 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch(`/bio/${authorId}`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log("📂 Réponse reçue :", data);  // Vérifie la réponse dans la console
+
                     if (data.error) {
                         afficherMessageErreur(data.error);
                     } else {
-                        window.open(data.link, "_blank"); // Ouvre le PDF dans un nouvel onglet
+                        let pdfUrl = data.link; // Vérifie si la clé correcte est utilisée
+                        if (!pdfUrl.startsWith("http")) {
+                            // Ajoute l'URL de base si nécessaire (ex: http://localhost:5000 ou ton domaine)
+                            pdfUrl = window.location.origin + pdfUrl;
+                        }
+
+                        console.log("📂 Lien du PDF corrigé :", pdfUrl);
+                        window.open(pdfUrl, "_blank"); // Ouvre le PDF dans un nouvel onglet
                     }
                 })
+
                 .catch(error => console.error("Erreur lors de la récupération du lien :", error));
         });
     });
