@@ -55,6 +55,56 @@ footer {
 
 }
 
+/***********************************MENU DEROULANT**********************************************************/
+/* Style de base pour chaque menu déroulant */
+.dropdown {
+    position: absolute; /* Positionnement absolu par rapport au parent */
+    bottom: 80%; /* Décale le menu à 10px du bas */
+    left: 7px; /* Décale le menu à 10px de la gauche */
+    display: flex; /* Utilisation de flex pour centrer l'élément à l'intérieur du conteneur si nécessaire */
+    justify-content: center; /* Centre le contenu horizontalement */
+    align-items: center; /* Centre le contenu verticalement */
+}
+
+/* Masque le menu par défaut */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 150%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    min-width: 100px;
+    width: fit-content;
+}
+
+/* Style pour chaque élément du menu */
+.dropdown-menu li {
+    padding: 8px 16px;
+    width: fit-content;
+}
+
+.dropdown-menu li a {
+    text-decoration: none;
+    color: black;
+    display: block;
+    width: min-content;
+}
+
+/* Affiche le menu déroulant lorsqu'on coche le checkbox */
+.menu-toggle:checked ~ .dropdown-menu {
+    display: block;
+}
+
+/* Cacher les checkboxes */
+.menu-toggle {
+    display: none;
+}
+
+
 
 
 
@@ -120,11 +170,6 @@ figure {
     width: auto;
     height: auto;
     border-radius: 20%;
-}
-
-.figure-personnage{
-    background: linear-gradient(360deg, rgba(166, 125, 42, 0.8), rgba(255, 255, 255, 0.5)); /* Dégradé */
-
 }
 
 figure .text{

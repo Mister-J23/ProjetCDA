@@ -1,0 +1,128 @@
+/***************************************** conteneur de chaque personnage *********************************/
+.figure-personnage{
+    background: linear-gradient(360deg, rgba(166, 125, 42, 0.8), rgba(255, 255, 255, 0.5)); /* Dégradé */
+
+}
+
+
+
+
+
+
+
+/* ------------------------------------------------------------ Fenêtre modale pour écrire un commentaire ----------------------------------------------------- */
+/* La fenêtre modale est cachée par défaut */
+.fenetre-modale {
+    display: none; /* Cachée au chargement de la page */
+    position: fixed; /* Reste en place même en scrollant */
+    z-index: 1000; /* Au-dessus des autres éléments */
+    left: 0;
+    top: 0;
+    width: 100%; /* Prend toute la largeur de l'écran */
+    height: 100%; /* Prend toute la hauteur */
+    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent pour l'effet pop-up */
+    justify-content: center; /* Centre le contenu horizontalement */
+    align-items: center; /* Centre verticalement */
+}
+
+/* Contenu de la fenêtre modale */
+.contenu-modale {
+    background-color: white; /* Fond blanc */
+    padding: 20px;
+    width: 50%; /* Taille relative à l'écran */
+    max-width: 400px; /* Ne dépasse pas 400px */
+    height: 60%;
+    border-radius: 8px; /* Coins arrondis */
+    text-align: center;
+    align-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre pour un effet pop-up */
+}
+
+/* Bouton de fermeture "X" */
+.fermer {
+    float: right;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* Zone de texte */
+textarea {
+    width: 100%; /* Prend toute la largeur du conteneur */
+    height: 10%; /* Hauteur fixe */
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc; /* Bordure grise */
+    border-radius: 5px;
+    resize: none; /* Empêche l'utilisateur de redimensionner */
+    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur totale */
+}
+
+
+/* Bouton d'envoi */
+.comment {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #007bff; /* Bleu */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Effet au survol */
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Classe qui sera ajoutée par JavaScript pour afficher la fenêtre */
+.fenetre-active {
+    display: flex !important; /* Affiche la fenêtre uniquement si cette classe est ajoutée */
+}
+
+/* Afficher les commentau=ires*/
+.commentaires-liste {
+    margin-top: 10px;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    height: 50%;
+    overflow-y: auto;
+    color: black;
+}
+
+.commentaire-item {
+    display: flex;
+    justify-content: space-between; /* Espacement entre les colonnes */
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* Style des colonnes */
+.commentaire-text {
+    flex: 2; /* Plus d'espace pour le commentaire */
+    overflow-wrap: break-word; /* Permet de couper le texte s'il est trop long */
+    color: gray;
+}
+
+.commentaire-date {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+    color: gray;
+}
+
+.commentaire-user {
+    flex: 1;
+    text-align: right;
+    font-weight: bold;
+    color: gray;
+}
+
+.delete-comment{
+    width: 2vw; /* 30% de la largeur de la fenêtre */
+    height: 2vw; /* 50% de la hauteur de la fenêtre */
+    cursor: pointer;  /* Assure-toi que le curseur change pour montrer que c'est cliquable */
+    pointer-events: auto;  /* Assure-toi que les événements de souris sont activés */
+
+}
