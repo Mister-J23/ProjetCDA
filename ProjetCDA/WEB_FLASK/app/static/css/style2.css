@@ -108,6 +108,12 @@ footer p {
 }
 
 
+
+.supprimer-auteur:hover {
+    color: darkred; /* Un effet de survol pour le lien */
+}
+
+
 /* -------------Fenêtre modale pour écrire un commentaire ------------------------------------------------------------------------------------- */
 /* La fenêtre modale est cachée par défaut */
 .fenetre-modale {

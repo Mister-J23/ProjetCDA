@@ -1,4 +1,45 @@
 
+
+//-------------------------------------------------------SUPRIMER L'UTILISATEUR--------------------------------
+document.addEventListener("DOMContentLoaded", function () {
+    // Sélectionne tous les boutons de suppression
+    const boutonsSupprimer = document.querySelectorAll(".bouton-supprimer");
+
+    boutonsSupprimer.forEach(bouton => {
+        bouton.addEventListener("click", function () {
+            // Récupère l'ID de l'utilisateur depuis l'attribut data-id
+            let userId = this.getAttribute("data-id");
+            authorId = parseInt(userId, 10);  // Force l'ID à être un entier
+
+            console.log(`Suppression lancée pour l'utilisateur ID : ${userId}`);
+            
+
+            // Vérifie avant suppression
+            if (confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) {
+                fetch(`/supprimer_utilisateur/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message.includes("✅")) {
+                        // Supprime la ligne du tableau dans le DOM
+                        this.closest("tr").remove();
+                    } else {
+                        alert("Erreur : " + data.message);
+                    }
+                })
+                .catch(error => console.error("Erreur lors de la suppression :", error));
+            } else {
+                console.log("Confirm annulé !");
+            }
+        });
+    });
+});
+
+
 //-------------------------------------AJOUT UTILISATEUR------------------------
 document.addEventListener("DOMContentLoaded", function () {
     // Sélectionner les éléments
@@ -26,36 +67,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-//-------------------------------------------------------SUPRIMER L'UTILISATEUR--------------------------------
-document.addEventListener("DOMContentLoaded", function () {
-    // Sélectionne tous les boutons de suppression
-    const boutonsSupprimer = document.querySelectorAll(".bouton-supprimer");
 
-    boutonsSupprimer.forEach(bouton => {
-        bouton.addEventListener("click", function () {
-            // Récupère l'ID de l'utilisateur depuis l'attribut data-id
-            let userId = this.getAttribute("data-id");
-            console.log(`Suppression lancée pour l'utilisateur ID : ${userId}`);
-
-            // Vérifie avant suppression
-            if (confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) {
-                fetch(`/supprimer_utilisateur/${userId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message.includes("✅")) {
-                        // Supprime la ligne du tableau dans le DOM
-                        this.closest("tr").remove();
-                    } else {
-                        alert("Erreur : " + data.message);
-                    }
-                })
-                .catch(error => console.error("Erreur lors de la suppression :", error));
-            }
-        });
-    });
-});

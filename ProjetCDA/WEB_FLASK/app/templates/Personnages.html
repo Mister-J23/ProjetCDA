@@ -44,8 +44,6 @@
     <!-- Section principale -->
      
     <main class="container">
-        
-
         {% for item in items %}
             <figure class="figure-personnage">
                 
@@ -62,7 +60,7 @@
                     <!-- Menu déroulant -->
                     <ul class="dropdown-menu">
                         {% if session['groupe'] == 'Admin' %}
-                        <li><a href="#">Supprimer</a></li>
+                        <li><a href="javascript:void(0);" class="supprimer-auteur" data-id="{{ item.id_author }}">Supprimer</a></li>
                         <li><a href="#">Modifier</a></li>
                         {% endif %}
                         <li><a href="#" class="ouvrir-fenetre-commentaire" data-id="{{ item.id_author }}">Commenter</a></li>
@@ -94,19 +92,20 @@
         
     </main>
 
-<script type="text/javascript">
-    // Vérifie si currentUserId est correctement défini
-    console.log("Current User ID:", {{ id|tojson }});
+    <!-- Pied de page -->
+    <footer >
+        <div>
+            <p>&copy; <img src="static/photo/dauphin.png"> 2024 Philorama. Tous droits réservés.</p>
+        </div>
+    </footer>
 
-    const currentUserId = {{ id|tojson }};
-</script>
-<script src="{{ url_for('static', filename='js/personnages.js') }}"></script>
+    <script type="text/javascript">
+        // Vérifie si currentUserId est correctement défini
+        console.log("Current User ID:", {{ id|tojson }});
 
-</body>
-<!-- Pied de page -->
-<footer >
-    <div>
-        <p>&copy; <img src="static/photo/dauphin.png"> 2024 Philorama. Tous droits réservés.</p>
-    </div>
-</footer>
+        const currentUserId = {{ id|tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='js/personnages.js') }}"></script>
+
+    </body>
 </html>

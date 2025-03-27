@@ -478,6 +478,15 @@ def supprimer_utilisateur(id_user):
     message = supp.supprimer_utilisateur(id_user)
     return jsonify({"message": message})
 
+#SUPPRIMER AUTEUR
+@app.route('/supprimer_auteur/<int:id_auteur>', methods=['DELETE'])
+@login_required_Admin
+def supprimer_auteur(id_auteur):
+    print("Fetch lancé 👍")
+
+    message = supp.supprimer_auteur(id_auteur)
+    return jsonify({"message": message})
+
 
 
 

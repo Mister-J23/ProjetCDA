@@ -1,21 +1,26 @@
 //------------------------------------------------------------------------------------------PAGE PERSONNAGES-----------------------------------------------------------------
 
-// Ajoute un écouteur d'événements pour détecter les clics sur toute la page
-document.addEventListener('click', function(event) {
-    // Vérifie si l'élément cliqué est à l'intérieur d'un menu déroulant ou d'un bouton checkbox du menu
-    const isClickInsideMenu = event.target.closest('.dropdown') || event.target.closest('.menu-toggle');
+document.addEventListener('DOMContentLoaded', function() {
+    // Sélectionne tous les éléments avec la classe 'dropdown'
+    let dropdowns = document.querySelectorAll('.dropdown');
 
-    // Si l'utilisateur clique en dehors des menus déroulants
-    if (!isClickInsideMenu) {
-        // Sélectionne toutes les cases à cocher utilisées pour afficher les menus déroulants
-        const checkboxes = document.querySelectorAll('.menu-toggle');
-
-        // Parcourt toutes les checkboxes et les décoche
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = false; // Décoche le menu déroulant
+    // Ajoute un écouteur d'événements à chaque menu déroulant
+    dropdowns.forEach(dropdown => {
+        dropdown.addEventListener('click', function(event) {
+            // Vérifie si l'élément cliqué est à l'intérieur du menu déroulant
+            const isClickInsideMenu = event.target.closest('.dropdown') || event.target.closest('.menu-toggle');
+            
+            if (!isClickInsideMenu) {
+                // Si l'utilisateur clique en dehors du menu, on décoche la checkbox
+                const checkboxes = dropdown.querySelectorAll('.menu-toggle');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false; // Décoche le menu déroulant
+                });
+            }
         });
-    }
+    });
 });
+
 
 //------------------------------------------------------------BOUTON OUVERTURE FENETRE COMMENTAIRE-------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
@@ -124,4 +129,43 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+
+//======================================================SUPPRIMER AUTEUR========================================
+
 });
+document.addEventListener("DOMContentLoaded", function () {
+    let boutonsSupprimer = document.querySelectorAll(".supprimer-auteur");
+    console.log("Boutons détectés :", boutonsSupprimer.length); // Vérifier combien de boutons sont trouvés
+
+
+    boutonsSupprimer.forEach(bouton => {
+        bouton.addEventListener("click", function (event) {
+            event.preventDefault(); // Empêche le rechargement de la page
+
+            let authorId = bouton.getAttribute("data-id"); // Récupère l'ID de l'auteur
+            authorId = parseInt(authorId, 10);  // Force l'ID à être un entier
+            console.log("Bouton cliqué")
+
+
+            if (confirm("Voulez-vous vraiment supprimer cet auteur ?")) {
+                fetch(`/supprimer_auteur/${authorId}`, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" }//Spécifier que la réponse est du JSON
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Réponse du serveur :", data); // Vérifie la réponse du serveur
+                    if (data.message.includes("✅")) {
+                        window.location.href = "/Personnage";
+                    } else {
+                        alert("Erreur : " + data.error);
+                    }
+                })
+                .catch(error => console.error("Erreur lors de la suppression :", error));
+            }
+
+        });
+    });
+});
+

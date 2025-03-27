@@ -371,5 +371,26 @@ class Suppression:
             db.session.rollback()
             return f"❌ Erreur lors de la suppression de l'Utilisateur : {str(e)}"
         
+    def supprimer_auteur(self, id_author): #la méthode qui permet de supprimer un user
+        try:
+            result=db.session.execute(
+                    text("""
+                        DELETE FROM authors 
+                        WHERE id_author = :id_author
+                    """),
+                    {"id_author": id_author}
+                )
+            db.session.commit()
+            if result.rowcount > 0:  # Vérifie si au moins une ligne a été supprimée
+                
+                print("👍 Suppresion effectuée")
+                return "✅ Auteur supprimé avec succès"
+            else:
+                return "❌ Aucun Auteur supprimé (ID incorrect ou droits insuffisants)"
+        
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            return f"❌ Erreur lors de la suppression de l'Auteur : {str(e)}"
+        
 supp = Suppression(db.session)
 
