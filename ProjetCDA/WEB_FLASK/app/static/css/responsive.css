@@ -142,6 +142,24 @@
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         min-width: 160px;
     }
+
+    /*--------------------------------------------------------------------TABLEAU------------------------------------------------------------------------ */
+/* Conteneur principal du tableau */
+.tableau {
+    width: 100vw; /* Largeur relative à l'écran */
+    max-height: 60vh; /* Hauteur max pour éviter le débordement */
+    background-color: darkgreen; /* Fond vert foncé */
+    border: 7px solid burlywood; /* Bordure marron clair */
+
+    /* Gestion des débordements uniquement en hauteur */
+    overflow-y: auto; /* Active le scroll vertical si nécessaire */
+    overflow-x: hidden; /* Désactive le scroll horizontal */
+
+    /* Alignement */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Aligner le tableau en haut */
+}
     
 }
 

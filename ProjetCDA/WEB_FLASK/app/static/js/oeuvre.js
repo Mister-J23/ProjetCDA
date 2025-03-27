@@ -196,23 +196,19 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch(`/bio/${authorId}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log("📂 Réponse reçue :", data);  // Vérifie la réponse dans la console
-
-                    if (data.error) {
-                        afficherMessageErreur(data.error);
+                    if (!data.error) {
+                        const lien = document.createElement("a");
+                        lien.href = data.link;
+                        lien.download = "biographie.pdf"; // Forcer le téléchargement
+                        document.body.appendChild(lien);
+                        lien.click();
+                        document.body.removeChild(lien);
                     } else {
-                        let pdfUrl = data.link; // Vérifie si la clé correcte est utilisée
-                        if (!pdfUrl.startsWith("http")) {
-                            // Ajoute l'URL de base si nécessaire (ex: http://localhost:5000 ou ton domaine)
-                            pdfUrl = window.location.origin + pdfUrl;
-                        }
-
-                        console.log("📂 Lien du PDF corrigé :", pdfUrl);
-                        window.open(pdfUrl, "_blank"); // Ouvre le PDF dans un nouvel onglet
+                        afficherMessageErreur(data.error);
                     }
                 })
+                .catch(error => console.error("❌ Erreur :", error));
 
-                .catch(error => console.error("Erreur lors de la récupération du lien :", error));
         });
     });
 });

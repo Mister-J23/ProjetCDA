@@ -447,7 +447,6 @@ th, td {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
 /* Style des titres */
 th {
     background: rgb(1, 38, 1);
@@ -458,18 +457,21 @@ th {
 
 /* Définition des largeurs pour chaque colonne */
 th:nth-child(1), td:nth-child(1) { width: 30%; }  /* Colonne Nom */
-th:nth-child(2), td:nth-child(2) { width: 40%; }  /* Colonne Password */
-th:nth-child(3), td:nth-child(3) { width: 20%; }  /* Colonne Groupe */
-th:nth-child(4), td:nth-child(4) { width: 10%; 
+th:nth-child(2), td:nth-child(2) { width: 20%; }  /* Colonne Password */
+th:nth-child(3), td:nth-child(3) { width: 30%; }  /* Colonne Groupe */
+th:nth-child(4), td:nth-child(4) { width: 20%; 
 
     font-size: 10px;
     margin: 0;
+    text-align: center;
+    padding: 0;
 }  /* Colonne supprimer */
 
 .bouton-supprimer{
-    width: 2vw; /* 30% de la largeur de la fenêtre */
-    height: 2vw; /* 50% de la hauteur de la fenêtre */
+    width: 30px; /* 30% de la largeur de la fenêtre */
+    height: 30px; /* 50% de la hauteur de la fenêtre */
     cursor: pointer;
+
 }
 
 .fenetreUtilisateur {
