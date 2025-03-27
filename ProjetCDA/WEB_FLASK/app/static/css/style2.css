@@ -16,6 +16,24 @@ body {
 
 }
 
+nav ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Ajuste selon le nombre d'éléments */
+    grid-template-rows: repeat(2, auto); /* Deux lignes */
+    gap: 1px; /* Espacement entre les éléments */
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+nav li {
+    margin: 0;  /* Supprime les marges autour des éléments de la liste */
+    padding: 0;  /* Supprime l'espace intérieur des éléments de la liste */
+    font-size: 30px;
+}
+
+
+
 /* Fixe le header en haut */
 header {
     position: fixed; /* Fixe le header par rapport à la fenêtre, il restera visible même en scrollant */
@@ -281,8 +299,7 @@ button:hover {
     color: white;
 }
 .déco{
-    padding: 0;
-    margin: 0;
+    margin-top: 5px;
     color:black
 }
 
@@ -384,10 +401,7 @@ footer img{
     min-height: 30px;
 }
 
-li{
-    padding: 5px;
-    margin: 0;
-}
+
 .header {
     display: flex;
 }

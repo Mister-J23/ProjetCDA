@@ -22,7 +22,6 @@
             <h1>Personnages</h1>
             <div class="user-info">
 
-                <p>ID: {{ id }}</p>
                 <p>Nom: {{ username }}</p> 
                 <p>Groupe: {{ groupe }}</p>
             </div>
@@ -33,10 +32,9 @@
             <ul>
                 <li><a class="text" href="{{ url_for('Home') }}">Accueil</a></li>
                 <li><a class="text" href="{{ url_for('Oeuvres') }}">Oeuvres</a></li>
-                <li>
-                    <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
-                </li>
             </ul>
+            <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
+        
         </nav>
         
     </header>

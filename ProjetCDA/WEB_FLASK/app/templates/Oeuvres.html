@@ -19,7 +19,6 @@
         <div class="entête">
             <h1>Oeuvres</h1>
             <div class="user-info">
-                <p>ID: {{ id }}</p> 
                 <p>Nom: {{ username }}</p> 
                 <p>Groupe: {{ groupe }}</p>
             </div>
@@ -31,10 +30,9 @@
             <ul>
                 <li><a class="text" href="{{ url_for('Home') }}">Accueil</a></li>
                 <li><a class="text" href="{{ url_for('personnages') }}">Personnages</a></li>
-                <li>
-                    <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
-                </li>
+                
             </ul>
+            <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
         </nav>
         
         
@@ -60,7 +58,6 @@
                     <!-- Menu déroulant -->
                     <ul class="dropdown-menu">
                         {% if session['groupe'] == 'Admin' %}
-                        <li><a href="#">Supprimer</a></li>
                         <li><a href="#">Modifier</a></li>
                         {% endif %}
                         <li><a href="#" class="ouvrir-fenetre-commentaire" data-id="{{ item.id_author }}">Commenter</a></li>

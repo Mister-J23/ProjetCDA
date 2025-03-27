@@ -32,10 +32,9 @@
                 <li><a class="text" href="{{ url_for('Utilisateur') }}">Utilisateurs</a></li>
                 {% endif %}
                 <li><a class="text" href="{{ url_for('Contact') }}">Contact</a></li>
-                <li>
-                    <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
-                </li> 
             </ul>
+            <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
+        
         </nav>
 
     </header>

@@ -29,10 +29,10 @@
         <nav>
             <ul>
                 <li><a class="text" href="{{ url_for('Home') }}">Accueil</a></li>
-                <li>
-                    <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
-                </li>
             </ul>
+
+            <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
+                
         </nav>
         
     </header>
@@ -63,7 +63,7 @@
                    
 
         <div id="fenetre-ajouter-utilisateur" class="fenetreUtilisateur">
-            <form action="{{ url_for('charger_utilisateur') }}" method="POST" enctype="multipart/form-data" class="conteneurform">
+            <form action="{{ url_for('charger_utilisateur') }}" method="POST" enctype="multipart/form-data" class="conteneurform" autocomplete="off">
                 <div class="form-labels">
                     <label for="nom">Nom:</label>
                     <label for="motpasse">Mot de passe:</label>
@@ -74,9 +74,10 @@
                     <input class="black" type="text" name="nom" required>
                     <input class="black" type="text" name="motpasse"required>
                     <select class="black" name="groupe" required>
-                        {% for groupe in groupes %}
-                            <option value="{{groupe._group}}">{{groupe._group}}</option>
-                        {% endfor %}
+                        
+                        <option value="Admin">Admin</option>
+                        <option value="Admin">user</option>
+                        
                     </select>
                 </div>
                 <button class="black" type="submit">Valider</button>
