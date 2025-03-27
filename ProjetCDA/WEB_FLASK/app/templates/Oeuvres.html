@@ -46,7 +46,7 @@
         {% for item in items %}
                     
             <!-- J'affiche les image de livre de chaque auteurs contenus dans la table Authors. La correspondance se fait via la clé étrangère -->
-            <figure>
+            <figure class="figure-oeuvre">
 
                 <div class="dropdown">
                     <!-- Input checkbox caché pour chaque menu -->
@@ -79,7 +79,7 @@
                     
                 </div>
 
-                <img id="image-auteur" class="effigie" 
+                <img id="image-auteur" class="livre" 
                     src="{{ url_for('get_photoOeuvres', id=item.id_author) }}" 
                     data-id="{{ item.id_author }}" >
 

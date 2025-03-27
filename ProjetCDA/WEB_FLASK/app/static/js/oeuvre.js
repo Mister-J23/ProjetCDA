@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //------------------------------------------ECOUTEUR POUR LE CLICK SUR L'IMAGE-------------------------------
 document.addEventListener("DOMContentLoaded", function () { 
     // Sélectionne toutes les images des auteurs
-    const imagesAuteurs = document.querySelectorAll(".effigie");
+    const imagesAuteurs = document.querySelectorAll(".livre");
 
     imagesAuteurs.forEach(image => {
         image.addEventListener("click", function (event) {
