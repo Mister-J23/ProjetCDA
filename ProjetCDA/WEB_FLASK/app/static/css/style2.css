@@ -258,7 +258,6 @@ button:hover {
     width: 100%; /* Prend toute la largeur disponible */
     max-width: 600px; /* Limite la largeur pour un bon rendu */
     margin: 20px auto; /* Centre les blocs et ajoute de l'espace entre eux */
-    padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -344,9 +343,9 @@ figure .text{
 }
 
 .utilisateur{
-    margin-top: 250px; /* Ajuste selon la hauteur du header */
+    margin-top: 300px; /* Ajuste selon la hauteur du header */
     margin-bottom: 50px; /* Ajuste selon la hauteur du footer */
-    height: 100vh;
+    
     
 }
 .connexion{
@@ -457,14 +456,13 @@ button:hover {
 
 /* Conteneur scrollable du tableau */
 .tableau-container {
-    width: 100%; /* Prend toute la largeur de .tableau */
-    max-height: 100%; /* Ne dépasse pas la hauteur de .tableau */
+    width: 100vw; /* Prend toute la largeur de .tableau */
     overflow-y: auto; /* Active le défilement vertical si nécessaire */
 }
 
 /* Styles pour le tableau */
 table {
-    width: 100%; /* Prend toute la largeur du conteneur */
+    width: 100vw; /* Prend toute la largeur du conteneur */
     border-collapse: collapse; /* Supprime l’espace entre les bordures */
     table-layout: fixed; /* Assure une largeur uniforme des colonnes */
 }

@@ -6,12 +6,18 @@
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed; /* L'image reste fixe lors du scroll */
-        height: 100vh; /* Prend toute la hauteur de l'écran */
+        height: 100%; /* Prend toute la hauteur de l'écran */
         display: flex;
         flex-direction: column;
         align-items: center;
+        overflow-y: hidden;
     }
-    
+
+    main{
+        height: calc(100vh - 239px);
+    }
+
+ 
     
     
 
@@ -71,12 +77,23 @@
     
 
     .container {
-        margin-top: 155px;
-        margin-bottom: 120px;
         display: flex;
         align-items: center;
-        justify-content: space-around; /* Pour espacer les éléments */
         flex-wrap: wrap; /* Permet d'adapter l'affichage sur les petits écrans */
+        row-gap:  5vw; /* Définit un espace minimum de 20px entre les éléments */
+        column-gap: 10vw;
+        flex-grow: 1;
+        /* Le main doit défiler indépendamment */
+        margin-top: 155px; /* Ajuste selon la hauteur du header */
+        margin-bottom: 0px; /* Ajuste selon la hauteur du footer */
+        overflow-y: auto; /* Active le défilement */
+        height: calc(100vh - 239px)
+    }
+
+    .utilisateur{
+        margin-top: 155px; /* Ajuste selon la hauteur du header */
+        margin-bottom: 0px; /* Ajuste selon la hauteur du footer */
+        
     }
    
     .user-info {
@@ -109,26 +126,7 @@
         height: 16px; /*  */
     }
 
-    footer {
-        background-color: #333; /* Couleur de fond */
-        color: white; /* Couleur du texte */
-        text-align: center; /* Centrer le contenu */
-        padding: 5px 0; /* Espacement intérieur */
-        width: 100%; /* Largeur complète */
-        z-index: 1000; /* Au-dessus des autres éléments */
-    }
-    
-    footer p {
-        display: inline-block; /* Garde le texte en place sans l'étirer */
-        margin: 0; /* Évite les marges par défaut */
-    }
-    
-    
-    footer p img{ 
-        width: 0.5vw; /*  */
-        height: 0.2vw;
-        
-    }
+   
 
     .dropdown-menu {
         display: none;
@@ -146,8 +144,7 @@
     /*--------------------------------------------------------------------TABLEAU------------------------------------------------------------------------ */
 /* Conteneur principal du tableau */
 .tableau {
-    width: 100vw; /* Largeur relative à l'écran */
-    max-height: 60vh; /* Hauteur max pour éviter le débordement */
+    width: 97vw; /* Largeur relative à l'écran */
     background-color: darkgreen; /* Fond vert foncé */
     border: 7px solid burlywood; /* Bordure marron clair */
 
@@ -161,5 +158,18 @@
     align-items: flex-start; /* Aligner le tableau en haut */
 }
     
+footer {
+    background-color: #333; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    text-align: center; /* Centrer le contenu */
+    padding: 5px 0; /* Espacement intérieur */
+    width: 100%; /* Largeur complète */
+    z-index: 100; /* Au-dessus des autres éléments */
+}
+
+footer p {
+    display: inline-block; /* Garde le texte en place sans l'étirer */
+    margin: 0; /* Évite les marges par défaut */
+}
 }
 
