@@ -9,8 +9,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         height: 100vh; /* Prend toute la hauteur de l'écran */
 =======
+=======
+>>>>>>> c81a887 (good)
         height: 100%; /* Prend toute la hauteur de l'écran */
         display: flex;
 >>>>>>> c81a887 (good)
@@ -25,6 +28,7 @@
         overflow-y: hidden;
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -45,6 +49,10 @@
     main{
         height: 100vh
 >>>>>>> 829dbf6 (good)
+=======
+    main{
+        height: calc(100vh - 239px);
+>>>>>>> c81a887 (good)
     }
 
  
@@ -168,6 +176,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 95vw; /* Largeur relative à l'écran */
     max-height: 100vh;
 =======
@@ -181,6 +190,9 @@
     width: 95vw; /* Largeur relative à l'écran */
     max-height: 100vh;
 >>>>>>> 829dbf6 (good)
+=======
+    width: 97vw; /* Largeur relative à l'écran */
+>>>>>>> c81a887 (good)
     background-color: darkgreen; /* Fond vert foncé */
     border: 7px solid burlywood; /* Bordure marron clair */
 
