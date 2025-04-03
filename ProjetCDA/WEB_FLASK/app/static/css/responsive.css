@@ -13,6 +13,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 09a03dc (good)
         height: 100vh; /* Prend toute la hauteur de l'écran */
 =======
 =======
@@ -31,9 +34,12 @@
 =======
         height: 100vh; /* Prend toute la hauteur de l'écran */
 >>>>>>> 829dbf6 (good)
+<<<<<<< HEAD
 =======
         height: 100vh; /* Prend toute la hauteur de l'écran */
 >>>>>>> 829dbf6 (good)
+=======
+>>>>>>> 09a03dc (good)
         flex-direction: column;
         align-items: center;
         overflow-y: hidden;
@@ -46,6 +52,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 09a03dc (good)
 
     main{
         height: 100vh
@@ -76,11 +85,14 @@
     main{
         height: 100vh
 >>>>>>> 829dbf6 (good)
+<<<<<<< HEAD
 =======
 
     main{
         height: 100vh
 >>>>>>> 829dbf6 (good)
+=======
+>>>>>>> 09a03dc (good)
     }
 
  
@@ -208,6 +220,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 09a03dc (good)
     width: 95vw; /* Largeur relative à l'écran */
     max-height: 100vh;
 =======
@@ -231,10 +246,13 @@
     width: 95vw; /* Largeur relative à l'écran */
     max-height: 100vh;
 >>>>>>> 829dbf6 (good)
+<<<<<<< HEAD
 =======
     width: 95vw; /* Largeur relative à l'écran */
     max-height: 100vh;
 >>>>>>> 829dbf6 (good)
+=======
+>>>>>>> 09a03dc (good)
     background-color: darkgreen; /* Fond vert foncé */
     border: 7px solid burlywood; /* Bordure marron clair */
 
