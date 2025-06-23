@@ -6,6 +6,8 @@
     
     <title>Contact</title>
     <link rel="icon" href="static/photo/dauphin.png" type="image/png">
+    <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/style2.css')}}">
+    <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/responsive.css')}}">
     
     <style>
         .all{
@@ -16,12 +18,10 @@
             border-radius: 25%;
         }
     </style>
-    <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/style2.css')}}">
-    <link rel ="stylesheet" href ="{{ url_for ('static', filename='css/responsive.css')}}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body class="all" background="static/univers.jpeg">
+<body class="all" background="static/photo/univers.jpeg">
 
     <header >
         <!-- En-tête de la page -->
@@ -43,8 +43,8 @@
 
     <!-- Section principale -->
      
-    <main>
-        <img class="image" src = "static/photo de moi.jpg" weight = "200"height = "260" >
+    <main class="container">
+        <img class="image" src = "static/photo/photo de moi.jpg" weight = "200"height = "260" >
         <p class="text">Tel: +33 xx xx xx xx xx</p>
         <p class="text">email: mister-J23@gmail.com</p>
         
@@ -52,7 +52,7 @@
 
     <!-- Pied de page -->
     <footer >
-        <p>&copy; <img src="static/photo/dauphin.png" > 2025 Philorama. Tous droits réservés.</p>
+        <p>&copy; <img class="foot" src="static/photo/dauphin.png" > 2025 Philorama. Tous droits réservés.</p>
     </footer>
 
 </body>

@@ -161,6 +161,8 @@ class Allimentation:
         except SQLAlchemyError as e:
             print(f"❌ Erreur SQL : {str(e)}")
             return None
+        
+
     def inserer_commentaire_audio(self, date_comment, comment, id_user, id_audio):
         try:
             resultat = db.session.execute(
@@ -168,9 +170,8 @@ class Allimentation:
                     {'V1': date_comment, 'V2': comment, 'V3': id_user, 'V4':id_audio}
                 )
             print("Insertion réussie !")
-            return resultat.rowcount # Retourne True
+            return resultat.rowcount  # Retourne True
         except SQLAlchemyError as e:
-            print("!!!!!!!!!Echec!!!!!!!!!!! !")
             print(f"❌ Erreur SQL : {str(e)}")
             return None
         
@@ -181,11 +182,12 @@ class Allimentation:
                     {'V1': date_comment, 'V2': comment, 'V3': id_user, 'V4':id_bio}
                 )
             print("Insertion réussie !")
-            return resultat.rowcount # Retourne True
+            if resultat.rowcount > 0: 
+                return "✅ Commentaire inséré avec succès"
         except SQLAlchemyError as e:
             print("!!!!!!!!!Echec!!!!!!!!!!! !")
             print(f"❌ Erreur SQL : {str(e)}")
-            return None
+            return f"❌ Erreurlors de l'insertion du commentaire' : {str(e)}"
 
     def inserer_courant(self, lead_name, link_text):
         try:
@@ -229,10 +231,10 @@ class Acquisition:
         
     def select_utilisateurs(self):
         try:
-            resultat = db.session.execute(text("SELECT name, password, _group FROM users")).fetchall()
+            resultat = db.session.execute(text("SELECT id_user, name, password, _group FROM users")).fetchall()
             return resultat #Renvoyer la liste des noms de courant philosophique
         except SQLAlchemyError as e:
-            return f"❌ Erreurlors de la récupération des utilisateurs : {str(e)}"
+            return f"❌ Erreur lors de la récupération des utilisateurs : {str(e)}"
     def select_nomutilisateurs(self, id):
         try:
             resultat = db.session.execute(
@@ -242,7 +244,7 @@ class Acquisition:
             
             # Si aucun utilisateur n'est trouvé, on retourne None
             if not resultat:
-                return []
+                return "Utilisateur suprimé"
             
             # On retourne le nom sous forme de chaîne (en supposant que le résultat est une ligne de type Row)
             return resultat[0]  # Nous extrayons juste le nom de l'utilisateur (la première colonne)
@@ -302,7 +304,6 @@ class Acquisition:
         except SQLAlchemyError as e:
             return f"❌ Erreur lors de la récupération des commentaires : {str(e)}"
 
-
         
 acquis = Acquisition(db.session)
 
@@ -348,6 +349,48 @@ class Suppression:
         except SQLAlchemyError as e:
             db.session.rollback()
             return f"❌ Erreur lors de la suppression du commentaire : {str(e)}"
+        
+    def supprimer_utilisateur(self, id_user): #la méthode qui permet de supprimer un user
+        try:
+            result=db.session.execute(
+                    text("""
+                        DELETE FROM users 
+                        WHERE id_user = :id_user 
+                    """),
+                    {"id_user": id_user}
+                )
+            db.session.commit()
+            if result.rowcount > 0:  # Vérifie si au moins une ligne a été supprimée
+                
+                print("👍 Suppresion effectuée")
+                return "✅ Utilisateur supprimé avec succès"
+            else:
+                return "❌ Aucun Utilisateur supprimé (ID incorrect ou droits insuffisants)"
+        
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            return f"❌ Erreur lors de la suppression de l'Utilisateur : {str(e)}"
+        
+    def supprimer_auteur(self, id_author): #la méthode qui permet de supprimer un user
+        try:
+            result=db.session.execute(
+                    text("""
+                        DELETE FROM authors 
+                        WHERE id_author = :id_author
+                    """),
+                    {"id_author": id_author}
+                )
+            db.session.commit()
+            if result.rowcount > 0:  # Vérifie si au moins une ligne a été supprimée
+                
+                print("👍 Suppresion effectuée")
+                return "✅ Auteur supprimé avec succès"
+            else:
+                return "❌ Aucun Auteur supprimé (ID incorrect ou droits insuffisants)"
+        
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            return f"❌ Erreur lors de la suppression de l'Auteur : {str(e)}"
         
 supp = Suppression(db.session)
 

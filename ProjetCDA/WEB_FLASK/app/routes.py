@@ -125,11 +125,13 @@ def Erreur(nb):
 @login_required
 def get_bio(id):
     test = media.obtenir_lien_bio(id)
-    if test:
-        lien = test['link_text']  # Le lien du fichier audio
+    
+    if "error" in test:
+        return jsonify({"error": "Biographie introuvable"}), 404  # Retourne un JSON en cas d'erreur
+    print("✅ Biographie ouverte")
+    lien = test['link_text']  # Le lien du fichier PDF
+    return jsonify({"link": lien})  # Envoie le lien en JSON
 
-        return redirect(lien)  # Redirection vers le lien du fichier audio
-    return "Biographie introuvable", 404
 
 
 
@@ -179,78 +181,6 @@ def delete_item(id):
 
 
 
-
-
-# Chargement
-@app.route('/charge', methods=['POST','GET'])
-@login_required_Admin
-def charge():
-    print("La méthode charge() a été appelée")
-    if request.method == 'POST':
-        # Récupérer les données du formulaire
-        nom = request.form['nom']
-        naissance = request.form['naissance']
-        mort = request.form['mort']
-        courant_philo = request.form['courant']
-
-        # Récupérer les fichiers uploadés
-        photo = '/static/photo/' + request.form['photo'] + '.jpg'
-        audio = '/static/audio/' + request.form['audio'] + '.mp3'
-        fichier = '/static/fichier/' + request.form['fichier'] + '.pdf'
-
-        # Récupérer l'heure actuelle
-        tempo = datetime.now()
-
-        # Insérer l'auteur et récupérer l'ID retourné
-        id_auteur = insert.inserer_auteur(nom, naissance, mort, photo, courant_philo)
-
-        # Vérifier si l'insertion de l'auteur a réussi
-        if isinstance(id_auteur, int):  # Vérifie que l'ID retourné est bien un entier
-            insertaudio = insert.inserer_audio(audio, tempo, id_auteur) #insérer l'audio
-            if insertaudio and insertaudio > 0: 
-                insertbio = insert.inserer_bio(fichier, tempo, id_auteur) #insérer la biographie
-                if insertbio and insertbio > 0: 
-                    db.session.commit()  # Valider l'insertion dans la base
-                    courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
-                    
-                    return render_template('charger.html',courants=courant, message=f"Auteur {nom}, ID: {id_auteur} ajouté avec succès :-) ")
-                else:
-                    db.session.rollback()  # Annuler la transaction en cas d'erreur
-                    courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
-                    return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout du fichier pdf")
-
-            else:
-                db.session.rollback()  # Annuler la transaction en cas d'erreur
-                courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
-                return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout de l'audio")
-            
-        else:
-            db.session.rollback()  # Annuler la transaction en cas d'erreur
-            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
-            return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout de l'auteur")
-    
-
-#Chargement du courant
-@app.route('/charger_courant', methods=['POST','GET'])
-@login_required_Admin
-def charger_courant():
-    if request.method == 'POST':
-        # Récupérer les données du formulaire
-        nom_courant = request.form['nom_courant']
-        lien_courant = '/static/courants/' +  request.form['lien_courant']+'.pdf'
-        test = insert.inserer_courant(nom_courant, lien_courant)
-        
-
-        if test and test > 0:
-            db.session.commit()  # Valider l'insertion dans la base
-            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
-
-            return render_template('charger.html',courants=courant, message=f"{nom_courant} ajouté avec succès :-) ")
-        else:
-            db.session.rollback()  # Valider l'insertion dans la base
-            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
-            return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout du courant")
-        
 
 #Envoyer commentaires à la page
 @app.route('/envoyer_commentaires_bio/<int:id>')
@@ -333,6 +263,80 @@ def envoyer_commentaires_audio(id):
 
 #--------------------------------------------------------------------ECRITURE DANS LA TABLE ------------------------------------------------------------
 
+
+# Chargement
+@app.route('/charge', methods=['POST','GET'])
+@login_required_Admin
+def charge():
+    print("La méthode charge() a été appelée")
+    if request.method == 'POST':
+        # Récupérer les données du formulaire
+        nom = request.form['nom']
+        naissance = request.form['naissance']
+        mort = request.form['mort']
+        courant_philo = request.form['courant']
+
+        # Récupérer les fichiers uploadés
+        photo = '/static/photo/' + request.form['photo'] + '.jpg'
+        audio = '/static/audio/' + request.form['audio'] + '.mp3'
+        fichier = '/static/fichier/' + request.form['fichier'] + '.pdf'
+
+        # Récupérer l'heure actuelle
+        tempo = datetime.now()
+
+        # Insérer l'auteur et récupérer l'ID retourné
+        id_auteur = insert.inserer_auteur(nom, naissance, mort, photo, courant_philo)
+
+        # Vérifier si l'insertion de l'auteur a réussi
+        if isinstance(id_auteur, int):  # Vérifie que l'ID retourné est bien un entier
+            insertaudio = insert.inserer_audio(audio, tempo, id_auteur) #insérer l'audio
+            if insertaudio and insertaudio > 0: 
+                insertbio = insert.inserer_bio(fichier, tempo, id_auteur) #insérer la biographie
+                if insertbio and insertbio > 0: 
+                    db.session.commit()  # Valider l'insertion dans la base
+                    courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+                    
+                    return render_template('charger.html',courants=courant, message=f"Auteur {nom}, ID: {id_auteur} ajouté avec succès :-) ")
+                else:
+                    db.session.rollback()  # Annuler la transaction en cas d'erreur
+                    courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+                    return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout du fichier pdf")
+
+            else:
+                db.session.rollback()  # Annuler la transaction en cas d'erreur
+                courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+                return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout de l'audio")
+            
+        else:
+            db.session.rollback()  # Annuler la transaction en cas d'erreur
+            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+            return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout de l'auteur")
+    
+
+#Chargement du courant
+@app.route('/charger_courant', methods=['POST','GET'])
+@login_required_Admin
+def charger_courant():
+    if request.method == 'POST':
+        # Récupérer les données du formulaire
+        nom_courant = request.form['nom_courant']
+        lien_courant = '/static/courants/' +  request.form['lien_courant']+'.pdf'
+        test = insert.inserer_courant(nom_courant, lien_courant)
+        
+
+        if test and test > 0:
+            db.session.commit()  # Valider l'insertion dans la base
+            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+
+            return render_template('charger.html',courants=courant, message=f"{nom_courant} ajouté avec succès :-) ")
+        else:
+            db.session.rollback()  # Valider l'insertion dans la base
+            courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
+            return render_template('charger.html',courants=courant, message="Erreur lors de l'ajout du courant")
+        
+
+
+
 #Chargement du commentaire audio
 @app.route('/charger_commentaire_audio/<int:id>', methods=['POST','GET'])
 @login_required
@@ -373,44 +377,63 @@ def charger_commentaire_audio(id):
             return redirect(url_for('personnages'))
         
 
-#Chargement du commentaire bio
-@app.route('/charger_commentaire_bio/<int:id>', methods=['POST','GET'])
+
+
+
+@app.route('/charger_commentaire_bio/<int:id>', methods=['POST'])
 @login_required
 def charger_commentaire_bio(id):
-    if request.method == 'POST':
-        # Récupérer les données du formulaire
-        comm = request.form['commentaire']
-        
-        # Récupérer l'heure actuelle
-        tempo = datetime.now()
+    comm = request.form.get('commentaire', '').strip()
+    if not comm:
+        return jsonify({'error': 'Le commentaire est vide !'}), 400
 
-        #récupérer l'ID User
-        iduser= session.get('id')
+    tempo = datetime.now()  # Heure actuelle
+    iduser = session.get('id')  # ID de l'utilisateur connecté
 
-        #Récupérer l'ID audio pour l'id_auteur correspondant
-        test1 = media.obtenir_lien_bio(id) 
-        print(f"ID AUTEUR:{id}")
-        
-        if test1:
+    if not iduser:
+        return jsonify({'error': 'Utilisateur non authentifié'}), 403
 
-            idbio= test1['id_bio']
+    test1 = media.obtenir_lien_bio(id)
+    if not test1:
+        return jsonify({'error': 'Auteur introuvable'}), 404
 
-            #Insérer le commentaire
-            test = insert.inserer_commentaire_bio(tempo, comm, iduser, idbio)
+    idbio = test1['id_bio']
+
+    # Insérer le commentaire
+    test = insert.inserer_commentaire_bio(tempo, comm, iduser, idbio)
+
+    if test != "✅ Commentaire inséré avec succès":
+        db.session.rollback()
+        return jsonify({'error': 'Échec de l’ajout du commentaire'}), 500
+    
+    db.session.commit()
+
+    # Une fois le commentaire inséré, on récupère tous les commentaires associés à cet auteur
+    commentaires = acquis.select_commentaire_bio(idbio)
+
+    # Récupérer les noms d'utilisateur pour chaque id_user
+    utilisateurs = {c["id_user"]: acquis.select_nomutilisateurs(c["id_user"]) for c in commentaires}
+
+    # Ajoute les noms d'utilisateur dans la réponse JSON
+    commentaires_json = [
+        {
+            "id_comment": c["id_comment"],
+            "comment": c["comment"],
+            "date_comment": c["date_comment"],
+            "id_user": utilisateurs.get(c["id_user"], "Inconnu")  # Ajoute "Inconnu" si le nom d'utilisateur n'est pas trouvé
+        }
+        for c in commentaires
+    ]
+
+    return jsonify({
+        'success': 'Commentaire inséré avec succès',
+        'commentaires': commentaires_json
+    })
 
 
-            
 
-            if test and test > 0:
-                db.session.commit()  # Valider l'insertion dans la base
-                print("commentaire ajouté avec succes 👍")
-                return redirect(url_for('Oeuvres'))
-            else:
-                db.session.rollback()  # Valider l'insertion dans la base
-                return redirect(url_for('Oeuvres'))
-        else:
-            print("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ERREUR§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§")
-            return redirect(url_for('Oeuvres'))
+
+
 
 
 #Chargement du courant
@@ -439,11 +462,29 @@ def charger_utilisateur():
        
     
 #--------------------------------------------------------------------------------------SUPPRESSIONS------------------------------------------------
+#SUPPRIMER COMMENTAIRE
 @app.route('/supprimer_commentaire/<int:id_comment>/<int:id_user>', methods=['DELETE'])
 @login_required
 def supprimer_commentaire(id_comment, id_user):
 
     message = supp.supprimer_commentaire(id_comment, id_user)
+    return jsonify({"message": message})
+
+#SUPPRIMER UTILISATEUR
+@app.route('/supprimer_utilisateur/<int:id_user>', methods=['DELETE'])
+@login_required
+def supprimer_utilisateur(id_user):
+
+    message = supp.supprimer_utilisateur(id_user)
+    return jsonify({"message": message})
+
+#SUPPRIMER AUTEUR
+@app.route('/supprimer_auteur/<int:id_auteur>', methods=['DELETE'])
+@login_required_Admin
+def supprimer_auteur(id_auteur):
+    print("Fetch lancé 👍")
+
+    message = supp.supprimer_auteur(id_auteur)
     return jsonify({"message": message})
 
 
