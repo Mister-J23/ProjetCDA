@@ -6,15 +6,93 @@
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed; /* L'image reste fixe lors du scroll */
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 09a03dc (good)
         height: 100vh; /* Prend toute la hauteur de l'écran */
+=======
+=======
+>>>>>>> c81a887 (good)
+=======
+>>>>>>> c81a887 (good)
+        height: 100%; /* Prend toute la hauteur de l'écran */
+        display: flex;
+>>>>>>> c81a887 (good)
+=======
+        height: 100vh; /* Prend toute la hauteur de l'écran */
+>>>>>>> 829dbf6 (good)
+=======
+        height: 100vh; /* Prend toute la hauteur de l'écran */
+>>>>>>> 829dbf6 (good)
+=======
+        height: 100vh; /* Prend toute la hauteur de l'écran */
+>>>>>>> 829dbf6 (good)
+<<<<<<< HEAD
+=======
+        height: 100vh; /* Prend toute la hauteur de l'écran */
+>>>>>>> 829dbf6 (good)
+=======
+>>>>>>> 09a03dc (good)
         flex-direction: column;
         align-items: center;
         overflow-y: hidden;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 09a03dc (good)
 
     main{
         height: 100vh
+=======
+    main{
+        height: calc(100vh - 239px);
+>>>>>>> c81a887 (good)
+=======
+
+    main{
+        height: 100vh
+>>>>>>> 829dbf6 (good)
+=======
+
+    main{
+        height: 100vh
+>>>>>>> 829dbf6 (good)
+=======
+    main{
+        height: calc(100vh - 239px);
+>>>>>>> c81a887 (good)
+=======
+    main{
+        height: calc(100vh - 239px);
+>>>>>>> c81a887 (good)
+=======
+
+    main{
+        height: 100vh
+>>>>>>> 829dbf6 (good)
+<<<<<<< HEAD
+=======
+
+    main{
+        height: 100vh
+>>>>>>> 829dbf6 (good)
+=======
+>>>>>>> 09a03dc (good)
     }
 
  
@@ -135,8 +213,46 @@
     /*--------------------------------------------------------------------TABLEAU------------------------------------------------------------------------ */
 /* Conteneur principal du tableau */
 .tableau {
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 09a03dc (good)
     width: 95vw; /* Largeur relative à l'écran */
     max-height: 100vh;
+=======
+    width: 97vw; /* Largeur relative à l'écran */
+>>>>>>> c81a887 (good)
+=======
+    width: 95vw; /* Largeur relative à l'écran */
+    max-height: 100vh;
+>>>>>>> 829dbf6 (good)
+=======
+    width: 95vw; /* Largeur relative à l'écran */
+    max-height: 100vh;
+>>>>>>> 829dbf6 (good)
+=======
+    width: 97vw; /* Largeur relative à l'écran */
+>>>>>>> c81a887 (good)
+=======
+    width: 97vw; /* Largeur relative à l'écran */
+>>>>>>> c81a887 (good)
+=======
+    width: 95vw; /* Largeur relative à l'écran */
+    max-height: 100vh;
+>>>>>>> 829dbf6 (good)
+<<<<<<< HEAD
+=======
+    width: 95vw; /* Largeur relative à l'écran */
+    max-height: 100vh;
+>>>>>>> 829dbf6 (good)
+=======
+>>>>>>> 09a03dc (good)
     background-color: darkgreen; /* Fond vert foncé */
     border: 7px solid burlywood; /* Bordure marron clair */
 
