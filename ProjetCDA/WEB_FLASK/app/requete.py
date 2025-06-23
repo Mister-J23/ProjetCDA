@@ -151,11 +151,11 @@ class Allimentation:
             print(f"❌ Erreur SQL : {str(e)}")
             return None
         
-    def inserer_bio(self, link_text, _date, id_author):
+    def inserer_bio(self, link_text, link_photo, _date, id_author):
         try:
             resultat = db.session.execute(
-                    text("INSERT INTO bios (link_text, _date, id_author) VALUES (:audio, :tempo, :auteur_id)"),
-                    {'audio': link_text, 'tempo': _date, 'auteur_id': id_author}
+                    text("INSERT INTO bios (link_text, link_photo, _date, id_author) VALUES (:text, :photo, :tempo, :auteur_id)"),
+                    {'text': link_text, 'photo':link_photo, 'tempo': _date, 'auteur_id': id_author}
                 )
             return resultat.rowcount  # Retourne True
         except SQLAlchemyError as e:

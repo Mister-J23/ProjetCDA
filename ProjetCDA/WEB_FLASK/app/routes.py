@@ -278,6 +278,7 @@ def charge():
 
         # Récupérer les fichiers uploadés
         photo = '/static/photo/' + request.form['photo'] + '.jpg'
+        photoOeuvre = '/static/photo/' + request.form['photo'] + '.png'
         audio = '/static/audio/' + request.form['audio'] + '.mp3'
         fichier = '/static/fichier/' + request.form['fichier'] + '.pdf'
 
@@ -291,7 +292,7 @@ def charge():
         if isinstance(id_auteur, int):  # Vérifie que l'ID retourné est bien un entier
             insertaudio = insert.inserer_audio(audio, tempo, id_auteur) #insérer l'audio
             if insertaudio and insertaudio > 0: 
-                insertbio = insert.inserer_bio(fichier, tempo, id_auteur) #insérer la biographie
+                insertbio = insert.inserer_bio(fichier,photoOeuvre, tempo, id_auteur) #insérer la biographie
                 if insertbio and insertbio > 0: 
                     db.session.commit()  # Valider l'insertion dans la base
                     courant = acquis.select_courant()  # Fonction qui récupère la liste des courants en BDD
