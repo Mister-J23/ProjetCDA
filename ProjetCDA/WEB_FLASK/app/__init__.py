@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 
 # Charger les variables d'environnement
-dotenv_path = os.path.join(os.path.dirname(__file__), "static/mot de passe/mot_de_pass.env")
+dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
 load_dotenv(dotenv_path)
 
 app = Flask(__name__)
