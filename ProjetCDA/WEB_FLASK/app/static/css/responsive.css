@@ -1,9 +1,52 @@
 
 @media screen and (max-width: 780px) { /*Mediaquary*/
+    body {
+        margin: 0;
+        background-size: cover; /* L'image couvre toute la zone sans distorsion */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* L'image reste fixe lors du scroll */
+        height: 100vh; /* Prend toute la hauteur de l'écran */
+        flex-direction: column;
+        align-items: center;
+        overflow-y: hidden;
+    }
+
+
+    main{
+        height: 100vh
+    }
+
+ 
     
-    body h1 {
-        font-size: 32px;  /* Appliquer une taille plus petite pour mobile */
-        text-align: center; /* Centrer le texte si besoin */
+    
+
+    .connexion{
+
+        width: 100vw; /* 30% de la largeur de la fenêtre */
+        height: 50vw; /* 50% de la hauteur de la fenêtre */
+    
+    }
+    .white{
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5); /* Ombre */
+
+    }
+    .formconnexion{
+        width: 100%;
+    }
+
+    
+    
+    
+    
+    .nomdusite{
+            
+        text-align: center; /* Centre le texte horizontalement */
+        margin-top: 0;
+        margin-bottom:40px ; /* Supprime les marges par défaut */
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 80px;
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5); /* Ombre */
     }
         /* Fixe le header en haut */
     header {
@@ -31,32 +74,31 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre douce */
     }
 
-    nav li {
-        margin: 2px;  /* Supprime les marges autour des éléments de la liste */
-        padding: 0;  /* Supprime l'espace intérieur des éléments de la liste */
-    }
+    
 
     .container {
-        margin-top: 155px;
-        margin-bottom: 120px;
         display: flex;
         align-items: center;
-        justify-content: space-around; /* Pour espacer les éléments */
         flex-wrap: wrap; /* Permet d'adapter l'affichage sur les petits écrans */
+        row-gap:  5vw; /* Définit un espace minimum de 20px entre les éléments */
+        column-gap: 10vw;
+        flex-grow: 1;
+        /* Le main doit défiler indépendamment */
+        margin-top: 155px; /* Ajuste selon la hauteur du header */
+        margin-bottom: 0px; /* Ajuste selon la hauteur du footer */
+        overflow-y: auto; /* Active le défilement */
+        height: calc(100vh - 239px)
+    }
+
+    .utilisateur{
+        margin-top: 155px; /* Ajuste selon la hauteur du header */
+        margin-bottom: 0px; /* Ajuste selon la hauteur du footer */
+        
     }
    
-    .user-info {
-        margin-left: auto; /* Pousse le paragraphe vers la droite */
-    
-       margin-right: 10px;
-       margin-bottom: 10px;
-       margin-top: 10px;
-      
-    }
+
     .user-info p {
-        padding: 0;
-        margin: 0;
-        text-decoration: underline;
+
         font-size: 12px; /* Taille de la police réduite */
     }
 
@@ -75,27 +117,7 @@
         height: 16px; /*  */
     }
 
-    footer p {
-        position: fixed;
-        bottom: 0;  /* Le place en bas de la page */
-        left: 50%;  /* Le place au centre horizontal de la page */
-        transform: translateX(-50%);  /* Décale le footer de 50% de sa propre largeur pour le centrer */
-        
-        z-index: 1000;  /* Assure que le footer soit au-dessus des autres éléments */
-        text-decoration: underline;
-        font-size: 14px;  /* Taille de la police réduite */
-        width: auto;  /* Largeur automatique */
-        white-space: nowrap;  /* Empêche le retour à la ligne */
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
-    
-    
-    footer p img{ 
-        width: 0.5vw; /*  */
-        height: 0.2vw;
-        
-    }
+   
 
     .dropdown-menu {
         display: none;
@@ -109,6 +131,39 @@
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         min-width: 160px;
     }
+
+    /*--------------------------------------------------------------------TABLEAU------------------------------------------------------------------------ */
+/* Conteneur principal du tableau */
+.tableau {
+    width: 95vw; /* Largeur relative à l'écran */
+    max-height: 100vh;
+    background-color: darkgreen; /* Fond vert foncé */
+    border: 7px solid burlywood; /* Bordure marron clair */
+
+    /* Gestion des débordements uniquement en hauteur */
+    overflow-y: auto; /* Active le scroll vertical si nécessaire */
+    overflow-x: hidden; /* Désactive le scroll horizontal */
+
+    /* Alignement */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Aligner le tableau en haut */
+}
+
+
     
+footer {
+    background-color: #333; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    text-align: center; /* Centrer le contenu */
+    padding: 5px 0; /* Espacement intérieur */
+    width: 100%; /* Largeur complète */
+    z-index: 100; /* Au-dessus des autres éléments */
+}
+
+footer p {
+    display: inline-block; /* Garde le texte en place sans l'étirer */
+    margin: 0; /* Évite les marges par défaut */
+}
 }
 

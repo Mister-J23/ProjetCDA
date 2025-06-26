@@ -17,6 +17,7 @@ document.addEventListener('click', function(event) {
     }
 });
 
+
 //------------------------------------------------------------BOUTON OUVERTURE FENETRE COMMENTAIRE-------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
     let boutonsOuvrir = document.querySelectorAll(".ouvrir-fenetre-commentaire");
@@ -64,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <span class="commentaire-text">${commentaire.comment}</span>
                                 <span class="commentaire-date">${commentaire.date_comment}</span>
                                 <span class="commentaire-user">${commentaire.id_user}</span>
-                                <img class="delete-comment" src="/static/croix.png" alt="Supprimer" title="Supprimer">
+                                <img class="delete-comment" src="/static/photo/croix.png" alt="Supprimer" title="Supprimer">
                             </div>`;
                         commentContainer.innerHTML += commentHTML;
                     });
@@ -124,34 +125,44 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+
+
+
 });
-
-
-
-//-------------------------------------AJOUT UTILISATEUR------------------------
+ //======================================================SUPPRIMER AUTEUR========================================
 document.addEventListener("DOMContentLoaded", function () {
-    // Sélectionner les éléments
-    const ajouterBtn = document.getElementById("ajouter-btn");
-    const fenetreAjouterUtilisateur = document.getElementById("fenetre-ajouter-utilisateur");
+    let boutonsSupprimer = document.querySelectorAll(".supprimer-auteur");
+    console.log("Boutons détectés :", boutonsSupprimer.length); // Vérifier combien de boutons sont trouvés
 
-    // Vérifier si les éléments existent
-    if (!ajouterBtn || !fenetreAjouterUtilisateur) {
-        console.error("Les éléments n'ont pas été trouvés.");
-        return;
-    }
 
-    // Ajouter un écouteur pour afficher la fenêtre modale
-    ajouterBtn.addEventListener("click", function (event) {
-        event.preventDefault();
-        fenetreAjouterUtilisateur.classList.add("fenetre-activeUtilisateur");
-    });
+    boutonsSupprimer.forEach(bouton => {
+        bouton.addEventListener("click", function (event) {
+            event.preventDefault(); // Empêche le rechargement de la page
 
-    // Ajouter un écouteur pour fermer la fenêtre si on clique en dehors
-    window.addEventListener("click", function (event) {
-        // Vérifie si le clic se produit en dehors de la fenêtre modale
-        if (!fenetreAjouterUtilisateur.contains(event.target) && event.target !== ajouterBtn) {
-            fenetreAjouterUtilisateur.classList.remove("fenetre-activeUtilisateur");
-        }
+            let authorId = bouton.getAttribute("data-id"); // Récupère l'ID de l'auteur
+            authorId = parseInt(authorId, 10);  // Force l'ID à être un entier
+            console.log("Bouton cliqué")
+
+
+            if (confirm("Voulez-vous vraiment supprimer cet auteur ?")) {
+                fetch(`/supprimer_auteur/${authorId}`, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" }//Spécifier que la réponse est du JSON
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Réponse du serveur :", data); // Vérifie la réponse du serveur
+                    if (data.message.includes("✅")) {
+                        window.location.href = "/Personnage";
+                    } else {
+                        alert("Erreur : " + data.error);
+                    }
+                })
+                .catch(error => console.error("Erreur lors de la suppression :", error));
+            }
+
+        });
     });
 });
 

@@ -32,17 +32,16 @@
                 <li><a class="text" href="{{ url_for('Utilisateur') }}">Utilisateurs</a></li>
                 {% endif %}
                 <li><a class="text" href="{{ url_for('Contact') }}">Contact</a></li>
-                <li>
-                    <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
-                </li> 
             </ul>
+            <button class="déco" onclick="window.location.href='{{ url_for('déconnexion') }}'">Déconnexion</button>
+        
         </nav>
 
     </header>
 
     <!-- Section principale -->
      
-    <main class="utilisateur">
+    <main class="container">
         <section>
             <h2 class="text">À propos de nous</h2>
             
@@ -50,7 +49,7 @@
     </main>
     <!-- Pied de page -->
     <footer >
-        <p>&copy; <img src="static/photo/dauphin.png"> 2024 Philorama. Tous droits réservés.</p>
+        <p>&copy; <img class="foot" src="static/photo/dauphin.png" > 2025 Philorama. Tous droits réservés.</p>
     </footer>
     
 
